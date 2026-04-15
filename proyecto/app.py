@@ -1,93 +1,146 @@
 import pandas as pd
 import streamlit as st
+import math
+import re
 from collections import Counter
 
 
-def contar_simbolos_senior(uploaded_file):
-    # Leemos el archivo tolerando cualquier codificación rara
-    content = uploaded_file.getvalue().decode('latin-1').splitlines()
-    counts = Counter()
+def limpiar_texto_cad(texto):
+    # 1. Quitar basura de formato MTEXT
+    t = re.sub(r'\\[A-Za-z0-9~]+[;]', '', texto)
+    t = re.sub(r'[{}]', '', t)
 
-    i = 0
+    # 2. BORRADO SELECTIVO:
+    # Solo borramos si el texto es PURAMENTE un ID (ej: "ID01", "ID-45")
+    # Pero si el texto es "Q1" o "KM1", lo DEJAMOS.
+    if re.fullmatch(r'ID[\s\-:]*[A-Za-z0-9]+', texto, re.IGNORECASE):
+        return ""  # Esto hace que el ID desaparezca de la unión final
+
+    return t.strip()
+
+
+def agrupar_textos_multiples(uploaded_file):
+    try:
+        content = uploaded_file.getvalue().decode('latin-1').splitlines()
+    except Exception:
+        return None
+
     n = len(content)
+    i = 0
+    inserts = []
+    textos = []
 
+    # 1. ESCANEO DE COORDENADAS
     while i < n:
         line = content[i].strip()
 
-        # Buscamos la entidad principal (El símbolo insertado en el plano)
+        # Bloques
         if line == '0' and i + 1 < n and content[i + 1].strip() == 'INSERT':
-            nombre_bloque = ""
-            atributos = []
+            nombre = ""
+            x, y = None, None
             i += 2
-
-            # 1. Buscar el nombre de la instancia (código 2)
             while i < n and content[i].strip() != '0':
-                if content[i].strip() == '2':
-                    nombre_bloque = content[i + 1].strip()
+                code = content[i].strip()
+                if code == '2':
+                    nombre = content[i + 1].strip()
+                elif code == '10':
+                    x = float(content[i + 1].strip())
+                elif code == '20':
+                    y = float(content[i + 1].strip())
                 i += 2
 
-            # 2. Si la entidad tiene atributos pegados, hacemos drill-down
-            while i < n and content[i].strip() == '0':
-                tipo_entidad = content[i + 1].strip() if i + 1 < n else ""
+            if nombre and not nombre.startswith('*U') and x is not None and y is not None:
+                inserts.append({'nombre': nombre, 'x': x, 'y': y, 'textos_hijos': []})
 
-                if tipo_entidad == 'ATTRIB':
-                    val = ""
-                    i += 2
-                    # Leemos los datos del atributo hasta la próxima entidad
-                    while i < n and content[i].strip() != '0':
-                        if content[i].strip() == '1':  # El código 1 almacena el valor del texto
-                            val = content[i + 1].strip()
-                        i += 2
+        # Textos
+        elif line == '0' and i + 1 < n and content[i + 1].strip() in ['TEXT', 'MTEXT']:
+            texto = ""
+            x, y = None, None
+            i += 2
+            while i < n and content[i].strip() != '0':
+                code = content[i].strip()
+                if code == '1':
+                    texto = content[i + 1].strip()
+                elif code == '10':
+                    x = float(content[i + 1].strip())
+                elif code == '20':
+                    y = float(content[i + 1].strip())
+                i += 2
 
-                    # Filtramos basura típica de plantillas vacías
-                    if val and val not in ["?", " ", "X"]:
-                        atributos.append(val)
+            if texto and x is not None and y is not None:
+                txt_limpio = limpiar_texto_cad(texto)
 
-                elif tipo_entidad == 'SEQEND':
-                    # Fin de la lista de atributos de este bloque
-                    i += 2
-                    while i < n and content[i].strip() != '0':
-                        i += 2
-                    break
-                else:
-                    # Nos topamos con otra entidad distinta, salimos del bucle
-                    break
-
-            # 3. Resolución de identidad para la tabla de cotización
-            if nombre_bloque.startswith('*U'):
-                if atributos:
-                    # Rescatamos el bloque anónimo usando la data técnica que tenía adentro
-                    nombre_bloque = f"Componente [*U] -> Info: {' | '.join(atributos)}"
-                else:
-                    # Si realmente no tiene metadata, lo marcamos para revisión visual
-                    nombre_bloque = f"Dinámico sin Atributos ({nombre_bloque})"
-
-            counts[nombre_bloque] += 1
+                # Validamos que después de limpiar no haya quedado vacío o sea basura
+                if txt_limpio and txt_limpio not in ["?", "X", "ID"]:
+                    textos.append({'texto': txt_limpio, 'x': x, 'y': y})
         else:
             i += 1
+
+    # 2. MATCHING INVERSO
+    MAX_DISTANCIA = 1.5
+
+    for t in textos:
+        bloque_mas_cercano = None
+        min_dist = float('inf')
+
+        for idx, ins in enumerate(inserts):
+            dx = t['x'] - ins['x']
+            dy = t['y'] - ins['y']
+
+            if dx > -20:
+                distancia = math.hypot(dx, dy)
+                if distancia < min_dist and distancia < MAX_DISTANCIA:
+                    min_dist = distancia
+                    bloque_mas_cercano = idx
+
+        if bloque_mas_cercano is not None:
+            inserts[bloque_mas_cercano]['textos_hijos'].append(t)
+
+    # 3. ORDENAR Y CONCATENAR
+    counts = Counter()
+
+    for ins in inserts:
+        hijos = ins['textos_hijos']
+        if hijos:
+            hijos_ordenados = sorted(hijos, key=lambda txt: txt['y'], reverse=True)
+            # Unimos los textos, filtrando vacíos (por si el ID era la única palabra y quedó vacío)
+            especificacion = " | ".join([txt['texto'] for txt in hijos_ordenados if txt['texto']])
+            if not especificacion:  # Si todos los hijos eran IDs que se borraron
+                especificacion = "Sin especificación"
+        else:
+            especificacion = "Sin especificación"
+
+        counts[(ins['nombre'], especificacion)] += 1
 
     return counts
 
 
-# --- Interfaz Streamlit ---
-st.set_page_config(page_title="Cotizador de Materiales", layout="centered")
+# --- INTERFAZ DE STREAMLIT ---
+st.set_page_config(page_title="Extractor Espacial Múltiple", layout="wide")
 
-st.title("⚡ Extractor de Materiales (Deep Scan)")
-st.markdown("Sube tu archivo `.dxf` para extraer componentes y revelar metadata de bloques dinámicos.")
+st.title("📍 Cómputo por Proximidad (Filtrando IDs Dinámicos)")
+st.markdown(
+    "Agrupa los componentes, eliminando cualquier etiqueta que empiece con ID (ej. ID02, ID-45) para sumar cantidades correctamente.")
 
-file = st.file_uploader("Seleccionar archivo", type=["dxf"])
+file_dxf = st.file_uploader("Subí tu archivo .dxf", type=["dxf"])
 
-if file:
-    with st.spinner("Parseando árbol de entidades y atributos..."):
-        res = contar_simbolos_senior(file)
+if file_dxf:
+    with st.spinner("Procesando y agrupando por especificación..."):
+        resultado = agrupar_textos_multiples(file_dxf)
 
-        if res:
-            st.success(f"¡Análisis completo! {sum(res.values())} dispositivos detectados.")
+        if resultado:
+            st.success(f"¡Listo! {sum(resultado.values())} componentes procesados.")
 
-            # Formateo de tabla para fácil lectura
-            df = pd.DataFrame(res.items(), columns=['Componente / Especificación', 'Cantidad'])
-            df = df.sort_values('Cantidad', ascending=False).reset_index(drop=True)
+            filas = []
+            for (simbolo, espec), cantidad in resultado.items():
+                filas.append({
+                    "Componente": simbolo,
+                    "Especificación Limpia": espec,
+                    "Cantidad": cantidad
+                })
 
+            df = pd.DataFrame(filas).sort_values(by=['Componente', 'Cantidad'], ascending=[True, False])
             st.dataframe(df, use_container_width=True)
-        else:
-            st.warning("No se detectaron bloques en el archivo.")
+
+            csv = df.to_csv(index=False).encode('utf-8')
+            st.download_button("Descargar CSV Listo para Cotizar", csv, "materiales_agrupados.csv", "text/csv")
