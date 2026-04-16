@@ -5,39 +5,98 @@ import re
 from collections import Counter
 
 
-def limpiar_texto_cad(texto):
-    # 1. Quitar basura de formato MTEXT
+# ==========================================
+# 1. MOTOR DE LIMPIEZA
+# ==========================================
+def limpiar_specs(texto):
+    """Limpia formato y vuela IDs de instancia (Q1, ID02) para poder agrupar."""
     t = re.sub(r'\\[A-Za-z0-9~]+[;]', '', texto)
     t = re.sub(r'[{}]', '', t)
-
-    # 2. BORRADO SELECTIVO:
-    # Solo borramos si el texto es PURAMENTE un ID (ej: "ID01", "ID-45")
-    # Pero si el texto es "Q1" o "KM1", lo DEJAMOS.
-    if re.fullmatch(r'ID[\s\-:]*[A-Za-z0-9]+', texto, re.IGNORECASE):
-        return ""  # Esto hace que el ID desaparezca de la unión final
-
+    # Filtro para ignorar Tags (Q1, KM1, ID20) que rompen el conteo de iguales
+    if re.fullmatch(r'(ID|Q|KM|F|S|H|X|K)[\s\-:]*[0-9]+[A-Za-z]*', t, re.IGNORECASE):
+        return ""
     return t.strip()
 
 
-def agrupar_textos_multiples(uploaded_file):
-    try:
-        content = uploaded_file.getvalue().decode('latin-1').splitlines()
-    except Exception:
-        return None
-
+# ==========================================
+# 2. LECTOR DE TABLA DE REFERENCIAS (FASE 0)
+# ==========================================
+def extraer_tabla_referencias(content, tol_x, marg_y):
     n = len(content)
     i = 0
-    inserts = []
-    textos = []
+    textos_crudos = []
 
-    # 1. ESCANEO DE COORDENADAS
     while i < n:
         line = content[i].strip()
+        if line == '0' and i + 1 < n and content[i + 1].strip() in ['TEXT', 'MTEXT']:
+            texto, x, y = "", None, None
+            i += 2
+            while i < n and content[i].strip() != '0':
+                code = content[i].strip()
+                if code in ['1', '3']:
+                    texto += content[i + 1].strip()
+                elif code == '10':
+                    x = float(content[i + 1].strip())
+                elif code == '20':
+                    y = float(content[i + 1].strip())
+                i += 2
+            if texto and x is not None and y is not None:
+                textos_crudos.append({'texto': texto, 'x': x, 'y': y})
+        else:
+            i += 1
 
-        # Bloques
+    numeros = [t for t in textos_crudos if t['texto'].strip().isdigit()]
+    if not numeros: return {}
+
+    grupos_x = {}
+    for num in numeros:
+        x_aprox = round(num['x'] / tol_x) * tol_x
+        if x_aprox not in grupos_x: grupos_x[x_aprox] = []
+        grupos_x[x_aprox].append(num)
+
+    columna_indices = max(grupos_x.values(), key=len)
+    columna_indices = sorted(columna_indices, key=lambda t: t['y'], reverse=True)
+
+    dict_ref = {}
+    for idx, item in enumerate(columna_indices):
+        num_id = item['texto'].strip()
+        y_top = item['y'] + (marg_y * 0.5)
+        y_bottom = columna_indices[idx + 1]['y'] if idx + 1 < len(columna_indices) else item['y'] - marg_y
+
+        desc_parts = []
+        for t in textos_crudos:
+            dx = t['x'] - item['x']
+            if 0.1 < dx < (marg_y * 10) and y_bottom < t['y'] <= y_top:
+                if not t['texto'].strip().isdigit():
+                    s = limpiar_specs(t['texto'])
+                    if s: desc_parts.append(s)
+
+        descripcion = " ".join(desc_parts)
+        if descripcion: dict_ref[num_id] = descripcion
+
+    return dict_ref
+
+
+# ==========================================
+# 3. PROCESO DE DOBLE PASADA (HERENCIA)
+# ==========================================
+def procesar_con_herencia(uploaded_file, p):
+    try:
+        content = uploaded_file.getvalue().decode('latin-1').splitlines()
+    except:
+        return None, None, None
+
+    # 1. Extraer Referencias
+    dict_ref = extraer_tabla_referencias(content, p['tol_x'], p['marg_y'])
+
+    n, i = len(content), 0
+    inserts, textos = [], []
+
+    # Recolección (Filtrando *U de entrada)
+    while i < n:
+        line = content[i].strip()
         if line == '0' and i + 1 < n and content[i + 1].strip() == 'INSERT':
-            nombre = ""
-            x, y = None, None
+            nombre, x, y = "", None, None
             i += 2
             while i < n and content[i].strip() != '0':
                 code = content[i].strip()
@@ -48,99 +107,89 @@ def agrupar_textos_multiples(uploaded_file):
                 elif code == '20':
                     y = float(content[i + 1].strip())
                 i += 2
-
-            if nombre and not nombre.startswith('*U') and x is not None and y is not None:
-                inserts.append({'nombre': nombre, 'x': x, 'y': y, 'textos_hijos': []})
-
-        # Textos
+            if nombre and not nombre.startswith('*U'):
+                inserts.append({'nombre': nombre, 'x': x, 'y': y})
         elif line == '0' and i + 1 < n and content[i + 1].strip() in ['TEXT', 'MTEXT']:
-            texto = ""
-            x, y = None, None
+            txt, x, y = "", None, None
             i += 2
             while i < n and content[i].strip() != '0':
                 code = content[i].strip()
                 if code == '1':
-                    texto = content[i + 1].strip()
+                    txt = content[i + 1].strip()
                 elif code == '10':
                     x = float(content[i + 1].strip())
                 elif code == '20':
                     y = float(content[i + 1].strip())
                 i += 2
-
-            if texto and x is not None and y is not None:
-                txt_limpio = limpiar_texto_cad(texto)
-
-                # Validamos que después de limpiar no haya quedado vacío o sea basura
-                if txt_limpio and txt_limpio not in ["?", "X", "ID"]:
-                    textos.append({'texto': txt_limpio, 'x': x, 'y': y})
+            if txt: textos.append({'texto': txt, 'x': x, 'y': y})
         else:
             i += 1
 
-    # 2. MATCHING INVERSO
-    MAX_DISTANCIA = 1.5
-
-    for t in textos:
-        bloque_mas_cercano = None
-        min_dist = float('inf')
-
-        for idx, ins in enumerate(inserts):
-            dx = t['x'] - ins['x']
-            dy = t['y'] - ins['y']
-
-            if dx > -20:
-                distancia = math.hypot(dx, dy)
-                if distancia < min_dist and distancia < MAX_DISTANCIA:
-                    min_dist = distancia
-                    bloque_mas_cercano = idx
-
-        if bloque_mas_cercano is not None:
-            inserts[bloque_mas_cercano]['textos_hijos'].append(t)
-
-    # 3. ORDENAR Y CONCATENAR
-    counts = Counter()
-
+    # PASADA 1: Aprender nombres de los símbolos
+    mapa_nombres = {}
     for ins in inserts:
-        hijos = ins['textos_hijos']
-        if hijos:
-            hijos_ordenados = sorted(hijos, key=lambda txt: txt['y'], reverse=True)
-            # Unimos los textos, filtrando vacíos (por si el ID era la única palabra y quedó vacío)
-            especificacion = " | ".join([txt['texto'] for txt in hijos_ordenados if txt['texto']])
-            if not especificacion:  # Si todos los hijos eran IDs que se borraron
-                especificacion = "Sin especificación"
-        else:
-            especificacion = "Sin especificación"
+        for t in textos:
+            dx, dy = t['x'] - ins['x'], t['y'] - ins['y']
+            if (p['radar_x_min'] < dx < p['radar_x_max']) and (abs(dy) < p['radar_y']):
+                raw = t['texto'].strip()
+                if raw.isdigit() and raw in dict_ref:
+                    mapa_nombres[ins['nombre']] = dict_ref[raw]
 
-        counts[(ins['nombre'], especificacion)] += 1
+    # PASADA 2: Agrupar por nombre heredado + especificación local
+    counts = Counter()
+    for ins in inserts:
+        nombre_heredado = mapa_nombres.get(ins['nombre'], ins['nombre'])
 
-    return counts
+        specs_locales = []
+        for t in textos:
+            dx, dy = t['x'] - ins['x'], t['y'] - ins['y']
+            if (p['radar_x_min'] < dx < p['radar_x_max']) and (abs(dy) < p['radar_y']):
+                raw = t['texto'].strip()
+                if not raw.isdigit():
+                    s = limpiar_specs(raw)
+                    if s: specs_locales.append(s)
+
+        espec = " | ".join(sorted(specs_locales)) if specs_locales else "-"
+        counts[(nombre_heredado, espec)] += 1
+
+    return counts, dict_ref, mapa_nombres
 
 
-# --- INTERFAZ DE STREAMLIT ---
-st.set_page_config(page_title="Extractor Espacial Múltiple", layout="wide")
+# ==========================================
+# 4. INTERFAZ
+# ==========================================
+st.set_page_config(page_title="La Contadora Pro", layout="wide")
 
-st.title("📍 Cómputo por Proximidad (Filtrando IDs Dinámicos)")
-st.markdown(
-    "Agrupa los componentes, eliminando cualquier etiqueta que empiece con ID (ej. ID02, ID-45) para sumar cantidades correctamente.")
+st.sidebar.header("⚙️ Parámetros Decimales")
+tx = st.sidebar.number_input("Tolerancia Tabla (X)", value=0.5, step=0.1)
+my = st.sidebar.number_input("Banda Tabla (Y)", value=2.0, step=0.1)
+rx_min = st.sidebar.number_input("Radar X Min", value=-1.0, step=0.1)
+rx_max = st.sidebar.number_input("Radar X Max", value=3.0, step=0.1)
+ry = st.sidebar.number_input("Radar Y Lim", value=1.0, step=0.1)
 
-file_dxf = st.file_uploader("Subí tu archivo .dxf", type=["dxf"])
+params = {'tol_x': tx, 'marg_y': my, 'radar_x_min': rx_min, 'radar_x_max': rx_max, 'radar_y': ry}
 
-if file_dxf:
-    with st.spinner("Procesando y agrupando por especificación..."):
-        resultado = agrupar_textos_multiples(file_dxf)
+st.title("xXLaSuperProContadora3000Xx ⚡")
+f = st.file_uploader("Subí tu DXF", type=["dxf"])
 
-        if resultado:
-            st.success(f"¡Listo! {sum(resultado.values())} componentes procesados.")
+if f:
+    res, d_ref, mapa = procesar_con_herencia(f, params)
+    if res:
+        st.success("Cómputo finalizado.")
 
-            filas = []
-            for (simbolo, espec), cantidad in resultado.items():
-                filas.append({
-                    "Componente": simbolo,
-                    "Especificación Limpia": espec,
-                    "Cantidad": cantidad
-                })
+        # EL DESPLEGABLE QUE PEDISTE
+        with st.expander("📖 TABLA DE REFERENCIAS DETECTADA"):
+            if d_ref:
+                st.table(pd.DataFrame(list(d_ref.items()), columns=['N°', 'Descripción']))
+            else:
+                st.warning("No se detectó la tabla. Ajustá 'Tolerancia Tabla' o 'Banda Tabla'.")
 
-            df = pd.DataFrame(filas).sort_values(by=['Componente', 'Cantidad'], ascending=[True, False])
-            st.dataframe(df, use_container_width=True)
+        with st.expander("🧠 MAPA DE HERENCIA (Símbolo -> Nombre)"):
+            st.json(mapa)
 
-            csv = df.to_csv(index=False).encode('utf-8')
-            st.download_button("Descargar CSV Listo para Cotizar", csv, "materiales_agrupados.csv", "text/csv")
+        st.markdown("### 📊 Resultado del Cómputo")
+        data = [{"Componente": c, "Especificación": e, "Cantidad": v} for (c, e), v in res.items()]
+        df = pd.DataFrame(data).sort_values(["Componente", "Cantidad"], ascending=[True, False])
+        st.dataframe(df, use_container_width=True)
+
+        st.download_button("Bajar CSV", df.to_csv(index=False).encode('utf-8'), "computo.csv")
