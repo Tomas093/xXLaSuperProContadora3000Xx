@@ -28,6 +28,8 @@ dist/
 .eggs/
 
 # ---- Logs / local runtime files ----
+.env
+.env.*
 *.log
 *.pid
 *.tmp
@@ -48,4 +50,3 @@ Thumbs.db
 *.dwl2
 *.bak
 *.sv$
-
