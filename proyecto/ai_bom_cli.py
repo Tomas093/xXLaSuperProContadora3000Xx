@@ -242,7 +242,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--reference-output-json", default=None)
     parser.add_argument("--reference-raw-output", default=None)
     parser.add_argument("--usage-output", default=str(data_dir / "outputs" / f"bom_usage_{timestamp}.json"))
-    parser.add_argument("--prompt-dir", default=str(script_dir / "prompts" / "bom_symbol_count" / "v1"))
+    parser.add_argument("--prompt-dir", default=str(script_dir / "prompts" / "bom_symbol_count" / "v4_visual_symbols_only"))
     parser.add_argument("--plan-system-prompt-file", default=None)
     parser.add_argument("--plan-user-prompt-file", default=None)
     parser.add_argument("--reference-system-prompt-file", default=None)
