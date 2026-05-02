@@ -1,6 +1,6 @@
 # AI BOM CLI Data
 
-Optional local sample files for the Claude symbol-counting BOM flow.
+Optional local sample files for the AI symbol-counting BOM flow.
 
 Recommended structure:
 
@@ -37,8 +37,9 @@ Suggested workflow:
 
 Notes:
 
-- By default the CLI reads `.env` from the repository root. You can also set `ANTHROPIC_API_KEY` in your environment or pass `--api-key`.
-- The default Claude model is `claude-sonnet-4-6`.
+- By default the CLI reads `.env` from the repository root. Claude/Anthropic remains the default provider, so `ANTHROPIC_API_KEY` still works.
+- Use `--provider`, `--model`, and `--api-key` to test other providers rapidly.
+- Supported providers: `anthropic`, `openai`, and `gemini`.
 - Prompt versions live in `../prompts/bom_symbol_count/` and can be selected with `--prompt-dir`.
 - The JSON output has `bom` and `simbolos_no_identificados`.
 - The CSV output is generated from `bom` with columns `material,cantidad`.

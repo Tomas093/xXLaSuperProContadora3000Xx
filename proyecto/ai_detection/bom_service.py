@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
-from .claude_client import ClaudeVisionClient
+from .providers import AIProvider
 
 @dataclass
 class SymbolCatalogEntry:
@@ -88,35 +88,35 @@ def parse_symbol_catalog_json(raw_text: str) -> list[SymbolCatalogEntry]:
 
 
 def extract_reference_table_from_image(
-    client: ClaudeVisionClient,
+    client: AIProvider,
     *,
     image_bytes: bytes,
     filename: str,
+    reference_system_prompt: str,
+    reference_user_prompt: str,
     user_prompt: str = "",
-    reference_system_prompt: str = REFERENCE_SYSTEM_PROMPT,
-    reference_user_prompt: str = REFERENCE_USER_PROMPT,
-) -> tuple[dict[str, Any], str]:
+) -> tuple[dict[str, Any], str, dict[str, Any]]:
     content = [
         {"type": "text", "text": reference_user_prompt + ("\n\nExtra instructions:\n" + user_prompt.strip() if user_prompt.strip() else "")},
         client.build_image_block(image_bytes, filename),
     ]
     response = client.create_message(system_prompt=reference_system_prompt, user_content=content)
     raw_text = client.extract_text(response)
-    return normalize_reference_payload(parse_json_response(raw_text)), raw_text
+    return normalize_reference_payload(parse_json_response(raw_text)), raw_text, client.extract_usage(response)
 
 
 def analyze_plan_image(
-    client: ClaudeVisionClient,
+    client: AIProvider,
     *,
     plan_images: list[tuple[str, bytes]],
     symbol_images: list[tuple[str, bytes]],
     symbol_catalog_entries: list[SymbolCatalogEntry],
     reference_payload: dict[str, Any],
+    plan_system_prompt: str,
+    plan_user_prompt: str,
     user_prompt: str = "",
     cache_static_prefix: bool = False,
     cache_ttl: str = "5m",
-    plan_system_prompt: str = PLAN_SYSTEM_PROMPT,
-    plan_user_prompt: str = PLAN_USER_PROMPT,
 ) -> tuple[dict[str, Any], str, dict[str, Any]]:
     catalog_by_filename = {entry.filename: entry for entry in symbol_catalog_entries if entry.filename}
     materials = [

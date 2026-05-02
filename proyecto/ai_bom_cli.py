@@ -5,16 +5,17 @@ import csv
 import hashlib
 import json
 import os
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from ai_detection.bom_service import analyze_plan_image, parse_symbol_catalog_json
-from ai_detection.claude_client import ClaudeVisionClient
-
-
-CLAUDE_SONNET_INPUT_USD_PER_MILLION_TOKENS = 3.0
-CLAUDE_SONNET_OUTPUT_USD_PER_MILLION_TOKENS = 15.0
+from ai_detection.bom_service import (
+    analyze_plan_image,
+    extract_reference_table_from_image,
+    parse_symbol_catalog_json,
+)
+from ai_detection.provider_resolvers import find_provider_resolver, supported_provider_choices
 
 
 def read_bytes(path: Path) -> bytes:
@@ -91,24 +92,83 @@ def write_bom_csv(path: Path, payload: dict[str, Any]) -> None:
             )
 
 
-def build_usage_report(model: str, usage: dict[str, Any], prompt_metadata: dict[str, Any]) -> dict[str, Any]:
+def pricing_for_model(provider: str, model: str) -> dict[str, float] | None:
+    normalized_provider = provider.lower()
+    normalized_model = model.lower()
+
+    match normalized_provider, normalized_model:
+        case "anthropic", model_name if "opus" in model_name:
+            return {"input": 15.0, "output": 75.0}
+        case "anthropic", model_name if "sonnet" in model_name:
+            return {"input": 3.0, "output": 15.0}
+        case "anthropic", model_name if "haiku" in model_name:
+            return {"input": 0.8, "output": 4.0}
+        case "openai", model_name if model_name.startswith("gpt-4o-mini"):
+            return {"input": 0.15, "output": 0.6}
+        case "openai", model_name if model_name.startswith("gpt-4o"):
+            return {"input": 2.5, "output": 10.0}
+        case "gemini", model_name if "flash" in model_name:
+            return {"input": 0.35, "output": 1.05}
+        case "gemini", model_name if "pro" in model_name:
+            return {"input": 1.25, "output": 5.0}
+        case _:
+            return None
+
+
+def estimate_cost(usage: dict[str, Any], pricing: dict[str, float] | None) -> dict[str, float | None]:
+    if not pricing:
+        return {
+            "input": None,
+            "output": None,
+            "total": None,
+        }
+
     input_tokens = int(usage.get("input_tokens", 0) or 0)
     output_tokens = int(usage.get("output_tokens", 0) or 0)
-    input_cost = input_tokens / 1_000_000 * CLAUDE_SONNET_INPUT_USD_PER_MILLION_TOKENS
-    output_cost = output_tokens / 1_000_000 * CLAUDE_SONNET_OUTPUT_USD_PER_MILLION_TOKENS
-
+    input_cost = input_tokens / 1_000_000 * pricing["input"]
+    output_cost = output_tokens / 1_000_000 * pricing["output"]
     return {
+        "input": round(input_cost, 8),
+        "output": round(output_cost, 8),
+        "total": round(input_cost + output_cost, 8),
+    }
+
+
+def combine_usage(*usages: dict[str, Any]) -> dict[str, int]:
+    return {
+        "input_tokens": sum(int(usage.get("input_tokens", 0) or 0) for usage in usages),
+        "output_tokens": sum(int(usage.get("output_tokens", 0) or 0) for usage in usages),
+        "cache_creation_input_tokens": sum(int(usage.get("cache_creation_input_tokens", 0) or 0) for usage in usages),
+        "cache_read_input_tokens": sum(int(usage.get("cache_read_input_tokens", 0) or 0) for usage in usages),
+    }
+
+
+def build_usage_report(
+    provider: str,
+    model: str,
+    bom_usage: dict[str, Any],
+    prompt_metadata: dict[str, Any],
+    *,
+    reference_usage: dict[str, Any] | None = None,
+    timings_seconds: dict[str, float | None] | None = None,
+) -> dict[str, Any]:
+    all_usage = combine_usage(*(usage for usage in [reference_usage, bom_usage] if usage))
+    pricing = pricing_for_model(provider, model)
+    return {
+        "provider": provider,
         "model": model,
         "prompts": prompt_metadata,
-        "usage": usage,
-        "pricing_usd_per_million_tokens": {
-            "input": CLAUDE_SONNET_INPUT_USD_PER_MILLION_TOKENS,
-            "output": CLAUDE_SONNET_OUTPUT_USD_PER_MILLION_TOKENS,
+        "usage": {
+            "reference_extraction": reference_usage,
+            "bom_generation": bom_usage,
+            "total": all_usage,
         },
+        "pricing_usd_per_million_tokens": pricing,
+        "timings_seconds": timings_seconds or {},
         "estimated_cost_usd": {
-            "input": round(input_cost, 8),
-            "output": round(output_cost, 8),
-            "total": round(input_cost + output_cost, 8),
+            "reference_extraction": estimate_cost(reference_usage or {}, pricing),
+            "bom_generation": estimate_cost(bom_usage, pricing),
+            "total": estimate_cost(all_usage, pricing),
         },
     }
 
@@ -173,26 +233,37 @@ def parse_args() -> argparse.Namespace:
         description="Generate a symbol-count BOM JSON and CSV from an electrical diagram image."
     )
     parser.add_argument("--diagram-image", required=True, help="Electrical diagram image to analyze.")
+    parser.add_argument("--reference-image", default=None, help="Optional reference table image to extract before BOM analysis.")
     parser.add_argument("--symbols-dir", default=str(data_dir / "symbols"), help="Folder containing catalog symbol images.")
     parser.add_argument("--catalog-json", default=str(data_dir / "symbol_catalog.json"), help="Symbol catalog JSON path.")
     parser.add_argument("--output-json", default=str(data_dir / "outputs" / f"bom_{timestamp}.json"))
     parser.add_argument("--output-csv", default=str(data_dir / "outputs" / f"bom_{timestamp}.csv"))
     parser.add_argument("--raw-output", default=str(data_dir / "outputs" / f"bom_raw_{timestamp}.txt"))
+    parser.add_argument("--reference-output-json", default=None)
+    parser.add_argument("--reference-raw-output", default=None)
     parser.add_argument("--usage-output", default=str(data_dir / "outputs" / f"bom_usage_{timestamp}.json"))
     parser.add_argument("--prompt-dir", default=str(script_dir / "prompts" / "bom_symbol_count" / "v1"))
     parser.add_argument("--plan-system-prompt-file", default=None)
     parser.add_argument("--plan-user-prompt-file", default=None)
     parser.add_argument("--reference-system-prompt-file", default=None)
     parser.add_argument("--reference-user-prompt-file", default=None)
-    parser.add_argument("--env-file", default=str(script_dir.parent / ".env"), help="Optional .env file with ANTHROPIC_API_KEY.")
-    parser.add_argument("--model", default=None, help="Claude model. Defaults to ANTHROPIC_MODEL or the client default.")
-    parser.add_argument("--api-key", default=None, help="Claude API key. Defaults to ANTHROPIC_API_KEY or CLAUDE_API_KEY.")
+    parser.add_argument("--env-file", default=str(script_dir.parent / ".env"), help="Optional .env file with provider API keys.")
+    parser.add_argument(
+        "--provider",
+        default="anthropic",
+        choices=supported_provider_choices(),
+        help="AI provider. Defaults to anthropic.",
+    )
+    parser.add_argument("--model", default=None, help="Model name. Defaults to the selected provider default.")
+    parser.add_argument("--api-key", default=None, help="Provider API key. Defaults to provider-specific env vars.")
     return parser.parse_args()
 
 
 def main() -> None:
+    total_started_at = time.perf_counter()
     args = parse_args()
     diagram_image = Path(args.diagram_image)
+    reference_image = Path(args.reference_image) if args.reference_image else None
     symbols_dir = Path(args.symbols_dir)
     catalog_json_path = Path(args.catalog_json)
     load_env_file(Path(args.env_file))
@@ -200,37 +271,81 @@ def main() -> None:
     for required_path in [diagram_image, symbols_dir, catalog_json_path]:
         if not required_path.exists():
             raise FileNotFoundError(f"Required path not found: {required_path}")
+    if reference_image and not reference_image.exists():
+        raise FileNotFoundError(f"Required path not found: {reference_image}")
 
     catalog_json_text = catalog_json_path.read_text(encoding="utf-8")
     catalog_entries = parse_symbol_catalog_json(catalog_json_text)
     symbol_images = load_symbol_images(symbols_dir, catalog_json_text)
     prompts, prompt_metadata = load_prompt_set(resolve_prompt_files(args))
-    client = ClaudeVisionClient.from_env(api_key=args.api_key, model=args.model)
+    client = find_provider_resolver(args.provider).create(api_key=args.api_key, model=args.model)
 
-    payload, raw_text, usage = analyze_plan_image(
+    reference_payload: dict[str, Any] = {}
+    reference_raw_text = ""
+    reference_usage: dict[str, Any] | None = None
+    reference_elapsed_seconds: float | None = None
+    if reference_image:
+        reference_started_at = time.perf_counter()
+        reference_payload, reference_raw_text, reference_usage = extract_reference_table_from_image(
+            client,
+            image_bytes=read_bytes(reference_image),
+            filename=reference_image.name,
+            reference_system_prompt=prompts["reference_system"],
+            reference_user_prompt=prompts["reference_user"],
+        )
+        reference_elapsed_seconds = time.perf_counter() - reference_started_at
+
+    bom_started_at = time.perf_counter()
+    payload, raw_text, bom_usage = analyze_plan_image(
         client,
         plan_images=[(diagram_image.name, read_bytes(diagram_image))],
         symbol_images=symbol_images,
         symbol_catalog_entries=catalog_entries,
-        reference_payload={},
+        reference_payload=reference_payload,
         plan_system_prompt=prompts["plan_system"],
         plan_user_prompt=prompts["plan_user"],
     )
+    bom_elapsed_seconds = time.perf_counter() - bom_started_at
     normalized_payload = normalize_bom_payload(payload)
 
     output_json = Path(args.output_json)
     output_csv = Path(args.output_csv)
     raw_output = Path(args.raw_output)
     usage_output = Path(args.usage_output)
+    reference_output_json = Path(args.reference_output_json) if args.reference_output_json else None
+    reference_raw_output = Path(args.reference_raw_output) if args.reference_raw_output else None
+    if reference_output_json:
+        write_json(reference_output_json, reference_payload)
+    if reference_raw_output:
+        reference_raw_output.parent.mkdir(parents=True, exist_ok=True)
+        reference_raw_output.write_text(reference_raw_text, encoding="utf-8")
     write_json(output_json, normalized_payload)
     write_bom_csv(output_csv, normalized_payload)
     raw_output.parent.mkdir(parents=True, exist_ok=True)
     raw_output.write_text(raw_text, encoding="utf-8")
-    write_json(usage_output, build_usage_report(client.model, usage, prompt_metadata))
+    write_json(
+        usage_output,
+        build_usage_report(
+            client.provider_name,
+            client.model,
+            bom_usage,
+            prompt_metadata,
+            reference_usage=reference_usage,
+            timings_seconds={
+                "reference_extraction": round(reference_elapsed_seconds, 3) if reference_elapsed_seconds is not None else None,
+                "bom_generation": round(bom_elapsed_seconds, 3),
+                "total": round(time.perf_counter() - total_started_at, 3),
+            },
+        ),
+    )
 
+    if reference_output_json:
+        print(f"Reference JSON: {reference_output_json}")
+    if reference_raw_output:
+        print(f"Reference raw output: {reference_raw_output}")
     print(f"BOM JSON: {output_json}")
     print(f"BOM CSV: {output_csv}")
-    print(f"Raw Claude output: {raw_output}")
+    print(f"Raw AI output: {raw_output}")
     print(f"Usage/cost JSON: {usage_output}")
 
 
