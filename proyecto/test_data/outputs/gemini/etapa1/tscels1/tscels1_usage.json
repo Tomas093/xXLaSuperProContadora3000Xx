@@ -1,0 +1,66 @@
+{
+  "provider": "gemini",
+  "model": "gemini-2.5-pro",
+  "prompts": {
+    "plan_system": {
+      "path": "/Users/pedrodelaguila/faculty/liard/xXLaSuperProContadora3000Xx/proyecto/prompts/bom_symbol_count/v1/plan_system.md",
+      "sha256": "bd444763c529e3d09a0e2d014b23712cd1d3587d7facaf72db2737e2e1836be6"
+    },
+    "plan_user": {
+      "path": "/Users/pedrodelaguila/faculty/liard/xXLaSuperProContadora3000Xx/proyecto/prompts/bom_symbol_count/v1/plan_user.md",
+      "sha256": "30837f4540df76007934ef1e450f9850490e4a5a6dfa654763f2229a2d8bf29f"
+    },
+    "reference_system": {
+      "path": "/Users/pedrodelaguila/faculty/liard/xXLaSuperProContadora3000Xx/proyecto/prompts/bom_symbol_count/v1/reference_system.md",
+      "sha256": "e24fb456b4fb369bdc362b2613e7bd162b5b874db0ad4af77032e4441f0e5eb9"
+    },
+    "reference_user": {
+      "path": "/Users/pedrodelaguila/faculty/liard/xXLaSuperProContadora3000Xx/proyecto/prompts/bom_symbol_count/v1/reference_user.md",
+      "sha256": "beaf287ccde2ae3266bdde8070a4747f22ea51eeae2337aea91b2da2d2c3e58e"
+    }
+  },
+  "usage": {
+    "reference_extraction": {
+      "input_tokens": 593,
+      "output_tokens": 691,
+      "total_tokens": 2278
+    },
+    "bom_generation": {
+      "input_tokens": 4328,
+      "output_tokens": 119,
+      "total_tokens": 7353
+    },
+    "total": {
+      "input_tokens": 4921,
+      "output_tokens": 810,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 1.25,
+    "output": 5.0
+  },
+  "timings_seconds": {
+    "reference_extraction": 17.138,
+    "bom_generation": 28.368,
+    "total": 45.515
+  },
+  "estimated_cost_usd": {
+    "reference_extraction": {
+      "input": 0.00074125,
+      "output": 0.003455,
+      "total": 0.00419625
+    },
+    "bom_generation": {
+      "input": 0.00541,
+      "output": 0.000595,
+      "total": 0.006005
+    },
+    "total": {
+      "input": 0.00615125,
+      "output": 0.00405,
+      "total": 0.01020125
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": []
+}

@@ -1,0 +1,74 @@
+{
+  "model": "claude-sonnet-4-6",
+  "prompts": {
+    "plan_system": {
+      "path": "prompts/bom_symbol_count/v2_no_subsymbols/plan_system.md",
+      "sha256": "ddfb39a0aabd967ce955023465467bd302ea72d1997519797df819379b835405"
+    },
+    "plan_user": {
+      "path": "prompts/bom_symbol_count/v2_no_subsymbols/plan_user.md",
+      "sha256": "30837f4540df76007934ef1e450f9850490e4a5a6dfa654763f2229a2d8bf29f"
+    },
+    "reference_system": {
+      "path": "prompts/bom_symbol_count/v2_no_subsymbols/reference_system.md",
+      "sha256": "ead4ad25474d6ae69fd3c347df482e4371ec23bb573a7925a832e3f0725ade1f"
+    },
+    "reference_user": {
+      "path": "prompts/bom_symbol_count/v2_no_subsymbols/reference_user.md",
+      "sha256": "beaf287ccde2ae3266bdde8070a4747f22ea51eeae2337aea91b2da2d2c3e58e"
+    }
+  },
+  "usage": {
+    "reference_extraction": {
+      "input_tokens": 1737,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 766,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "bom_generation": {
+      "input_tokens": 5272,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1173,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "total": {
+      "input_tokens": 7009,
+      "output_tokens": 1939,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 3.0,
+    "output": 15.0
+  },
+  "estimated_cost_usd": {
+    "reference_extraction": {
+      "input": 0.005211,
+      "output": 0.01149,
+      "total": 0.016701
+    },
+    "bom_generation": {
+      "input": 0.015816,
+      "output": 0.017595,
+      "total": 0.033411
+    },
+    "total": {
+      "input": 0.021027,
+      "output": 0.029085,
+      "total": 0.050112
+    }
+  }
+}

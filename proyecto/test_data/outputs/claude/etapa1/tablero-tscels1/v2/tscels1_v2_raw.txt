@@ -1,0 +1,64 @@
+I'll systematically analyze the electrical diagram TSCELS-1, scanning from top-left to bottom-right, identifying symbols by their visual appearance and nearby reference IDs.
+
+**Analysis:**
+
+**Top section:**
+- Reference ID "11" near a switch symbol at the top center → "Interruptor manual." (1 occurrence)
+- Reference ID "7" in the top-right corner (circle with 7) → "Gabinete modular..." (1 occurrence, represents the panel itself)
+
+**Middle section - Three differential interruptors (ID01, ID02, ID03):**
+- Reference ID "5" near ID01 symbol (left) → "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA." 
+- ID02 (center) - same symbol shape as differential interruptor, no separate reference ID visible but same symbol
+- ID03 (right) - same symbol shape as differential interruptor
+- Total: 3 differential interruptors
+
+**Reference ID "6" near the bus bars** → "Barras de cobre protegidas." (1 occurrence)
+
+**Bottom section - Six bipolar termomagnetic interruptors:**
+- Reference ID "3" near the first one (left) → "Interruptor termomagnético bipolar de 6 KA."
+- Six symbols total (CELS1-I1, CELS1-I2, CELS1-I3, CELS1-I4, CELS1-IE1, CELS1-T1), all showing the same bipolar termomagnetic symbol
+- Total: 6 bipolar termomagnetic interruptors
+
+**Top entry - termomagnetic symbols on the three phase lines (R, S, T branches before differentials):** These small symbols with the asterisk/cross and diagonal line appear 3 times (one per phase branch R, S, T) plus additional ones in the bottom section branches. Looking carefully:
+- Above each differential (R, S, T): 3 small termomagnetic-like symbols
+- Above each bottom interruptor: 6 small termomagnetic-like symbols
+These appear to be part of the circuit representation (fuse/termomagnetic indicators on the lines). They match the termomagnetic symbol pattern but are on the line conductors. Given reference "3" is marked for the bottom switches, these line symbols are part of the same circuit notation.
+
+After careful review, the bottom 6 switches with reference "3" are the confirmed bipolar termomagnetics. The small symbols on the lines above differentials and above bottom switches appear to be the same termomagnetic symbols (9 total on lines: 3 above differentials + 6 above bottom switches).
+
+Re-examining: the small red symbols with asterisk on the lines are termomagnetic indicators — these are part of the wiring representation, not standalone panel devices. I'll be conservative and only count the clearly standalone switch symbols.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 6
+    },
+    {
+      "material": "Barras de cobre protegidas.",
+      "cantidad": 1
+    },
+    {
+      "material": "Gabinete modular en chapa de hierro, espesor BWG Nº 18, refuerzos en chapa, espesores BWG Nº 14 y Nº 16 con puerta (con cerradura a tambor) estanca al polvo y la humedad, bandeja porta equipos, frente calado con capacidad vacante en un 30 % de su superficie.",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Interruptor termomagnético bipolar de 6 KA.",
+      "ubicacion_aproximada": "Zona media-izquierda, media-centro y media-derecha, sobre las líneas de alimentación que conectan hacia los interruptores diferenciales ID01, ID02 e ID03 respectivamente",
+      "descripcion_visual": "Pequeños símbolos en rojo con asterisco/cruz y línea diagonal sobre los conductores de fase, similares al símbolo termomagnético pero integrados en la línea de conducción",
+      "motivo": "Aparecen sobre los conductores de línea y no como dispositivos independientes montados en panel; no se puede confirmar con certeza si son símbolos de dispositivos independientes o simplemente notación de la línea"
+    }
+  ]
+}
+```
