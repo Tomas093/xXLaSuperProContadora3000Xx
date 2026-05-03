@@ -58,6 +58,12 @@ class AIProvider(Protocol):
         ...
 
 
+@dataclass(frozen=True)
+class ProviderModelOptions:
+    token_limit_parameter: str = "max_tokens"
+    supports_temperature: bool = True
+
+
 @dataclass
 class BaseVisionProvider(ABC):
     api_key: str
@@ -234,6 +240,7 @@ class AnthropicProvider(BaseVisionProvider):
 @dataclass
 class OpenAIProvider(BaseVisionProvider):
     provider_name: str = "openai"
+    model_options: ProviderModelOptions = field(default_factory=ProviderModelOptions)
     image_builder: ImageBlockBuilder = field(default_factory=OpenAIImageBlockBuilder)
     content_adapter: ContentAdapter = field(default_factory=OpenAIContentAdapter)
     message_adapter: MessageAdapter = field(default_factory=OpenAIMessageAdapter)
@@ -255,6 +262,10 @@ class OpenAIProvider(BaseVisionProvider):
             provider_content=self.content_adapter.adapt(user_content),
             max_tokens=max_tokens,
             temperature=temperature,
+            provider_options={
+                "token_limit_parameter": self.model_options.token_limit_parameter,
+                "supports_temperature": self.model_options.supports_temperature,
+            },
         )
         return self._post_json(
             self.api_url or "https://api.openai.com/v1/chat/completions",
@@ -343,8 +354,15 @@ class GeminiProvider(BaseVisionProvider):
         usage = response_payload.get("usageMetadata", {})
         if not isinstance(usage, dict):
             return {}
+        input_tokens = int(usage.get("promptTokenCount", 0) or 0)
+        visible_output_tokens = int(usage.get("candidatesTokenCount", 0) or 0)
+        total_tokens = int(usage.get("totalTokenCount", 0) or 0)
+        billable_output_tokens = max(total_tokens - input_tokens, visible_output_tokens)
+        thinking_tokens = max(billable_output_tokens - visible_output_tokens, 0)
         return {
-            "input_tokens": int(usage.get("promptTokenCount", 0) or 0),
-            "output_tokens": int(usage.get("candidatesTokenCount", 0) or 0),
-            "total_tokens": int(usage.get("totalTokenCount", 0) or 0),
+            "input_tokens": input_tokens,
+            "output_tokens": billable_output_tokens,
+            "visible_output_tokens": visible_output_tokens,
+            "thinking_tokens": thinking_tokens,
+            "total_tokens": total_tokens,
         }

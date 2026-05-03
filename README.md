@@ -158,15 +158,15 @@ python3 proyecto/ai_bom_cli.py \
 python3 proyecto/ai_bom_cli.py \
   --env-file ENV/.env \
   --provider openai \
-  --model gpt-4o \
+  --model gpt-5.4-mini \
   --diagram-image proyecto/test_data/plans/tstl1n.png \
   --reference-image proyecto/test_data/reference_tables/table1.png \
   --symbols-dir proyecto/test_data/symbols \
   --catalog-json proyecto/test_data/symbol_catalog.json \
-  --output-json proyecto/test_data/outputs/openai/etapa1/tstl1n/tstl1n_bom.json \
-  --output-csv proyecto/test_data/outputs/openai/etapa1/tstl1n/tstl1n_bom.csv \
-  --raw-output proyecto/test_data/outputs/openai/etapa1/tstl1n/tstl1n_raw.txt \
-  --usage-output proyecto/test_data/outputs/openai/etapa1/tstl1n/tstl1n_usage.json
+  --output-json proyecto/test_data/outputs/open-ai/etapa1/tstl1n/gpt-5.4-mini/tstl1n_bom.json \
+  --output-csv proyecto/test_data/outputs/open-ai/etapa1/tstl1n/gpt-5.4-mini/tstl1n_bom.csv \
+  --raw-output proyecto/test_data/outputs/open-ai/etapa1/tstl1n/gpt-5.4-mini/tstl1n_raw.txt \
+  --usage-output proyecto/test_data/outputs/open-ai/etapa1/tstl1n/gpt-5.4-mini/tstl1n_usage.json
 ```
 
 ### Prompt Versions
@@ -183,7 +183,7 @@ Available folders:
 The default is `v4_visual_symbols_only`. To override:
 
 ```bash
---prompt-dir proyecto/prompts/bom_symbol_count/v1
+--prompt-dir proyecto/prompts/bom_symbol_count/v1-gemini-3.1
 ```
 
 You can also override individual prompt files:

@@ -1,0 +1,25 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 3
+    },
+    {
+      "material": "Barras de cobre protegidas.",
+      "cantidad": 1
+    },
+    {
+      "material": "Gabinete modular en chapa de hierro, espesor BWG N° 18, refuerzos en chapa, espesores BWG N° 14 y N° 16 con puerta (con cerradura a tambor) estanca al polvo y la humedad, bandeja porta equipos, frente calado con capacidad vacante en un 30 % de su superficie.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": []
+}

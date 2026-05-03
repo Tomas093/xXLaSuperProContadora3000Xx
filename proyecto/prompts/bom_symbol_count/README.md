@@ -12,7 +12,7 @@ Required files per version:
 Default CLI version:
 
 ```bash
---prompt-dir prompts/bom_symbol_count/v1
+--prompt-dir prompts/bom_symbol_count/v1-gemini-3.1
 ```
 
 To test a new prompt version, copy `v1` to a new folder, edit the prompt files, and run:

@@ -15,6 +15,7 @@ class MessageAdapter(ABC):
         max_tokens: int,
         temperature: float,
         cache_control: dict[str, Any] | None = None,
+        provider_options: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         raise NotImplementedError
 
@@ -42,7 +43,9 @@ class AnthropicMessageAdapter(MessageAdapter):
         max_tokens: int,
         temperature: float,
         cache_control: dict[str, Any] | None = None,
+        provider_options: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
+        del provider_options
         payload = {
             "model": model,
             "system": system_prompt,
@@ -65,17 +68,22 @@ class OpenAIMessageAdapter(MessageAdapter):
         max_tokens: int,
         temperature: float,
         cache_control: dict[str, Any] | None = None,
+        provider_options: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         del cache_control
-        return {
+        provider_options = provider_options or {}
+        token_limit_key = str(provider_options.get("token_limit_parameter", "max_tokens"))
+        payload = {
             "model": model,
             "messages": [
                 {"role": "system", "content": self._prompt_to_text(system_prompt)},
                 {"role": "user", "content": provider_content},
             ],
-            "max_tokens": max_tokens,
-            "temperature": temperature,
         }
+        if provider_options.get("supports_temperature", True):
+            payload["temperature"] = temperature
+        payload[token_limit_key] = max_tokens
+        return payload
 
 
 class GeminiMessageAdapter(MessageAdapter):
@@ -88,8 +96,9 @@ class GeminiMessageAdapter(MessageAdapter):
         max_tokens: int,
         temperature: float,
         cache_control: dict[str, Any] | None = None,
+        provider_options: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        del cache_control
+        del cache_control, provider_options
         return {
             "system_instruction": {"parts": [{"text": self._prompt_to_text(system_prompt)}]},
             "contents": [

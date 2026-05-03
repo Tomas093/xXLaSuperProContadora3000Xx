@@ -4,7 +4,7 @@ import os
 from abc import ABC, abstractmethod
 
 from .errors import AIProviderError
-from .providers import AIProvider, AnthropicProvider, GeminiProvider, OpenAIProvider
+from .providers import AIProvider, AnthropicProvider, GeminiProvider, OpenAIProvider, ProviderModelOptions
 
 
 class ProviderResolver(ABC):
@@ -99,25 +99,21 @@ class AnthropicProviderResolver(ProviderResolver):
 
 class OpenAIProviderResolver(ProviderResolver):
     PROVIDER_NAMES = ("openai", "chatgpt")
-    API_KEY_ENV_NAMES = ("OPENAI_API_KEY",)
-    DEFAULT_MODEL = "gpt-4o"
+    API_KEY_ENV_NAMES = ("OPENAI_API_KEY", "OPEN_AI_API_KEY")
+    DEFAULT_MODEL = "gpt-5.4-mini"
+    MODEL_OPTIONS = {
+        "gpt-5.5-pro": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
+        "gpt-5.5": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
+        "gpt-5.4-pro": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
+        "gpt-5.4": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
+        "gpt-5.4-mini": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
+    }
     ACCEPTED_MODELS = (
-        "gpt-5.2",
-        "gpt-5.2-pro",
-        "gpt-5",
-        "gpt-5-mini",
-        "gpt-5-nano",
-        "gpt-4.1",
-        "gpt-4.1-mini",
-        "gpt-4.1-nano",
-        "gpt-4o",
-        "gpt-4o-2024-11-20",
-        "gpt-4o-2024-08-06",
-        "gpt-4o-2024-05-13",
-        "gpt-4o-mini",
-        "o4-mini",
-        "o3",
-        "o3-mini",
+        "gpt-5.5-pro",
+        "gpt-5.5",
+        "gpt-5.4-pro",
+        "gpt-5.4",
+        "gpt-5.4-mini",
     )
 
     def matches(self, provider: str) -> bool:
@@ -136,7 +132,8 @@ class OpenAIProviderResolver(ProviderResolver):
         resolved_key = api_key or self._api_key_from_env(self.API_KEY_ENV_NAMES, "openai")
         resolved_model = model or self.DEFAULT_MODEL
         self._validate_model(provider_name="openai", model=resolved_model, accepted_models=self.ACCEPTED_MODELS)
-        return OpenAIProvider(api_key=resolved_key, model=resolved_model, api_url=api_url)
+        model_options = self.MODEL_OPTIONS[normalize_model_name(resolved_model)]
+        return OpenAIProvider(api_key=resolved_key, model=resolved_model, api_url=api_url, model_options=model_options)
 
     def supported_names(self) -> tuple[str, ...]:
         return self.PROVIDER_NAMES
@@ -147,6 +144,8 @@ class GeminiProviderResolver(ProviderResolver):
     API_KEY_ENV_NAMES = ("GEMINI_API_KEY", "GOOGLE_API_KEY")
     DEFAULT_MODEL = "gemini-2.5-pro"
     ACCEPTED_MODELS = (
+        "gemini-3.1-pro-preview",
+        "gemini-3.1-pro-preview-customtools",
         "gemini-3-pro-preview",
         "gemini-3.0-flash",
         "gemini-2.5-pro",

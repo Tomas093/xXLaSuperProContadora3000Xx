@@ -1,0 +1,17 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Manual",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Diferencial",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": []
+}

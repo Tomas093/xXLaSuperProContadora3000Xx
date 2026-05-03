@@ -103,14 +103,60 @@ def pricing_for_model(provider: str, model: str) -> dict[str, float] | None:
             return {"input": 3.0, "output": 15.0}
         case "anthropic", model_name if "haiku" in model_name:
             return {"input": 0.8, "output": 4.0}
-        case "openai", model_name if model_name.startswith("gpt-4o-mini"):
-            return {"input": 0.15, "output": 0.6}
-        case "openai", model_name if model_name.startswith("gpt-4o"):
-            return {"input": 2.5, "output": 10.0}
+        case "openai", "gpt-5.5-pro":
+            return {
+                "input": 30.0,
+                "output": 180.0,
+                "input_long_context": 60.0,
+                "output_long_context": 270.0,
+            }
+        case "openai", "gpt-5.5":
+            return {
+                "input": 5.0,
+                "output": 30.0,
+                "cached_input": 0.5,
+                "input_long_context": 10.0,
+                "cached_input_long_context": 1.0,
+                "output_long_context": 45.0,
+            }
+        case "openai", "gpt-5.4-pro":
+            return {
+                "input": 30.0,
+                "output": 180.0,
+                "input_long_context": 60.0,
+                "output_long_context": 270.0,
+            }
+        case "openai", "gpt-5.4-mini":
+            return {"input": 0.75, "output": 4.5, "cached_input": 0.075}
+        case "openai", "gpt-5.4":
+            return {
+                "input": 2.5,
+                "output": 15.0,
+                "cached_input": 0.25,
+                "input_long_context": 5.0,
+                "cached_input_long_context": 0.5,
+                "output_long_context": 22.5,
+            }
         case "gemini", model_name if "flash" in model_name:
             return {"input": 0.35, "output": 1.05}
+        case "gemini", model_name if model_name.startswith("gemini-2.5-pro"):
+            return {
+                "input": 1.25,
+                "output": 10.0,
+                "input_above_200k": 2.5,
+                "output_above_200k": 15.0,
+                "threshold_input_tokens": 200_000,
+            }
+        case "gemini", model_name if model_name.startswith(("gemini-3.1-pro-preview", "gemini-3-pro-preview")):
+            return {
+                "input": 2.0,
+                "output": 12.0,
+                "input_above_200k": 4.0,
+                "output_above_200k": 18.0,
+                "threshold_input_tokens": 200_000,
+            }
         case "gemini", model_name if "pro" in model_name:
-            return {"input": 1.25, "output": 5.0}
+            return {"input": 2.0, "output": 12.0}
         case _:
             return None
 
@@ -125,8 +171,16 @@ def estimate_cost(usage: dict[str, Any], pricing: dict[str, float] | None) -> di
 
     input_tokens = int(usage.get("input_tokens", 0) or 0)
     output_tokens = int(usage.get("output_tokens", 0) or 0)
-    input_cost = input_tokens / 1_000_000 * pricing["input"]
-    output_cost = output_tokens / 1_000_000 * pricing["output"]
+    input_price = pricing["input"]
+    output_price = pricing["output"]
+    threshold_input_tokens = int(pricing.get("threshold_input_tokens", 0) or 0)
+
+    if threshold_input_tokens and input_tokens > threshold_input_tokens:
+        input_price = pricing.get("input_above_200k", input_price)
+        output_price = pricing.get("output_above_200k", output_price)
+
+    input_cost = input_tokens / 1_000_000 * input_price
+    output_cost = output_tokens / 1_000_000 * output_price
     return {
         "input": round(input_cost, 8),
         "output": round(output_cost, 8),
@@ -134,10 +188,28 @@ def estimate_cost(usage: dict[str, Any], pricing: dict[str, float] | None) -> di
     }
 
 
+def combine_estimated_costs(*costs: dict[str, float | None]) -> dict[str, float | None]:
+    if any(cost["total"] is None for cost in costs):
+        return {
+            "input": None,
+            "output": None,
+            "total": None,
+        }
+
+    return {
+        "input": round(sum(float(cost["input"] or 0.0) for cost in costs), 8),
+        "output": round(sum(float(cost["output"] or 0.0) for cost in costs), 8),
+        "total": round(sum(float(cost["total"] or 0.0) for cost in costs), 8),
+    }
+
+
 def combine_usage(*usages: dict[str, Any]) -> dict[str, int]:
     return {
         "input_tokens": sum(int(usage.get("input_tokens", 0) or 0) for usage in usages),
         "output_tokens": sum(int(usage.get("output_tokens", 0) or 0) for usage in usages),
+        "visible_output_tokens": sum(int(usage.get("visible_output_tokens", usage.get("output_tokens", 0)) or 0) for usage in usages),
+        "thinking_tokens": sum(int(usage.get("thinking_tokens", 0) or 0) for usage in usages),
+        "total_tokens": sum(int(usage.get("total_tokens", 0) or 0) for usage in usages),
         "cache_creation_input_tokens": sum(int(usage.get("cache_creation_input_tokens", 0) or 0) for usage in usages),
         "cache_read_input_tokens": sum(int(usage.get("cache_read_input_tokens", 0) or 0) for usage in usages),
     }
@@ -154,6 +226,8 @@ def build_usage_report(
 ) -> dict[str, Any]:
     all_usage = combine_usage(*(usage for usage in [reference_usage, bom_usage] if usage))
     pricing = pricing_for_model(provider, model)
+    reference_cost = estimate_cost(reference_usage or {}, pricing)
+    bom_cost = estimate_cost(bom_usage, pricing)
     return {
         "provider": provider,
         "model": model,
@@ -166,9 +240,9 @@ def build_usage_report(
         "pricing_usd_per_million_tokens": pricing,
         "timings_seconds": timings_seconds or {},
         "estimated_cost_usd": {
-            "reference_extraction": estimate_cost(reference_usage or {}, pricing),
-            "bom_generation": estimate_cost(bom_usage, pricing),
-            "total": estimate_cost(all_usage, pricing),
+            "reference_extraction": reference_cost,
+            "bom_generation": bom_cost,
+            "total": combine_estimated_costs(reference_cost, bom_cost),
         },
     }
 

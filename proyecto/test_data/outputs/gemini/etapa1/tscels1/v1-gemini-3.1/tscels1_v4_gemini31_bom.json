@@ -1,4 +1,3 @@
-```json
 {
   "bom": [
     {
@@ -7,13 +6,12 @@
     },
     {
       "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
-      "cantidad": 7
+      "cantidad": 3
     },
     {
       "material": "Interruptor termomagnético bipolar de 6 KA.",
-      "cantidad": 19
+      "cantidad": 6
     }
   ],
   "simbolos_no_identificados": []
 }
-```
