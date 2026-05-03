@@ -6,8 +6,10 @@ __pycache__/
 # ---- Virtual environments ----
 .venv/
 venv/
-env/
+ENV/.env/
 ENV/
+ENV/.env
+
 
 # ---- Python tooling ----
 .pytest_cache/
@@ -26,6 +28,8 @@ dist/
 .eggs/
 
 # ---- Logs / local runtime files ----
+.env
+.env.*
 *.log
 *.pid
 *.tmp
@@ -46,4 +50,3 @@ Thumbs.db
 *.dwl2
 *.bak
 *.sv$
-

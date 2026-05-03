@@ -1,0 +1,32 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 6
+    },
+    {
+      "material": "Barras de cobre protegidas.",
+      "cantidad": 1
+    },
+    {
+      "material": "Gabinete modular en chapa de hierro, espesor BWG Nº 18, refuerzos en chapa, espesores BWG Nº 14 y Nº 16 con puerta (con cerradura a tambor) estanca al polvo y la humedad, bandeja porta equipos, frente calado con capacidad vacante en un 30 % de su superficie.",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Interruptor termomagnético bipolar de 6 KA.",
+      "ubicacion_aproximada": "Zona media-izquierda, media-centro y media-derecha, sobre las líneas de alimentación que conectan hacia los interruptores diferenciales ID01, ID02 e ID03 respectivamente",
+      "descripcion_visual": "Pequeños símbolos en rojo con asterisco/cruz y línea diagonal sobre los conductores de fase, similares al símbolo termomagnético pero integrados en la línea de conducción",
+      "motivo": "Aparecen sobre los conductores de línea y no como dispositivos independientes montados en panel; no se puede confirmar con certeza si son símbolos de dispositivos independientes o simplemente notación de la línea"
+    }
+  ]
+}

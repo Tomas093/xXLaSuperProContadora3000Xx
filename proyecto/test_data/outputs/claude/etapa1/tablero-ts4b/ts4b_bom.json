@@ -1,0 +1,13 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Diferencial",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 4
+    }
+  ],
+  "simbolos_no_identificados": []
+}

@@ -1,0 +1,26 @@
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Diferencial",
+      "cantidad": 4
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 4
+    },
+    {
+      "material": "Ojo De Buey",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Transformador",
+      "ubicacion_aproximada": "Centro-inferior, debajo del interruptor termomagnético de 2x16A TOMAS GEN., dentro de un recuadro azul",
+      "descripcion_visual": "Símbolo rectangular con la letra T en su interior, dentro de un cuadro azul",
+      "motivo": "No coincide visualmente con el símbolo de transformador del catálogo (dos círculos superpuestos). Podría ser un símbolo de transformador simplificado o un elemento diferente no incluido en el catálogo."
+    }
+  ]
+}
+```

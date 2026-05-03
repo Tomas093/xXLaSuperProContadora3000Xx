@@ -1,0 +1,22 @@
+[
+  {
+    "filename": "interruptordiferencial1.png",
+    "component_name": "Interruptor Diferencial"
+  },
+  {
+    "filename": "interruptormanual1.png",
+    "component_name": "Interruptor Manual"
+  },
+  {
+    "filename": "interruptortermomagnetico1.png",
+    "component_name": "Interruptor Termomagnetico"
+  },
+  {
+    "filename": "ojodebuey1.png",
+    "component_name": "Ojo De Buey"
+  },
+  {
+    "filename": "transformador1.png",
+    "component_name": "Transformador"
+  }
+]

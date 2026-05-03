@@ -1,0 +1,29 @@
+I'll analyze the electrical diagram systematically, scanning from top to bottom and left to right.
+
+**Observations:**
+
+1. **Top center**: There's a symbol with an "X" and a horizontal base line, with a diagonal line — this matches the **Interruptor Diferencial** symbol (rectangle + oval + X at top). Near it is label "ID01 2x40A 30mA" and reference number **5** nearby. The symbol shows the characteristic oval (ellipse) at bottom and X-cross at top = Interruptor Diferencial. Count: 1.
+
+2. **Center-left to center-right (horizontal bus, 4 branches)**: There are 4 branch symbols going downward, each with a red diagonal slash and an "X" mark below it, then a coil-like symbol at the bottom. These match the **Interruptor Termomagnetico** symbol (diagonal line + stepped/coil bottom). Reference number **3** is visible near the left group. Labels: 2x10A (×3) and 2x16A (×1). Count: 4.
+
+3. **Interruptor Manual**: The symbol is a simple diagonal line with a T-bar at top. I don't see a clear standalone Interruptor Manual symbol in this diagram.
+
+4. **Ojo De Buey**: Circle with X inside — not clearly visible as a standalone symbol.
+
+5. **Transformador**: Two overlapping circles — not visible.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Diferencial",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 4
+    }
+  ],
+  "simbolos_no_identificados": []
+}
+```

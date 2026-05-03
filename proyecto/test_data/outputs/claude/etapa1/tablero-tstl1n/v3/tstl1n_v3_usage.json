@@ -1,0 +1,79 @@
+{
+  "model": "claude-sonnet-4-6",
+  "prompts": {
+    "plan_system": {
+      "path": "prompts/bom_symbol_count/v4_visual_symbols_only/plan_system.md",
+      "sha256": "78e3b1cd9f31bb49501c58d193631506353026096725a768ae6163af7a1349f6"
+    },
+    "plan_user": {
+      "path": "prompts/bom_symbol_count/v4_visual_symbols_only/plan_user.md",
+      "sha256": "30837f4540df76007934ef1e450f9850490e4a5a6dfa654763f2229a2d8bf29f"
+    },
+    "reference_system": {
+      "path": "prompts/bom_symbol_count/v4_visual_symbols_only/reference_system.md",
+      "sha256": "ead4ad25474d6ae69fd3c347df482e4371ec23bb573a7925a832e3f0725ade1f"
+    },
+    "reference_user": {
+      "path": "prompts/bom_symbol_count/v4_visual_symbols_only/reference_user.md",
+      "sha256": "beaf287ccde2ae3266bdde8070a4747f22ea51eeae2337aea91b2da2d2c3e58e"
+    }
+  },
+  "usage": {
+    "reference_extraction": {
+      "input_tokens": 1737,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 766,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "bom_generation": {
+      "input_tokens": 5400,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 787,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "total": {
+      "input_tokens": 7137,
+      "output_tokens": 1553,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 3.0,
+    "output": 15.0
+  },
+  "timings_seconds": {
+    "reference_extraction": 13.899,
+    "bom_generation": 14.731,
+    "total": 28.638
+  },
+  "estimated_cost_usd": {
+    "reference_extraction": {
+      "input": 0.005211,
+      "output": 0.01149,
+      "total": 0.016701
+    },
+    "bom_generation": {
+      "input": 0.0162,
+      "output": 0.011805,
+      "total": 0.028005
+    },
+    "total": {
+      "input": 0.021411,
+      "output": 0.023295,
+      "total": 0.044706
+    }
+  }
+}

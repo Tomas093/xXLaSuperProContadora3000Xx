@@ -1,0 +1,31 @@
+I'll analyze the electrical diagram systematically, scanning from top to bottom.
+
+**Observations:**
+
+1. **Top-center area**: There's a red switch/disconnector symbol (not in catalog).
+
+2. **Center area (labeled ID05, 2x40A, 30mA)**: A blue symbol with a rectangle and an oval/ellipse at the bottom — this matches the **Interruptor Diferencial** symbol (rectangle body + oval = differential interruptor). The "X" mark above it is part of the symbol.
+
+3. **Lower section — three branches** (left, center, right), each labeled 2x16A (JC2-TE1, JC2-TE2, JC2-TE3): Each branch has a blue symbol with an "X" mark at top and a stepped/notched shape at the bottom — this matches the **Interruptor Termomagnetico** symbol. There are **3** of these.
+
+4. **Red symbols** (diagonal lines with dots): These appear to be disconnectors/fusible switches in red — not matching any blue symbol in the catalog. Not counted.
+
+5. **"T" label with circle**: Appears to be a terminal/connection point, not a catalog symbol.
+
+6. **No Ojo De Buey, Transformador, or Interruptor Manual** symbols are visible.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Diferencial",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 3
+    }
+  ],
+  "simbolos_no_identificados": []
+}
+```

@@ -1,0 +1,70 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.4-mini",
+  "prompts": {
+    "plan_system": {
+      "path": "proyecto/prompts/bom_symbol_count/v4_visual_symbols_only/plan_system.md",
+      "sha256": "78e3b1cd9f31bb49501c58d193631506353026096725a768ae6163af7a1349f6"
+    },
+    "plan_user": {
+      "path": "proyecto/prompts/bom_symbol_count/v4_visual_symbols_only/plan_user.md",
+      "sha256": "30837f4540df76007934ef1e450f9850490e4a5a6dfa654763f2229a2d8bf29f"
+    },
+    "reference_system": {
+      "path": "proyecto/prompts/bom_symbol_count/v4_visual_symbols_only/reference_system.md",
+      "sha256": "ead4ad25474d6ae69fd3c347df482e4371ec23bb573a7925a832e3f0725ade1f"
+    },
+    "reference_user": {
+      "path": "proyecto/prompts/bom_symbol_count/v4_visual_symbols_only/reference_user.md",
+      "sha256": "beaf287ccde2ae3266bdde8070a4747f22ea51eeae2337aea91b2da2d2c3e58e"
+    }
+  },
+  "usage": {
+    "reference_extraction": {
+      "input_tokens": 1605,
+      "output_tokens": 417,
+      "total_tokens": 2022
+    },
+    "bom_generation": {
+      "input_tokens": 4689,
+      "output_tokens": 37,
+      "total_tokens": 4726
+    },
+    "total": {
+      "input_tokens": 6294,
+      "output_tokens": 454,
+      "visible_output_tokens": 454,
+      "thinking_tokens": 0,
+      "total_tokens": 6748,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 0.75,
+    "output": 4.5,
+    "cached_input": 0.075
+  },
+  "timings_seconds": {
+    "reference_extraction": 2.856,
+    "bom_generation": 2.711,
+    "total": 5.574
+  },
+  "estimated_cost_usd": {
+    "reference_extraction": {
+      "input": 0.00120375,
+      "output": 0.0018765,
+      "total": 0.00308025
+    },
+    "bom_generation": {
+      "input": 0.00351675,
+      "output": 0.0001665,
+      "total": 0.00368325
+    },
+    "total": {
+      "input": 0.0047205,
+      "output": 0.002043,
+      "total": 0.0067635
+    }
+  }
+}

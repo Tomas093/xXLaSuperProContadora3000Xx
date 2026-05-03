@@ -6,6 +6,7 @@ from ezdxf.tools.text import plain_text
 import tempfile
 import os
 import shutil
+from ezdxf.addons import Importer
 from spec_detection.utils import limpiar_specs, normalizar_clave
 from spec_detection.registry import SPEC_STRATEGIES
 from dwg_converter.dwg_converter import CadConversionService
@@ -28,7 +29,8 @@ def parsear_dxf(file_path):
                 inserts.append({
                     'nombre': nombre,
                     'x': e.dxf.insert.x,
-                    'y': e.dxf.insert.y
+                    'y': e.dxf.insert.y,
+                    'handle': e.dxf.handle,
                 })
         elif e.dxftype() in ('TEXT', 'MTEXT'):
             # ezdxf maneja el formato MTEXT nativamente
@@ -38,9 +40,39 @@ def parsear_dxf(file_path):
             if txt:
                 # El punto base de inserción del texto
                 pto = e.dxf.insert
-                textos.append({'texto': txt, 'x': pto.x, 'y': pto.y})
+                textos.append({
+                    'texto': txt,
+                    'x': pto.x,
+                    'y': pto.y,
+                    'handle': e.dxf.handle,
+                })
 
     return inserts, textos
+
+
+def exportar_dxf_ignorados(file_path, text_handles_a_remover, output_path):
+    """Genera un DXF con todo lo ignorado por el BOM actual."""
+    origen = ezdxf.readfile(file_path)
+    destino = ezdxf.new(dxfversion=origen.dxfversion)
+
+    importer = Importer(origen, destino)
+    entidades_a_conservar = []
+
+    for entidad in origen.modelspace():
+        handle = entidad.dxf.handle
+        tipo = entidad.dxftype()
+
+        if tipo == 'INSERT':
+            continue
+
+        if tipo in ('TEXT', 'MTEXT') and handle in text_handles_a_remover:
+            continue
+
+        entidades_a_conservar.append(entidad)
+
+    importer.import_entities(entidades_a_conservar, destino.modelspace())
+    importer.finalize()
+    destino.saveas(output_path)
 
 def preparar_archivo_cad(uploaded_file):
     temp_dir = tempfile.mkdtemp(prefix="contadora_cad_")
@@ -105,79 +137,93 @@ def procesar_con_ml_espacial(uploaded_file, p, spec_strategy):
     try:
         tmp_path, temp_dir = preparar_archivo_cad(uploaded_file)
         inserts, textos = parsear_dxf(tmp_path)
+
+        # 1. Tabla de referencias
+        dict_ref = extraer_tabla_referencias(textos, p['tol_x'], p['marg_y'])
+
+        numeros = [t for t in textos if t['texto'].isdigit()]
+        textos_specs = [t for t in textos if not t['texto'].isdigit()]
+
+        # 2. CONSTRUIR KD-TREES (La magia de indexación espacial)
+        coords_num = [(n['x'], n['y']) for n in numeros] if numeros else []
+        coords_specs = [(t['x'], t['y']) for t in textos_specs] if textos_specs else []
+
+        tree_num = cKDTree(coords_num) if coords_num else None
+        tree_specs = cKDTree(coords_specs) if coords_specs else None
+
+        # Mapa informativo. La agrupación real se hace por cada instancia, no por bloque global.
+        mapa_nombres = {}
+        handles_textos_bom = set()
+
+        # PASADA 2: Agrupación
+        resultados = []
+
+        for ins in inserts:
+            nombre_final = ins['nombre']
+            if nombre_final == ins['nombre'] and ins['nombre'].startswith('*'):
+                continue
+
+            # La asociación de nombre final se resolverá en otra refactorización.
+
+            # La detección de especificación sí depende de la estrategia activa.
+            specs_por_clave = {}
+            mejor_spec = spec_strategy.find_spec(ins, textos_specs, tree_specs, p)
+            if mejor_spec:
+                t = mejor_spec
+                s = limpiar_specs(t['texto'])
+                if s:
+                    specs_por_clave.setdefault(normalizar_clave(s), s)
+                    handle_texto = t.get('handle')
+                    if handle_texto:
+                        handles_textos_bom.add(handle_texto)
+
+            specs_ordenadas = [
+                specs_por_clave[clave]
+                for clave in sorted(specs_por_clave)
+            ]
+            espec = " | ".join(specs_ordenadas) if specs_ordenadas else "-"
+
+            # Agregamos al registro (No usamos Counter directo para poder promediar la confianza)
+            resultados.append({
+                'Componente': nombre_final,
+                'Especificación': espec,
+                'Componente_Key': normalizar_clave(nombre_final),
+                'Especificación_Key': normalizar_clave(espec),
+            })
+
+        # Agrupar datos con Pandas
+        df_crudo = pd.DataFrame(resultados)
+
+        dxf_ignorados_bytes = None
+        output_path = os.path.join(temp_dir, "ignorados_para_reproceso.dxf")
+        exportar_dxf_ignorados(
+            tmp_path,
+            text_handles_a_remover=handles_textos_bom,
+            output_path=output_path,
+        )
+        with open(output_path, "rb") as f:
+            dxf_ignorados_bytes = f.read()
+
+        if df_crudo.empty:
+            return pd.DataFrame(), dict_ref, mapa_nombres, dxf_ignorados_bytes, ""
+
+        # Agrupamos por claves normalizadas para que la misma especificación cuente junta.
+        df_agrupado = df_crudo.groupby(['Componente_Key', 'Especificación_Key']).agg(
+            Componente=('Componente', 'first'),
+            Especificación=('Especificación', 'first'),
+            Cantidad=('Componente', 'count'),
+        ).reset_index()
+
+        df_agrupado = df_agrupado.drop(columns=['Componente_Key', 'Especificación_Key'])
+
+        # Redondeamos la confianza final
+
+        return df_agrupado, dict_ref, mapa_nombres, dxf_ignorados_bytes, ""
     except Exception as e:
-        return None, None, None, str(e)
+        return None, None, None, None, str(e)
     finally:
         if temp_dir:
             shutil.rmtree(temp_dir, ignore_errors=True)
-
-    # 1. Tabla de referencias
-    dict_ref = extraer_tabla_referencias(textos, p['tol_x'], p['marg_y'])
-
-    numeros = [t for t in textos if t['texto'].isdigit()]
-    textos_specs = [t for t in textos if not t['texto'].isdigit()]
-
-    # 2. CONSTRUIR KD-TREES (La magia de indexación espacial)
-    coords_num = [(n['x'], n['y']) for n in numeros] if numeros else []
-    coords_specs = [(t['x'], t['y']) for t in textos_specs] if textos_specs else []
-
-    tree_num = cKDTree(coords_num) if coords_num else None
-    tree_specs = cKDTree(coords_specs) if coords_specs else None
-
-    # Mapa informativo. La agrupación real se hace por cada instancia, no por bloque global.
-    mapa_nombres = {}
-
-    # PASADA 2: Agrupación
-    resultados = []
-
-    for ins in inserts:
-        nombre_final = ins['nombre']
-        if nombre_final == ins['nombre'] and ins['nombre'].startswith('*'):
-            continue
-
-        # La asociación de nombre final se resolverá en otra refactorización.
-
-        # La detección de especificación sí depende de la estrategia activa.
-        specs_por_clave = {}
-        mejor_spec = spec_strategy.find_spec(ins, textos_specs, tree_specs, p)
-        if mejor_spec:
-            t = mejor_spec
-            s = limpiar_specs(t['texto'])
-            if s:
-                specs_por_clave.setdefault(normalizar_clave(s), s)
-
-        specs_ordenadas = [
-            specs_por_clave[clave]
-            for clave in sorted(specs_por_clave)
-        ]
-        espec = " | ".join(specs_ordenadas) if specs_ordenadas else "-"
-
-        # Agregamos al registro (No usamos Counter directo para poder promediar la confianza)
-        resultados.append({
-            'Componente': nombre_final,
-            'Especificación': espec,
-            'Componente_Key': normalizar_clave(nombre_final),
-            'Especificación_Key': normalizar_clave(espec),
-        })
-
-    # Agrupar datos con Pandas
-    df_crudo = pd.DataFrame(resultados)
-
-    if df_crudo.empty:
-        return pd.DataFrame(), dict_ref, mapa_nombres, ""
-
-    # Agrupamos por claves normalizadas para que la misma especificación cuente junta.
-    df_agrupado = df_crudo.groupby(['Componente_Key', 'Especificación_Key']).agg(
-        Componente=('Componente', 'first'),
-        Especificación=('Especificación', 'first'),
-        Cantidad=('Componente', 'count'),
-    ).reset_index()
-
-    df_agrupado = df_agrupado.drop(columns=['Componente_Key', 'Especificación_Key'])
-
-    # Redondeamos la confianza final
-
-    return df_agrupado, dict_ref, mapa_nombres, ""
 
 
 # ==========================================
@@ -207,32 +253,43 @@ f = st.file_uploader("Subí tu DWG convertido a DXF", type=["dxf"])
 
 if f:
     with st.spinner("Compilando Árboles KD y matcheando tensores..."):
-        df_final, d_ref, mapa, error = procesar_con_ml_espacial(f, params, spec_strategy)
+        df_final, d_ref, mapa, dxf_ignorados, error = procesar_con_ml_espacial(f, params, spec_strategy)
 
         if error:
             st.error(f"Error interno del parser ezdxf: {error}")
-        elif not df_final.empty:
-            st.success("Cómputo finalizado con indexación espacial.")
+        else:
+            if not df_final.empty:
+                st.success("Cómputo finalizado con indexación espacial.")
 
-            col1, col2 = st.columns(2)
-            with col1:
-                with st.expander("📖 TABLA DE REFERENCIAS (Auto-detectada)", expanded=False):
-                    if d_ref:
-                        st.table(pd.DataFrame(list(d_ref.items()), columns=['N°', 'Descripción']))
-                    else:
-                        st.warning("No se detectó la tabla.")
-            with col2:
-                with st.expander("🧠 MAPA DE HERENCIA (Símbolo -> Nombre)", expanded=False):
-                    st.json(mapa)
+                col1, col2 = st.columns(2)
+                with col1:
+                    with st.expander("📖 TABLA DE REFERENCIAS (Auto-detectada)", expanded=False):
+                        if d_ref:
+                            st.table(pd.DataFrame(list(d_ref.items()), columns=['N°', 'Descripción']))
+                        else:
+                            st.warning("No se detectó la tabla.")
+                with col2:
+                    with st.expander("🧠 MAPA DE HERENCIA (Símbolo -> Nombre)", expanded=False):
+                        st.json(mapa)
 
-            st.markdown("### 📊 Resultado del Cómputo con Nivel de Confianza")
+                st.markdown("### 📊 Resultado del Cómputo con Nivel de Confianza")
 
-            # Ordenamos por cantidad
-            df_final = df_final.sort_values(by=["Cantidad", "Componente"], ascending=[False, True])
+                # Ordenamos por cantidad
+                df_final = df_final.sort_values(by=["Cantidad", "Componente"], ascending=[False, True])
 
-            # Usamos st.dataframe que permite ordenar y filtrar en pantalla
-            st.dataframe(df_final, use_container_width=True)
+                # Usamos st.dataframe que permite ordenar y filtrar en pantalla
+                st.dataframe(df_final, use_container_width=True)
 
-            # Botón de descarga
-            csv = df_final.to_csv(index=False).encode('utf-8')
-            st.download_button("Descargar CSV de Materiales", csv, "computo_scipy.csv", "text/csv")
+                # Botón de descarga
+                csv = df_final.to_csv(index=False).encode('utf-8')
+                st.download_button("Descargar CSV de Materiales", csv, "computo_scipy.csv", "text/csv")
+            else:
+                st.warning("No se detectaron inserts válidos para el cómputo, pero sí podés descargar el DXF remanente.")
+
+            if dxf_ignorados:
+                st.download_button(
+                    "Descargar DXF ignorado para reproceso",
+                    dxf_ignorados,
+                    "ignorados_para_reproceso.dxf",
+                    "application/dxf",
+                )

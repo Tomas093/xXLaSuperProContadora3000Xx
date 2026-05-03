@@ -1,0 +1,88 @@
+I'll systematically analyze the electrical diagram, scanning from top-left to bottom-right, comparing each symbol against the provided catalog.
+
+**Step 1: Identify symbol types in the catalog**
+- Interruptor Diferencial: rectangle + diagonal line + oval at bottom + X-star at top
+- Interruptor Manual: T-shape + diagonal line (no rectangle, no oval)
+- Interruptor Termomagnético: X-star at top + diagonal line + stepped/notched bottom shape
+- Ojo De Buey: circle with X inside
+- Transformador: two overlapping circles with small circles at ends
+
+**Step 2: Scan the diagram systematically**
+
+**Top section - Indicación Luminosa (R, S, T symbols):**
+- Left side: Three circles with X inside (R, S, T) = 3 Ojos de Buey
+- Right side: Three circles with X inside (R, S, T) = 3 Ojos de Buey
+- Total Ojos de Buey: 6
+
+**Interruptores Motorizados (M circles with manual switch symbols):**
+- S1 area (left): One symbol with "INT. MANUAL MOT." label — this is reference 18 (Interruptor motorizado)
+- S2 area (right): One symbol with "INT. MANUAL MOT." label — reference 18
+- S3 area (center): One symbol with "INT. MANUAL MOT." label — reference 18
+- Total Interruptor motorizado (ref 18): 3
+
+**Multímetro (IM boxes):**
+- Left: 1 "IM" box = Instrumento de medición multifunción (ref 15)
+- Right: 1 "IM" box = ref 15
+- Total: 2
+
+**TTAB symbol (ref 17):** 1 visible box labeled TTAB with reference 17
+
+**GE (Grupo Electrógeno):** Circle labeled GE — not in symbol catalog
+
+**Interruptores Termomagnéticos on the bus outputs:**
+Scanning the bottom section, I count the branch symbols connected to the bus bars. Each branch shows a termomagnetic symbol (X-star + diagonal + stepped shape).
+
+Left bus (JUEGO DE BARRAS DE NORMAL):
+Q04 through Q19 = counting labels: Q04, Q05, Q06, Q07, Q08, Q09, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19 = 16 breakers
+
+Right bus (JUEGO DE BARRAS DE EMERGENCIA):
+Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34 = 15 breakers
+
+Most are labeled "4x100A", "4x125A", "4x160A", "4x32A" etc. — tetrapolar termomagnéticos (ref 2). Some show "4x32A" which are still tetrapolar.
+
+Total Interruptor termomagnético tetrapolar: 31
+
+**Interruptor Diferencial:** Scanning for the oval+rectangle+diagonal pattern — not clearly visible as standalone symbols in this diagram.
+
+**Interruptor enclavado (ref 14):** The S1/S2/S3 motorized interruptors show enclavamiento — but these are mapped to ref 18.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 31
+    },
+    {
+      "material": "Instrumento de medición multifunción.",
+      "cantidad": 2
+    },
+    {
+      "material": "Tablero de transferencia automática.",
+      "cantidad": 1
+    },
+    {
+      "material": "Ojos de buey.",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Centro-derecha, dentro del recuadro del tablero de transferencia, etiquetado como 'GE' con un círculo y texto 'Grupo Electrógeno S= 630 kVA'",
+      "descripcion_visual": "Círculo con texto 'GE' en su interior, representando el Grupo Electrógeno",
+      "motivo": "El símbolo de Grupo Electrógeno no está presente en el catálogo de símbolos proporcionado y no coincide con ningún símbolo del catálogo"
+    },
+    {
+      "material_mas_parecido": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "ubicacion_aproximada": "Zona superior izquierda y superior derecha, sobre las barras de alimentación principal, asociados a S1 y S2 respectivamente",
+      "descripcion_visual": "Símbolos de interruptor con líneas diagonales múltiples (hachuras rojas) sobre los conductores de alimentación principal, indicando secciones de cable o barras protegidas",
+      "motivo": "Las hachuras rojas sobre los conductores parecen indicar barras de cobre protegidas (ref 6) pero no se presentan como símbolos standalone del catálogo; podrían ser notación de cableado"
+    }
+  ]
+}
+```

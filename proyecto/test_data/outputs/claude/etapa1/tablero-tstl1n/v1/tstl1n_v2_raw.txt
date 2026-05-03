@@ -1,0 +1,46 @@
+I'll systematically analyze the electrical diagram, scanning from top-left to bottom-right, identifying symbols by their visual appearance and nearby reference IDs.
+
+**Analysis:**
+
+1. **Reference ID 11 (Interruptor manual)** - Top area, near "Seccionador Manual Bajo Carga 4x80A RST" label. One symbol with reference "11" visible.
+
+2. **Reference ID 5 (Interruptor diferencial)** - Multiple differential interruptor symbols visible across the diagram. I can see ID01 through ID07, each labeled with "2x40A 30mA" and reference "5" near the first one. These are the oval-bottom symbols. Count: 7 (ID01, ID02, ID03, ID04, ID05, ID06, ID07).
+
+3. **Reference ID 6 (Barras de cobre protegidas)** - Reference "6" visible on the left side near the bus bar.
+
+4. **Reference ID 3 (Interruptor termomagnético bipolar)** - Reference "3" visible on the left side. The small interruptor symbols below each differential. Each group has multiple bipolar breakers. Counting the small breaker symbols (with the diagonal line and step pattern):
+   - Under ID01: 3 breakers (TL1-I1, TL1-I2, TL1-I3)
+   - Under ID02: 3 breakers (TL1-I4, TL1-I5, TL1-I6)
+   - Under ID03: 3 breakers (TL1-IE1, TL1-IE2, RE Salida)
+   - Under ID04: 2 breakers (TL1-T1, TL1-T2) + RE RESERVA
+   - Under ID05: 2 breakers (TL1-T3, TL1-T4)
+   - Under ID06: 3 breakers (TL1-TD1, TL1-TD2, TL1-TD3)
+   - Under ID07: 3 breakers (TL1-TD4, TL1-TD5, RE)
+   
+   Total bipolar breakers: 3+3+3+3+2+3+3 = 20... Let me recount carefully. Each group under each differential appears to have 3 breakers. 7 groups × 3 = 21, but some groups show only 2+1 reserve. I count approximately 21 breaker symbols total.
+
+After careful review, each of the 7 sections has 3 breaker symbols = 21 total.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 7
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 21
+    },
+    {
+      "material": "Barras de cobre protegidas.",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": []
+}
+```

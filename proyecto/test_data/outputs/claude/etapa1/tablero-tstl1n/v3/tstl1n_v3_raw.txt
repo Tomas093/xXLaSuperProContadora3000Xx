@@ -1,0 +1,48 @@
+I'll systematically analyze the electrical diagram, scanning from top-left to bottom-right, comparing visible symbols against the catalog.
+
+**Step 1: Identify the main incoming symbol**
+At the top, near reference number **11**, there is a symbol with a diagonal line and a horizontal bar — this matches the **Interruptor Manual** symbol from the catalog. Reference 11 = "Interruptor manual."
+
+**Step 2: Scan the differential interruptor row**
+Moving down, I can see 7 symbols labeled ID01 through ID07, each with reference number **5** nearby. Each has the characteristic shape: a rectangle with a diagonal line and an ellipse at the bottom — matching the **Interruptor Diferencial** catalog symbol. Reference 5 = "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA."
+Count: **7**
+
+**Step 3: Scan the copper bar row**
+Reference number **6** appears near the horizontal bus bar. This is a bar/line, not a standalone symbol from the catalog — skip per rules.
+
+**Step 4: Scan the lower row of breakers**
+Below the differential row, there are multiple symbols with the asterisk/star top and stepped bottom shape — matching the **Interruptor Termomagnetico** catalog symbol. Reference **3** is visible nearby = "Interruptor termomagnético bipolar de 6 KA."
+
+Counting carefully across all 7 groups:
+- Group 1 (ID01 area): 3 breakers (TL1-I1, TL1-I2, TL1-I3)
+- Group 2 (ID02 area): 3 breakers (TL1-I4, TL1-I5, TL1-I6)
+- Group 3 (ID03 area): 3 breakers (TL1-IE1, TL1-IE2, RE Salida)
+- Group 4 (ID04 area): 2 breakers (TL1-T1, TL1-T2)
+- Group 5 (ID05 area): 2 breakers (TL1-T3, TL1-T4)
+- Group 6 (ID06 area): 3 breakers (TL1-TD1, TL1-TD2, TL1-TD3)
+- Group 7 (ID07 area): 3 breakers (TL1-TD4, TL1-TD5, RE)
+
+Total: 3+3+3+2+2+3+3 = **19**
+
+**Step 5: Check for other symbols**
+No Ojo De Buey (circle with X) or Transformador symbols are visible in the diagram.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 7
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 19
+    }
+  ],
+  "simbolos_no_identificados": []
+}
+```

@@ -1,0 +1,24 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 7
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 19
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central del diagrama, conectado a la entrada del interruptor manual.",
+      "descripcion_visual": "Símbolo de acometida o conexión a la red, compuesto por una línea vertical y tres líneas diagonales cortas.",
+      "motivo": "El símbolo no se encuentra en el catálogo de símbolos proporcionado."
+    }
+  ]
+}

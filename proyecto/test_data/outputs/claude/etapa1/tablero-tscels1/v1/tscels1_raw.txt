@@ -1,0 +1,42 @@
+I'll systematically analyze the electrical diagram, scanning from top-left to bottom-right, comparing each symbol against the catalog.
+
+**Analysis:**
+
+**Top section:**
+- Reference ID "11" near a symbol with a diagonal line and T-bar → matches "Interruptor Manual" symbol (diagonal line with horizontal bar). Count: 1
+
+**Middle section (three branches R, S, T):**
+- Each branch has a symbol with a rectangle and oval (ellipse) at bottom → matches "Interruptor Diferencial" symbol (rectangle + oval). Reference ID "5" is near the first one.
+- ID01 (R branch), ID02 (S branch), ID03 (T branch) → 3 × Interruptor Diferencial
+
+**Lower section (6 branches):**
+- Each of the 6 branches has symbols with diagonal lines and step/comb-like bottom → matches "Interruptor Termomagnetico" symbol. Reference ID "3" and "6" are visible near these.
+- Counting: CELS1-I1, CELS1-I2, CELS1-I3, CELS1-I4, CELS1-IE1, CELS1-T1 → 6 × Interruptor Termomagnetico
+
+Also above each Interruptor Diferencial (R, S, T branches) there are small symbols with diagonal line and T-bar (same as Interruptor Manual style) — these appear to be the same type as reference 11. Counting 3 more Interruptor Manual symbols above ID01, ID02, ID03.
+
+Similarly, above each of the 6 lower branches there are small diagonal+T-bar symbols → 6 more Interruptor Manual.
+
+Total Interruptor Manual: 1 (top) + 3 (mid) + 6 (bottom) = 10
+
+No Ojo De Buey or Transformador symbols are visible.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Manual",
+      "cantidad": 10
+    },
+    {
+      "material": "Interruptor Diferencial",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": []
+}
+```

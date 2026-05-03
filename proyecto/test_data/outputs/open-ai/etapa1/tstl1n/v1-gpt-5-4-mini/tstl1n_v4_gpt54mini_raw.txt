@@ -1,0 +1,1 @@
+{"bom":[{"material":"Interruptor Diferencial","cantidad":7},{"material":"Interruptor Manual","cantidad":1}],"simbolos_no_identificados":[]}

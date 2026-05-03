@@ -1,0 +1,38 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 31
+    },
+    {
+      "material": "Instrumento de medición multifunción.",
+      "cantidad": 2
+    },
+    {
+      "material": "Tablero de transferencia automática.",
+      "cantidad": 1
+    },
+    {
+      "material": "Ojos de buey.",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Centro-derecha, dentro del recuadro del tablero de transferencia, etiquetado como 'GE' con un círculo y texto 'Grupo Electrógeno S= 630 kVA'",
+      "descripcion_visual": "Círculo con texto 'GE' en su interior, representando el Grupo Electrógeno",
+      "motivo": "El símbolo de Grupo Electrógeno no está presente en el catálogo de símbolos proporcionado y no coincide con ningún símbolo del catálogo"
+    },
+    {
+      "material_mas_parecido": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "ubicacion_aproximada": "Zona superior izquierda y superior derecha, sobre las barras de alimentación principal, asociados a S1 y S2 respectivamente",
+      "descripcion_visual": "Símbolos de interruptor con líneas diagonales múltiples (hachuras rojas) sobre los conductores de alimentación principal, indicando secciones de cable o barras protegidas",
+      "motivo": "Las hachuras rojas sobre los conductores parecen indicar barras de cobre protegidas (ref 6) pero no se presentan como símbolos standalone del catálogo; podrían ser notación de cableado"
+    }
+  ]
+}

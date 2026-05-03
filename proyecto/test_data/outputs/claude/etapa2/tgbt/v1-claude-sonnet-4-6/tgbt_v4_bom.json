@@ -1,0 +1,17 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 31
+    },
+    {
+      "material": "Ojos de buey.",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": []
+}

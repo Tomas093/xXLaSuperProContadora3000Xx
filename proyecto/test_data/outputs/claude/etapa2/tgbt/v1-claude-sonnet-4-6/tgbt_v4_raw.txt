@@ -1,0 +1,58 @@
+I'll systematically analyze the electrical diagram, scanning from left to right and top to bottom, comparing visible symbols against the provided catalog.
+
+**Zone Analysis:**
+
+**Top section (left side - TGBT):**
+- "INDICACION LUMINOSA" with R, S, T labels and circle-with-X symbols → These are "Ojo De Buey" symbols (circles with X). I can see 3 of them (R, S, T).
+- A square box labeled "IM" (Multímetro/Instrumento de medición) → not in symbol catalog
+- A symbol with "M" in circle and diagonal line → This is an "Interruptor Manual" with motor operator (S1). The manual switch symbol (diagonal line with T-bar) is visible. Reference ID nearby: S1, labeled "INT. MANUAL MOT." → This matches "Interruptor Manual" (ref 11/18).
+- The motorized interruptor symbol with "M" circle on top of the manual switch symbol.
+
+**Top section (right side - TSET):**
+- "INDICACION LUMINOSA" with R, S, T and 3 more "Ojo De Buey" symbols.
+- Another "IM" box.
+- S2 with "M" circle and manual switch → another "Interruptor Manual" motorized.
+- S3 with "M" circle and manual switch → another "Interruptor Manual" motorized.
+- TTAB box (ref 17) → cabinet, not a catalog symbol.
+- GE circle (Grupo Electrógeno) → not in catalog.
+
+**Middle/Bottom section - Bus bars with outgoing feeders:**
+- Multiple symbols along the bus bars. Each outgoing circuit has what appears to be an "Interruptor Termomagnetico" symbol (the asterisk/star top with diagonal line and stepped bottom shape).
+- Left side (TGBT normal bus): Circuits Q4 through Q19 — counting the symbols: Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19 = 16 thermomagnetic interruptors.
+- Right side (emergency bus): Circuits Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34 = 15 thermomagnetic interruptors.
+- Total thermomagnetic: 31
+
+**Ojo De Buey count:**
+- Left INDICACION LUMINOSA: R, S, T = 3
+- Right INDICACION LUMINOSA: R, S, T = 3
+- Total: 6
+
+**Interruptor Manual (motorized):**
+- S1 (left, INT. MANUAL MOT. 4x1250A)
+- S2 (right, INT. MANUAL MOT. 4x800A)
+- S3 (center, INT. MANUAL MOT. 4x800A)
+- Total: 3
+
+**Interruptor Diferencial:** No clear differential interruptor symbols (oval at bottom) are visible in the diagram.
+
+**Transformador:** No transformer symbols visible.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 31
+    },
+    {
+      "material": "Ojos de buey.",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": []
+}
+```
