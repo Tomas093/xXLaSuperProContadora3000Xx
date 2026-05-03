@@ -5,6 +5,8 @@ Do not include explanations.
 Do not include comments.
 Do not include tables.
 
+TASK
+
 Your task is to detect and count electrical symbols in a diagram image using a simple one-to-one mapping:
 
 Each symbol image corresponds to exactly one material.

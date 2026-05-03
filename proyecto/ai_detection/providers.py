@@ -62,6 +62,8 @@ class AIProvider(Protocol):
 class ProviderModelOptions:
     token_limit_parameter: str = "max_tokens"
     supports_temperature: bool = True
+    reasoning_effort: str | None = None
+    response_format: dict[str, Any] | None = None
 
 
 @dataclass
@@ -250,7 +252,7 @@ class OpenAIProvider(BaseVisionProvider):
         *,
         system_prompt: str | list[dict[str, Any]],
         user_content: list[dict[str, Any]],
-        max_tokens: int = 4000,
+        max_tokens: int = 32000,
         temperature: float = 0.0,
         cache_control: dict[str, Any] | None = None,
         betas: list[str] | None = None,
@@ -265,6 +267,8 @@ class OpenAIProvider(BaseVisionProvider):
             provider_options={
                 "token_limit_parameter": self.model_options.token_limit_parameter,
                 "supports_temperature": self.model_options.supports_temperature,
+                "reasoning_effort": self.model_options.reasoning_effort,
+                "response_format": self.model_options.response_format,
             },
         )
         return self._post_json(
@@ -314,7 +318,7 @@ class GeminiProvider(BaseVisionProvider):
         *,
         system_prompt: str | list[dict[str, Any]],
         user_content: list[dict[str, Any]],
-        max_tokens: int = 4000,
+        max_tokens: int = 12000,
         temperature: float = 0.0,
         cache_control: dict[str, Any] | None = None,
         betas: list[str] | None = None,

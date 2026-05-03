@@ -101,12 +101,18 @@ class OpenAIProviderResolver(ProviderResolver):
     PROVIDER_NAMES = ("openai", "chatgpt")
     API_KEY_ENV_NAMES = ("OPENAI_API_KEY", "OPEN_AI_API_KEY")
     DEFAULT_MODEL = "gpt-5.4-mini"
+    GPT_5_CHAT_OPTIONS = ProviderModelOptions(
+        token_limit_parameter="max_completion_tokens",
+        supports_temperature=False,
+        reasoning_effort="low",
+        response_format={"type": "json_object"},
+    )
     MODEL_OPTIONS = {
-        "gpt-5.5-pro": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
-        "gpt-5.5": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
-        "gpt-5.4-pro": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
-        "gpt-5.4": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
-        "gpt-5.4-mini": ProviderModelOptions(token_limit_parameter="max_completion_tokens", supports_temperature=False),
+        "gpt-5.5-pro": GPT_5_CHAT_OPTIONS,
+        "gpt-5.5": GPT_5_CHAT_OPTIONS,
+        "gpt-5.4-pro": GPT_5_CHAT_OPTIONS,
+        "gpt-5.4": GPT_5_CHAT_OPTIONS,
+        "gpt-5.4-mini": GPT_5_CHAT_OPTIONS,
     }
     ACCEPTED_MODELS = (
         "gpt-5.5-pro",

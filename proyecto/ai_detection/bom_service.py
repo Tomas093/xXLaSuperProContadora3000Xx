@@ -5,6 +5,7 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+from .errors import AIProviderError
 from .providers import AIProvider
 
 @dataclass
@@ -28,6 +29,9 @@ class SymbolCatalogEntry:
 
 def parse_json_response(raw_text: str) -> dict[str, Any]:
     cleaned = raw_text.strip()
+    if not cleaned:
+        raise ValueError("The model response was empty; no JSON object could be parsed.")
+
     fenced_match = re.search(r"```(?:json)?\s*(\{.*\}|\[.*\])\s*```", cleaned, flags=re.DOTALL)
     if fenced_match:
         cleaned = fenced_match.group(1).strip()
@@ -44,6 +48,39 @@ def parse_json_response(raw_text: str) -> dict[str, Any]:
         raise ValueError("The model response must decode to a JSON object.")
 
     return parsed
+
+
+def response_debug_summary(response_payload: dict[str, Any]) -> str:
+    usage = response_payload.get("usageMetadata") or response_payload.get("usage") or {}
+    finish_reason = None
+
+    candidates = response_payload.get("candidates", [])
+    if candidates and isinstance(candidates[0], dict):
+        finish_reason = candidates[0].get("finishReason")
+
+    choices = response_payload.get("choices", [])
+    if choices and isinstance(choices[0], dict):
+        finish_reason = choices[0].get("finish_reason") or finish_reason
+
+    return json.dumps(
+        {
+            "finish_reason": finish_reason,
+            "usage": usage,
+        },
+        ensure_ascii=False,
+    )
+
+
+def parse_json_response_from_model(raw_text: str, response_payload: dict[str, Any]) -> dict[str, Any]:
+    try:
+        return parse_json_response(raw_text)
+    except (json.JSONDecodeError, ValueError) as exc:
+        preview = raw_text.strip().replace("\n", "\\n")[:500] or "<empty>"
+        raise AIProviderError(
+            "Model response was not valid JSON. "
+            f"Response preview: {preview}. "
+            f"Response metadata: {response_debug_summary(response_payload)}"
+        ) from exc
 
 
 def normalize_reference_payload(payload: dict[str, Any]) -> dict[str, Any]:
@@ -102,7 +139,7 @@ def extract_reference_table_from_image(
     ]
     response = client.create_message(system_prompt=reference_system_prompt, user_content=content)
     raw_text = client.extract_text(response)
-    return normalize_reference_payload(parse_json_response(raw_text)), raw_text, client.extract_usage(response)
+    return normalize_reference_payload(parse_json_response_from_model(raw_text, response)), raw_text, client.extract_usage(response)
 
 
 def analyze_plan_image(
@@ -190,4 +227,4 @@ def analyze_plan_image(
         betas=betas,
     )
     raw_text = client.extract_text(response)
-    return parse_json_response(raw_text), raw_text, client.extract_usage(response)
+    return parse_json_response_from_model(raw_text, response), raw_text, client.extract_usage(response)

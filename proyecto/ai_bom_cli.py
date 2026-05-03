@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 import argparse
 import csv
 import hashlib
@@ -50,18 +49,27 @@ def load_symbol_images(symbols_dir: Path, catalog_json_text: str) -> list[tuple[
 
 def normalize_bom_payload(payload: dict[str, Any]) -> dict[str, Any]:
     bom = []
+    include_specification = any(
+        isinstance(item, dict) and "especificacion" in item for item in payload.get("bom", [])
+    )
     for item in payload.get("bom", []):
         if not isinstance(item, dict):
             continue
         material = str(item.get("material", "")).strip()
         if not material:
             continue
-        bom.append(
-            {
-                "material": material,
-                "cantidad": int(item.get("cantidad", 0)),
-            }
-        )
+        row = {
+            "material": material,
+            "cantidad": int(item.get("cantidad", 0)),
+        }
+        if include_specification:
+            specification = item.get("especificacion")
+            if specification is None:
+                row["especificacion"] = None
+            else:
+                specification_text = str(specification).strip()
+                row["especificacion"] = specification_text or None
+        bom.append(row)
 
     unidentified = payload.get("simbolos_no_identificados", [])
     if not isinstance(unidentified, list):
@@ -80,16 +88,14 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
 
 def write_bom_csv(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = ["material", "cantidad"]
+    if any(isinstance(item, dict) and "especificacion" in item for item in payload.get("bom", [])):
+        fieldnames = ["material", "especificacion", "cantidad"]
     with path.open("w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=["material", "cantidad"])
+        writer = csv.DictWriter(fh, fieldnames=fieldnames)
         writer.writeheader()
         for item in payload.get("bom", []):
-            writer.writerow(
-                {
-                    "material": item.get("material", ""),
-                    "cantidad": item.get("cantidad", ""),
-                }
-            )
+            writer.writerow({fieldname: item.get(fieldname, "") for fieldname in fieldnames})
 
 
 def pricing_for_model(provider: str, model: str) -> dict[str, float] | None:
