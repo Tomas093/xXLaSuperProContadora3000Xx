@@ -1,0 +1,132 @@
+I'll systematically analyze the electrical diagram, scanning from top-left to bottom-right, identifying symbols by comparing them to the catalog and reference table.
+
+**Zone Analysis:**
+
+**Top area:**
+- Reference "11" near top-center: "Interruptor manual" symbol (Seccionador Manual Bajo Carga) with spec "4x50A"
+- Reference "6" circles visible (Barras de cobre protegidas - but these are not in symbol catalog, will note)
+- "x3" marker near top with what appears to be Ojo De Buey symbols (⊗ symbols) - I see "x3" to the right of what looks like Ojo De Buey symbols
+
+**Left side:**
+- Symbol with "4x20A" - appears to be Interruptor Termomagnético (tetrapolar shape with stepped bottom)
+- Reference "5" circles appear multiple times
+
+**IDSI1, IDSI2, IDSI3 area (center-left):**
+- IDSI1: Interruptor Diferencial symbol with "2x25A / 30mA"
+- IDSI2: Interruptor Diferencial symbol with "2x25A / 30mA"
+- IDSI3: Interruptor Diferencial symbol with "2x40A / 30mA"
+- Below each: Interruptor Termomagnético symbols with "2x25A", "2x25A", "2x40A"
+
+**UPS area:**
+- Interruptor Termomagnético "2x40A" (above UPS)
+- Interruptor Termomagnético "2x40A" (right of UPS)
+- Interruptor Termomagnético "2x40A"
+
+**IDO1-IDO5 area (reference 5 = Interruptor Diferencial):**
+- IDO1: ref 5, "2x40A / 30mA"
+- IDO2: ref 5, "2x40A / 30mA"
+- IDO3: ref 5, "2x40A / 30mA"
+- IDO4: ref 5, "2x40A / 30mA"
+- IDO5: ref 5, "2x40A / 30mA"
+
+**Bottom branch circuits (ref 3 area and multiple 2x10A):**
+- Reference "3" visible once near bottom-center-left
+- Multiple Interruptor Termomagnético symbols with "2x10A" across the bottom
+
+Let me count the 2x10A breakers carefully from left to right:
+TSOA-I1, TSOA-I2, TSOA-I3, TSOA-I4, TSOA-I5, TSOA-I6, TSOA-I7, TSOA-I8, TSOA-I9, TSOA-I10, TSOA-I11, RE RESERVA, TSOA-IE1, TSOA-IE2, RE RESERVA = 15 visible 2x10A symbols
+
+**Ojo De Buey (⊗) symbols:**
+Near top, I see ⊗ x3 marker = 3 Ojo De Buey
+
+**Interruptor Manual (ref 11):**
+- 1 symbol with "4x50A"
+
+Now mapping reference IDs to descriptions:
+- Ref 11 = "Interruptor manual"
+- Ref 5 = "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA."
+- Ref 3 = "Interruptor termomagnético bipolar de 6 KA."
+- Ref 6 = Barras de cobre (not in symbol catalog)
+- Ref 16 = "Ojos de buey"
+
+The ⊗ symbol matches "Ojo De Buey" catalog symbol.
+
+For the Interruptor Diferencial symbols (ref 5): spec "2x40A 30mA" for IDO1-5, and IDSI1 "2x25A 30mA", IDSI2 "2x25A 30mA", IDSI3 "2x40A 30mA"
+
+For Interruptor Termomagnético: "4x20A", "2x25A"(x2), "2x40A"(multiple), "2x10A"(x15)
+
+Let me recount 2x40A termomagnéticos:
+- Left main: 4x20A (1)
+- IDSI area below: 2x25A, 2x25A, 2x40A (3)
+- UPS area: 2x40A above UPS, 2x40A right side, 2x40A (3)
+- Bottom branches with 2x10A: 15
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "especificacion": "4x50A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "2x25A 30mA",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "2x40A 30mA",
+      "cantidad": 6
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "4x20A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x40A",
+      "cantidad": 4
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x10A",
+      "cantidad": 15
+    },
+    {
+      "material": "Ojos de buey.",
+      "especificacion": null,
+      "cantidad": 3
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Barras de cobre protegidas.",
+      "ubicacion_aproximada": "Zona central y derecha, múltiples posiciones a lo largo de las barras horizontales principales",
+      "descripcion_visual": "Círculo con número 6 en su interior, repetido en varias posiciones sobre las barras de distribución",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "El símbolo de referencia 6 (Barras de cobre protegidas) no está incluido en el catálogo de símbolos proporcionado; no se puede confirmar como símbolo standalone del catálogo."
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona central-izquierda, junto al bloque UPS 8kVA",
+      "descripcion_visual": "Rectángulo con texto 'UPS 8kVA' en su interior, conectado a líneas de entrada y salida",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Dispositivo UPS representado como bloque rectangular; no coincide con ningún símbolo del catálogo proporcionado."
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona inferior-izquierda, junto al texto 'PF20' y 'DESCARGADOR DE SOBRETENSION'",
+      "descripcion_visual": "Símbolo verde circular con texto PF20, asociado a descargador de sobretensión",
+      "texto_derecha_posible_especificacion": "DESCARGADOR DE SOBRETENSION",
+      "motivo": "Símbolo de descargador de sobretensión no incluido en el catálogo de símbolos proporcionado."
+    }
+  ]
+}
+```

@@ -1,0 +1,53 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "cantidad": 1,
+      "especificacion": "Seccionador Manual Bajo Carga 4x160A"
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 1,
+      "especificacion": "4x20A"
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 5,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 2,
+      "especificacion": "2x25A"
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 2,
+      "especificacion": "ID01 2x40A 30mA"
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "cantidad": 2,
+      "especificacion": "ID01 2x63A 30mA"
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 5,
+      "especificacion": "2x16A"
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "cantidad": 4,
+      "especificacion": "2x20A"
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Abajo a la izquierda, dentro del recuadro principal, junto al texto PF20 y conectado a la línea verde de puesta a tierra",
+      "descripcion_visual": "Símbolo verde de descargador de sobretensión conectado entre línea y tierra",
+      "texto_derecha_posible_especificacion": "DESCARGADOR DE SOBRETENSION",
+      "motivo": "El símbolo representa un componente eléctrico visible, pero no coincide claramente con ninguno de los símbolos proporcionados en el catálogo"
+    }
+  ]
+}

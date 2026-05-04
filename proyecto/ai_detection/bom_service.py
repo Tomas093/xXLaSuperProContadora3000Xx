@@ -39,15 +39,52 @@ def parse_json_response(raw_text: str) -> dict[str, Any]:
     try:
         parsed = json.loads(cleaned)
     except json.JSONDecodeError:
-        json_match = re.search(r"(\{.*\}|\[.*\])", cleaned, flags=re.DOTALL)
-        if not json_match:
-            raise
-        parsed = json.loads(json_match.group(1))
+        parsed = extract_first_json_object(cleaned)
 
     if not isinstance(parsed, dict):
         raise ValueError("The model response must decode to a JSON object.")
 
     return parsed
+
+
+def extract_first_json_object(text: str) -> dict[str, Any]:
+    for start_index, char in enumerate(text):
+        if char != "{":
+            continue
+
+        depth = 0
+        in_string = False
+        escape_next = False
+
+        for end_index in range(start_index, len(text)):
+            current = text[end_index]
+
+            if in_string:
+                if escape_next:
+                    escape_next = False
+                elif current == "\\":
+                    escape_next = True
+                elif current == '"':
+                    in_string = False
+                continue
+
+            if current == '"':
+                in_string = True
+            elif current == "{":
+                depth += 1
+            elif current == "}":
+                depth -= 1
+                if depth == 0:
+                    candidate = text[start_index : end_index + 1]
+                    try:
+                        parsed = json.loads(candidate)
+                    except json.JSONDecodeError:
+                        break
+                    if isinstance(parsed, dict):
+                        return parsed
+                    break
+
+    raise json.JSONDecodeError("No valid JSON object found", text, 0)
 
 
 def response_debug_summary(response_payload: dict[str, Any]) -> str:
