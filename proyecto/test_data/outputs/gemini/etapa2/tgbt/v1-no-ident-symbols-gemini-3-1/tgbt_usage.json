@@ -1,0 +1,76 @@
+{
+  "provider": "gemini",
+  "model": "gemini-3.1-pro-preview",
+  "prompts": {
+    "plan_system": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa2/v1_no_ident_symbols/plan_system.md",
+      "sha256": "02d3e97c9a6604073dc53011c7b57967e5c8f8dac1885bb65aac3b14a72d8a71"
+    },
+    "plan_user": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa2/v1_no_ident_symbols/plan_user.md",
+      "sha256": "30837f4540df76007934ef1e450f9850490e4a5a6dfa654763f2229a2d8bf29f"
+    },
+    "reference_system": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa2/v1_no_ident_symbols/reference_system.md",
+      "sha256": "ead4ad25474d6ae69fd3c347df482e4371ec23bb573a7925a832e3f0725ade1f"
+    },
+    "reference_user": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa2/v1_no_ident_symbols/reference_user.md",
+      "sha256": "beaf287ccde2ae3266bdde8070a4747f22ea51eeae2337aea91b2da2d2c3e58e"
+    }
+  },
+  "usage": {
+    "reference_extraction": {
+      "input_tokens": 1410,
+      "output_tokens": 1639,
+      "visible_output_tokens": 686,
+      "thinking_tokens": 953,
+      "total_tokens": 3049
+    },
+    "bom_generation": {
+      "input_tokens": 10217,
+      "output_tokens": 11516,
+      "visible_output_tokens": 353,
+      "thinking_tokens": 11163,
+      "total_tokens": 21733
+    },
+    "total": {
+      "input_tokens": 11627,
+      "output_tokens": 13155,
+      "visible_output_tokens": 1039,
+      "thinking_tokens": 12116,
+      "total_tokens": 24782,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 2.0,
+    "output": 12.0,
+    "input_above_200k": 4.0,
+    "output_above_200k": 18.0,
+    "threshold_input_tokens": 200000
+  },
+  "timings_seconds": {
+    "reference_extraction": 13.757,
+    "bom_generation": 94.289,
+    "total": 108.056
+  },
+  "estimated_cost_usd": {
+    "reference_extraction": {
+      "input": 0.00282,
+      "output": 0.019668,
+      "total": 0.022488
+    },
+    "bom_generation": {
+      "input": 0.020434,
+      "output": 0.138192,
+      "total": 0.158626
+    },
+    "total": {
+      "input": 0.023254,
+      "output": 0.15786,
+      "total": 0.181114
+    }
+  }
+}

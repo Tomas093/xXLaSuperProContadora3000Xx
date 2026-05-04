@@ -1,0 +1,83 @@
+{
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-6",
+  "prompts": {
+    "plan_system": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa3/v1-with-specs/plan_system.md",
+      "sha256": "42f19730898cfea60ea1e1d48002b4cb1aa416d3a8bc6da1185e04f6e4b3177b"
+    },
+    "plan_user": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa3/v1-with-specs/plan_user.md",
+      "sha256": "54509340d5424796974a4c84e273d3a1a234d1d0f4f0451454ee68789d24fb6c"
+    },
+    "reference_system": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa3/v1-with-specs/reference_system.md",
+      "sha256": "ead4ad25474d6ae69fd3c347df482e4371ec23bb573a7925a832e3f0725ade1f"
+    },
+    "reference_user": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa3/v1-with-specs/reference_user.md",
+      "sha256": "beaf287ccde2ae3266bdde8070a4747f22ea51eeae2337aea91b2da2d2c3e58e"
+    }
+  },
+  "usage": {
+    "reference_extraction": {
+      "input_tokens": 1737,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 766,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "bom_generation": {
+      "input_tokens": 6714,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1467,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "total": {
+      "input_tokens": 8451,
+      "output_tokens": 2233,
+      "visible_output_tokens": 2233,
+      "thinking_tokens": 0,
+      "total_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 3.0,
+    "output": 15.0
+  },
+  "timings_seconds": {
+    "reference_extraction": 13.629,
+    "bom_generation": 23.632,
+    "total": 37.267
+  },
+  "estimated_cost_usd": {
+    "reference_extraction": {
+      "input": 0.005211,
+      "output": 0.01149,
+      "total": 0.016701
+    },
+    "bom_generation": {
+      "input": 0.020142,
+      "output": 0.022005,
+      "total": 0.042147
+    },
+    "total": {
+      "input": 0.025353,
+      "output": 0.033495,
+      "total": 0.058848
+    }
+  }
+}

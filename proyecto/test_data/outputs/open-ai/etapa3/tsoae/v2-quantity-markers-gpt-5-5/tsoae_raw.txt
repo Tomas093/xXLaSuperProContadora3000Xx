@@ -1,0 +1,65 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "especificacion": "Seccionador Manual Bajo Carga 4x50A",
+      "cantidad": 1
+    },
+    {
+      "material": "Ojos de buey.",
+      "especificacion": null,
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "2x25A 30mA",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "2x40A 30mA",
+      "cantidad": 6
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "especificacion": "4x20A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x40A",
+      "cantidad": 4
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x4A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x10A",
+      "cantidad": 15
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Abajo a la izquierda, dentro del recuadro verde conectado a PE, junto al texto PF20",
+      "descripcion_visual": "Recuadro verde con etiqueta PF20 conectado a línea de puesta a tierra, representando descargador de sobretensión",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Es un dispositivo eléctrico visible, pero no coincide claramente con ninguno de los símbolos del catálogo proporcionado"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona central-izquierda, debajo de la barra superior y junto al texto UPS 8kVA",
+      "descripcion_visual": "Recuadro azul con texto UPS 8kVA conectado a conductores rojos",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Es un equipo eléctrico visible, pero no existe símbolo de UPS en el catálogo proporcionado"
+    }
+  ]
+}

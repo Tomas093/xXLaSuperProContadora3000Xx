@@ -1,0 +1,20 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 31
+    },
+    {
+      "material": "Ojos de buey.",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "ubicacion_aproximada": "Tres instancias: una en la parte superior izquierda (S1), una en la parte superior derecha (S2) y una en la zona central (S3).",
+      "descripcion_visual": "Símbolo compuesto que incluye un interruptor y un círculo con la letra 'M' (motor), asociado a la referencia ID 18.",
+      "motivo": "El símbolo no se encuentra en el catálogo de símbolos proporcionado y, por lo tanto, no puede ser contado en el BOM según las reglas."
+    }
+  ]
+}

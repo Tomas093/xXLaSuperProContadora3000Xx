@@ -1,0 +1,62 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 31
+    },
+    {
+      "material": "Ojos de buey.",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Instrumento de medición multifunción.",
+      "ubicacion_aproximada": "Parte superior izquierda, debajo de la acometida principal y a la izquierda del interruptor con círculo M",
+      "descripcion_visual": "Rectángulo azul con las letras IM en su interior",
+      "motivo": "Es un símbolo de instrumento visible, pero no está presente en el catálogo de símbolos proporcionado"
+    },
+    {
+      "material_mas_parecido": "Instrumento de medición multifunción.",
+      "ubicacion_aproximada": "Parte superior derecha, debajo del texto MULTIMEDIDOR y a la izquierda de la bajada vertical del tablero de emergencia",
+      "descripcion_visual": "Rectángulo azul con las letras IM en su interior",
+      "motivo": "Es un símbolo de instrumento visible, pero no está presente en el catálogo de símbolos proporcionado"
+    },
+    {
+      "material_mas_parecido": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "ubicacion_aproximada": "Parte superior izquierda, sobre la bajada vertical principal, junto al texto INT. MANUAL MOT. 4x250A",
+      "descripcion_visual": "Conjunto azul formado por un interruptor inclinado conectado a un círculo con letra M",
+      "motivo": "El símbolo completo incluye un círculo M y no coincide claramente con el símbolo catalogado de Interruptor Manual; no debe contarse como sub-símbolo parcial"
+    },
+    {
+      "material_mas_parecido": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "ubicacion_aproximada": "Zona central superior, en el enlace vertical entre barras normal y emergencia, junto al texto INT. MANUAL MOT. 4x800A",
+      "descripcion_visual": "Conjunto azul formado por un interruptor inclinado conectado a un círculo con letra M",
+      "motivo": "El símbolo completo incluye un círculo M y no coincide claramente con el símbolo catalogado de Interruptor Manual; no debe contarse como sub-símbolo parcial"
+    },
+    {
+      "material_mas_parecido": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "ubicacion_aproximada": "Parte superior derecha, sobre la bajada vertical del tablero de emergencia, junto al texto INT. MANUAL MOT. 4x800A",
+      "descripcion_visual": "Conjunto azul formado por un interruptor inclinado conectado a un círculo con letra M",
+      "motivo": "El símbolo completo incluye un círculo M y no coincide claramente con el símbolo catalogado de Interruptor Manual; no debe contarse como sub-símbolo parcial"
+    },
+    {
+      "material_mas_parecido": "Tablero de transferencia automática.",
+      "ubicacion_aproximada": "Parte superior derecha, dentro del circuito de alimentación del grupo electrógeno, sobre el texto de grupo electrógeno",
+      "descripcion_visual": "Rectángulo azul con el texto TTAB en su interior",
+      "motivo": "Es un símbolo de tablero visible, pero no está incluido en el catálogo de símbolos proporcionado"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior derecha, al extremo derecho del circuito asociado al grupo electrógeno",
+      "descripcion_visual": "Círculo azul con las letras GE en su interior",
+      "motivo": "Es un símbolo visible de equipo eléctrico, pero no coincide con ninguno de los símbolos del catálogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Distribuidos sobre las barras y acometidas rojas en la parte superior izquierda, centro y parte superior derecha del plano",
+      "descripcion_visual": "Símbolos rojos repetidos formados por varias líneas cortas diagonales paralelas sobre conductores",
+      "motivo": "Parecen símbolos eléctricos de conexión o puesta a tierra, pero no están presentes en el catálogo de símbolos proporcionado"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.5",
+  "prompts": {
+    "plan_system": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa3/v2-with-specs-and-quantity-markers/plan_system.md",
+      "sha256": "f6a48c283d82aad2c45ff415e138a8ca0019ac898c839f4c365d65afcc205159"
+    },
+    "plan_user": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa3/v2-with-specs-and-quantity-markers/plan_user.md",
+      "sha256": "dfa28d53c024a7afe6a4336441cce7d54fa165b51bd64880951b699e45ced741"
+    },
+    "reference_system": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa3/v2-with-specs-and-quantity-markers/reference_system.md",
+      "sha256": "ead4ad25474d6ae69fd3c347df482e4371ec23bb573a7925a832e3f0725ade1f"
+    },
+    "reference_user": {
+      "path": "proyecto/prompts/bom_symbol_count/etapa3/v2-with-specs-and-quantity-markers/reference_user.md",
+      "sha256": "beaf287ccde2ae3266bdde8070a4747f22ea51eeae2337aea91b2da2d2c3e58e"
+    }
+  },
+  "usage": {
+    "reference_extraction": {
+      "input_tokens": 1605,
+      "output_tokens": 423,
+      "total_tokens": 2028
+    },
+    "bom_generation": {
+      "input_tokens": 7551,
+      "output_tokens": 1918,
+      "total_tokens": 9469
+    },
+    "total": {
+      "input_tokens": 9156,
+      "output_tokens": 2341,
+      "visible_output_tokens": 2341,
+      "thinking_tokens": 0,
+      "total_tokens": 11497,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 5.0,
+    "output": 30.0,
+    "cached_input": 0.5,
+    "input_long_context": 10.0,
+    "cached_input_long_context": 1.0,
+    "output_long_context": 45.0
+  },
+  "timings_seconds": {
+    "reference_extraction": 6.531,
+    "bom_generation": 28.679,
+    "total": 35.219
+  },
+  "estimated_cost_usd": {
+    "reference_extraction": {
+      "input": 0.008025,
+      "output": 0.01269,
+      "total": 0.020715
+    },
+    "bom_generation": {
+      "input": 0.037755,
+      "output": 0.05754,
+      "total": 0.095295
+    },
+    "total": {
+      "input": 0.04578,
+      "output": 0.07023,
+      "total": 0.11601
+    }
+  }
+}

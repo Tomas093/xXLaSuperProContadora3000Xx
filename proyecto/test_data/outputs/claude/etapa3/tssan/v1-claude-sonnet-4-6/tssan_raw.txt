@@ -1,0 +1,105 @@
+I'll systematically analyze the electrical diagram, scanning from top-left to bottom-right, comparing visible symbols against the provided catalog.
+
+**Symbol Catalog Recognition:**
+- **Interruptor Diferencial**: Rectangle with diagonal line + oval/ellipse at bottom + X symbol at top
+- **Interruptor Manual**: T-shape (horizontal bar with vertical line) + diagonal line below
+- **Interruptor Termomagnetico**: Asterisk/star symbol at top + diagonal line + stepped/notched shape at bottom
+- **Ojo De Buey**: Circle with X inside
+- **Transformador**: Two overlapping circles with small circles at ends
+
+**Scanning the diagram:**
+
+**Top area - Main incoming:**
+- Symbol with reference (11): "Seccionador Manual Bajo Carga 4x160A" - This matches **Interruptor Manual** catalog symbol (T-shape + diagonal). Specification to right: "4x160A"
+
+**Left branch (4x20A area):**
+- One **Interruptor Termomagnetico** symbol with spec "4x20A"
+
+**Middle-left branches (TSCELS-1, TSCELS-2, TSINFS-1, TSARQS-1, TSESTS-1, TSILTS-1, TSILTS-2):**
+- Each branch has an Interruptor Termomagnetico symbol at top
+- TSCELS-1: "4x40A"
+- TSCELS-2: "4x40A"
+- TSINFS-1: "4x40A"
+- TSARQS-1: "4x40A"
+- TSESTS-1: "4x40A"
+- TSILTS-1: "2x25A"
+- TSILTS-2: "2x25A"
+
+**Right section - 4 groups (R, S, T, R):**
+Each group has:
+- Reference (5): **Interruptor Diferencial** symbol with spec "ID01 2x40A 30mA" or "ID01 2x63A 30mA"
+- Reference (6): **Interruptor Termomagnetico** symbols below
+
+Group R (left):
+- (5) Diferencial: "2x40A 30mA"
+- (6) Two Termomagnéticos: "2x16A", "2x16A", "2x16A"
+
+Group S:
+- (5) Diferencial: "2x63A 30mA"
+- (6) Two Termomagnéticos: "2x20A", "2x20A"
+
+Group T:
+- (5) Diferencial: "2x63A 30mA"
+- (6) Two Termomagnéticos: "2x20A", "2x20A"
+
+Group R (right):
+- (5) Diferencial: "2x40A 30mA"
+- (6) Two Termomagnéticos: "2x16A", "2x16A"
+
+Now mapping reference IDs to reference table:
+- Reference (11) → "Interruptor manual." (ref 11)
+- Reference (5) → "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA." (ref 5)
+- Reference (6) → "Barras de cobre protegidas." (ref 6) — but visually these are Interruptor Termomagnetico symbols
+- The Termomagnetico symbols without reference numbers → ref 2 or 3 based on poles
+
+Looking more carefully: the symbols labeled (6) appear to be Interruptor Termomagnetico (bipolar based on "2x" specs). The reference 6 in the table is "Barras de cobre protegidas" but the visual symbol matches Interruptor Termomagnetico. I'll use the visual symbol match + reference table mapping carefully. Since (6) is near these symbols and ref 6 = "Barras de cobre protegidas", but visually they are termomagnéticos — I'll trust the visual symbol catalog match and use ref 3 (bipolar) for 2x specs.
+
+The upper termomagnéticos (4x and 2x25A) have no reference number visible, matching the catalog symbol.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor manual.",
+      "especificacion": "4x160A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "especificacion": "4x20A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "especificacion": "4x40A",
+      "cantidad": 5
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "2x40A 30mA",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "2x63A 30mA",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x16A",
+      "cantidad": 5
+    },
+    {
+      "material": "Interruptor termomagnético bipolar de 6 KA.",
+      "especificacion": "2x20A",
+      "cantidad": 4
+    }
+  ],
+  "simbolos_no_identificados": []
+}
+```

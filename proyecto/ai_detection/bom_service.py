@@ -5,6 +5,7 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+from .errors import AIProviderError
 from .providers import AIProvider
 
 @dataclass
@@ -28,6 +29,9 @@ class SymbolCatalogEntry:
 
 def parse_json_response(raw_text: str) -> dict[str, Any]:
     cleaned = raw_text.strip()
+    if not cleaned:
+        raise ValueError("The model response was empty; no JSON object could be parsed.")
+
     fenced_match = re.search(r"```(?:json)?\s*(\{.*\}|\[.*\])\s*```", cleaned, flags=re.DOTALL)
     if fenced_match:
         cleaned = fenced_match.group(1).strip()
@@ -35,15 +39,85 @@ def parse_json_response(raw_text: str) -> dict[str, Any]:
     try:
         parsed = json.loads(cleaned)
     except json.JSONDecodeError:
-        json_match = re.search(r"(\{.*\}|\[.*\])", cleaned, flags=re.DOTALL)
-        if not json_match:
-            raise
-        parsed = json.loads(json_match.group(1))
+        parsed = extract_first_json_object(cleaned)
 
     if not isinstance(parsed, dict):
         raise ValueError("The model response must decode to a JSON object.")
 
     return parsed
+
+
+def extract_first_json_object(text: str) -> dict[str, Any]:
+    for start_index, char in enumerate(text):
+        if char != "{":
+            continue
+
+        depth = 0
+        in_string = False
+        escape_next = False
+
+        for end_index in range(start_index, len(text)):
+            current = text[end_index]
+
+            if in_string:
+                if escape_next:
+                    escape_next = False
+                elif current == "\\":
+                    escape_next = True
+                elif current == '"':
+                    in_string = False
+                continue
+
+            if current == '"':
+                in_string = True
+            elif current == "{":
+                depth += 1
+            elif current == "}":
+                depth -= 1
+                if depth == 0:
+                    candidate = text[start_index : end_index + 1]
+                    try:
+                        parsed = json.loads(candidate)
+                    except json.JSONDecodeError:
+                        break
+                    if isinstance(parsed, dict):
+                        return parsed
+                    break
+
+    raise json.JSONDecodeError("No valid JSON object found", text, 0)
+
+
+def response_debug_summary(response_payload: dict[str, Any]) -> str:
+    usage = response_payload.get("usageMetadata") or response_payload.get("usage") or {}
+    finish_reason = None
+
+    candidates = response_payload.get("candidates", [])
+    if candidates and isinstance(candidates[0], dict):
+        finish_reason = candidates[0].get("finishReason")
+
+    choices = response_payload.get("choices", [])
+    if choices and isinstance(choices[0], dict):
+        finish_reason = choices[0].get("finish_reason") or finish_reason
+
+    return json.dumps(
+        {
+            "finish_reason": finish_reason,
+            "usage": usage,
+        },
+        ensure_ascii=False,
+    )
+
+
+def parse_json_response_from_model(raw_text: str, response_payload: dict[str, Any]) -> dict[str, Any]:
+    try:
+        return parse_json_response(raw_text)
+    except (json.JSONDecodeError, ValueError) as exc:
+        preview = raw_text.strip().replace("\n", "\\n")[:500] or "<empty>"
+        raise AIProviderError(
+            "Model response was not valid JSON. "
+            f"Response preview: {preview}. "
+            f"Response metadata: {response_debug_summary(response_payload)}"
+        ) from exc
 
 
 def normalize_reference_payload(payload: dict[str, Any]) -> dict[str, Any]:
@@ -102,7 +176,7 @@ def extract_reference_table_from_image(
     ]
     response = client.create_message(system_prompt=reference_system_prompt, user_content=content)
     raw_text = client.extract_text(response)
-    return normalize_reference_payload(parse_json_response(raw_text)), raw_text, client.extract_usage(response)
+    return normalize_reference_payload(parse_json_response_from_model(raw_text, response)), raw_text, client.extract_usage(response)
 
 
 def analyze_plan_image(
@@ -190,4 +264,4 @@ def analyze_plan_image(
         betas=betas,
     )
     raw_text = client.extract_text(response)
-    return parse_json_response(raw_text), raw_text, client.extract_usage(response)
+    return parse_json_response_from_model(raw_text, response), raw_text, client.extract_usage(response)

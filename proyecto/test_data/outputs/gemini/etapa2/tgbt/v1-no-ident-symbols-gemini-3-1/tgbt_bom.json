@@ -1,0 +1,26 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor termomagnético tetrapolar de 6 KA.",
+      "cantidad": 31
+    },
+    {
+      "material": "Ojo De Buey",
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Interruptor motorizado. (En TSET-1: Con enclavamiento eléctrico y mecánico con Grupo Electrógeno de TGE).",
+      "ubicacion_aproximada": "Parte superior izquierda (S1), centro (S3) y parte superior derecha (S2), sobre las líneas principales de alimentación.",
+      "descripcion_visual": "Símbolo de interruptor con una línea diagonal, una línea vertical y un círculo con la letra 'M' en la parte superior.",
+      "motivo": "No coincide con ningún símbolo del catálogo proporcionado (el catálogo tiene interruptores con 'T' o 'X', no con 'M')."
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "En el extremo inferior de cada una de las 31 líneas de salida (Q04 a Q34).",
+      "descripcion_visual": "Línea vertical que termina en una línea horizontal con líneas más cortas debajo.",
+      "motivo": "Símbolo de puesta a tierra estándar, pero no está incluido en el catálogo de símbolos proporcionado."
+    }
+  ]
+}

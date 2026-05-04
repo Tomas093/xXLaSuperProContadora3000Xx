@@ -82,6 +82,10 @@ class OpenAIMessageAdapter(MessageAdapter):
         }
         if provider_options.get("supports_temperature", True):
             payload["temperature"] = temperature
+        if provider_options.get("reasoning_effort"):
+            payload["reasoning_effort"] = provider_options["reasoning_effort"]
+        if provider_options.get("response_format"):
+            payload["response_format"] = provider_options["response_format"]
         payload[token_limit_key] = max_tokens
         return payload
 
