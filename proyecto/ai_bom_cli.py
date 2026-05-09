@@ -307,6 +307,16 @@ def load_env_file(path: Path) -> None:
 def parse_args() -> argparse.Namespace:
     script_dir = Path(__file__).resolve().parent
     data_dir = script_dir / "test_data"
+    default_symbols_dir = data_dir / "symbols" / "investigacion-1"
+    default_catalog_json = script_dir / "symbol-catalog" / "investigacion_1" / "symbol_catalog.json"
+    default_prompt_dir = (
+        script_dir
+        / "prompts"
+        / "investigacion_1"
+        / "bom_symbol_count"
+        / "etapa1"
+        / "v4_visual_symbols_only"
+    )
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     parser = argparse.ArgumentParser(
@@ -314,15 +324,23 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--diagram-image", required=True, help="Electrical diagram image to analyze.")
     parser.add_argument("--reference-image", default=None, help="Optional reference table image to extract before BOM analysis.")
-    parser.add_argument("--symbols-dir", default=str(data_dir / "symbols"), help="Folder containing catalog symbol images.")
-    parser.add_argument("--catalog-json", default=str(data_dir / "symbol_catalog.json"), help="Symbol catalog JSON path.")
+    parser.add_argument(
+        "--reference-table-has-standard",
+        action="store_true",
+        help=(
+            "Do not pass or extract a reference table. Use the provided symbol catalog JSON and images "
+            "as the standard material source."
+        ),
+    )
+    parser.add_argument("--symbols-dir", default=str(default_symbols_dir), help="Folder containing catalog symbol images.")
+    parser.add_argument("--catalog-json", default=str(default_catalog_json), help="Symbol catalog JSON path.")
     parser.add_argument("--output-json", default=str(data_dir / "outputs" / f"bom_{timestamp}.json"))
     parser.add_argument("--output-csv", default=str(data_dir / "outputs" / f"bom_{timestamp}.csv"))
     parser.add_argument("--raw-output", default=str(data_dir / "outputs" / f"bom_raw_{timestamp}.txt"))
     parser.add_argument("--reference-output-json", default=None)
     parser.add_argument("--reference-raw-output", default=None)
     parser.add_argument("--usage-output", default=str(data_dir / "outputs" / f"bom_usage_{timestamp}.json"))
-    parser.add_argument("--prompt-dir", default=str(script_dir / "prompts" / "bom_symbol_count" / "v4_visual_symbols_only"))
+    parser.add_argument("--prompt-dir", default=str(default_prompt_dir))
     parser.add_argument("--plan-system-prompt-file", default=None)
     parser.add_argument("--plan-user-prompt-file", default=None)
     parser.add_argument("--reference-system-prompt-file", default=None)
@@ -348,6 +366,12 @@ def main() -> None:
     catalog_json_path = Path(args.catalog_json)
     load_env_file(Path(args.env_file))
 
+    if args.reference_table_has_standard and reference_image:
+        raise ValueError(
+            "Do not pass --reference-image when --reference-table-has-standard is enabled. "
+            "In standard mode, provide only --catalog-json and --symbols-dir for the symbol images."
+        )
+
     for required_path in [diagram_image, symbols_dir, catalog_json_path]:
         if not required_path.exists():
             raise FileNotFoundError(f"Required path not found: {required_path}")
@@ -364,7 +388,7 @@ def main() -> None:
     reference_raw_text = ""
     reference_usage: dict[str, Any] | None = None
     reference_elapsed_seconds: float | None = None
-    if reference_image:
+    if reference_image and not args.reference_table_has_standard:
         reference_started_at = time.perf_counter()
         reference_payload, reference_raw_text, reference_usage = extract_reference_table_from_image(
             client,
@@ -384,6 +408,7 @@ def main() -> None:
         reference_payload=reference_payload,
         plan_system_prompt=prompts["plan_system"],
         plan_user_prompt=prompts["plan_user"],
+        reference_table_has_standard=args.reference_table_has_standard,
     )
     bom_elapsed_seconds = time.perf_counter() - bom_started_at
     normalized_payload = normalize_bom_payload(payload)

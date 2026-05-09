@@ -42,11 +42,29 @@ export GEMINI_API_KEY="..."
 ### Defaults
 
 - Default provider: `anthropic`
-- Default prompt folder: `proyecto/prompts/bom_symbol_count/v4_visual_symbols_only`
-- Default symbol folder: `proyecto/test_data/symbols`
-- Default catalog: `proyecto/test_data/symbol_catalog.json`
+- Default prompt folder: `proyecto/prompts/investigacion_1/bom_symbol_count/etapa1/v4_visual_symbols_only`
+- Default symbol folder: `proyecto/test_data/symbols/investigacion-1`
+- Default catalog: `proyecto/symbol-catalog/investigacion_1/symbol_catalog.json`
 
 The CLI sends only symbol images listed in `symbol_catalog.json`. It does not send every PNG in `symbols/`.
+
+### Standard Symbol Catalog Flow
+
+When the reference table belongs to a known standard and its symbols/material names are already represented in a symbol catalog JSON, do not pass the reference table image. Process the plan directly with the catalog JSON and the catalog symbol images:
+
+```bash
+python3 proyecto/ai_bom_cli.py \
+  --env-file ENV/.env \
+  --provider gemini \
+  --model gemini-2.5-pro \
+  --diagram-image ruta/al/plano_dorrego.png \
+  --reference-table-has-standard \
+  --symbols-dir proyecto/test_data/symbols/investigacion_2/dorrego \
+  --catalog-json proyecto/symbol-catalog/investigacion_2/dorrego/symbol_catalog.json \
+  --prompt-dir proyecto/prompts/investigacion_2/v1_different_symbol_catalogs
+```
+
+If the reference table is not from a known standard yet, omit `--reference-table-has-standard` and pass `--reference-image`; the CLI will keep the current flow of extracting the reference table first and then analyzing the plan.
 
 ### Basic Run
 

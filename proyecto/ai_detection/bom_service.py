@@ -189,6 +189,7 @@ def analyze_plan_image(
     plan_system_prompt: str,
     plan_user_prompt: str,
     user_prompt: str = "",
+    reference_table_has_standard: bool = False,
     cache_static_prefix: bool = False,
     cache_ttl: str = "5m",
 ) -> tuple[dict[str, Any], str, dict[str, Any]]:
@@ -202,14 +203,31 @@ def analyze_plan_image(
         if entry.filename and entry.component_name.strip()
     ]
 
+    if reference_table_has_standard:
+        reference_context = {
+            "references": [],
+            "source": "standard_symbol_catalog",
+            "notes": "No reference table image is provided. Use the symbol catalog JSON and symbol images as the source of material names.",
+        }
+        reference_instruction = (
+            "\n\nStandard symbol catalog mode:\n"
+            "- No separate reference table image was provided.\n"
+            "- The symbol catalog JSON and the attached symbol images define the standard material names.\n"
+            "- If a plan symbol matches a catalog image, use that catalog material name directly.\n"
+        )
+    else:
+        reference_context = reference_payload
+        reference_instruction = ""
+
     static_intro_block = {
         "type": "text",
         "text": plan_user_prompt.replace(
             "{reference_table_json}",
-            json.dumps(reference_payload, ensure_ascii=False, indent=2),
+            json.dumps(reference_context, ensure_ascii=False, indent=2),
         )
         + ("\n\nExtra instructions:\n" + user_prompt.strip() if user_prompt.strip() else "")
-        + "\n\nReference table and symbol catalog JSON:\n"
+        + reference_instruction
+        + "\n\nSymbol catalog JSON:\n"
         + json.dumps({"materials": materials}, ensure_ascii=False, indent=2),
     }
 
