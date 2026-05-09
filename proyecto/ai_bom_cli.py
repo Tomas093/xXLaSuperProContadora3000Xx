@@ -266,9 +266,18 @@ def resolve_prompt_files(args: argparse.Namespace) -> dict[str, Path]:
     files = {
         "plan_system": Path(args.plan_system_prompt_file) if args.plan_system_prompt_file else prompt_dir / "plan_system.md",
         "plan_user": Path(args.plan_user_prompt_file) if args.plan_user_prompt_file else prompt_dir / "plan_user.md",
-        "reference_system": Path(args.reference_system_prompt_file) if args.reference_system_prompt_file else prompt_dir / "reference_system.md",
-        "reference_user": Path(args.reference_user_prompt_file) if args.reference_user_prompt_file else prompt_dir / "reference_user.md",
     }
+    if not args.reference_table_has_standard:
+        files.update(
+            {
+                "reference_system": Path(args.reference_system_prompt_file)
+                if args.reference_system_prompt_file
+                else prompt_dir / "reference_system.md",
+                "reference_user": Path(args.reference_user_prompt_file)
+                if args.reference_user_prompt_file
+                else prompt_dir / "reference_user.md",
+            }
+        )
 
     missing = [str(path) for path in files.values() if not path.exists()]
     if missing:

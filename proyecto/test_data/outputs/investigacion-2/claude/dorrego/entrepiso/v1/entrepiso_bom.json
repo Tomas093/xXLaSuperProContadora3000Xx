@@ -1,0 +1,62 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "2x6A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X(0.16-0.25A)"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 6,
+      "especificacion": "2X2.5-4A"
+    },
+    {
+      "material": "Seleccionador Bajo Carga",
+      "cantidad": 8,
+      "especificacion": null
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "cantidad": 8,
+      "especificacion": "6A AC3 S1"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "220/24V 0.5KW"
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, sobre el símbolo INS, junto a la línea de alimentación principal",
+      "descripcion_visual": "Pequeño símbolo circular con X, conectado a línea vertical, con texto LUMINADOR 220V",
+      "texto_derecha_posible_especificacion": "LUMINADOR 220V",
+      "motivo": "No coincide claramente con ningún símbolo del catálogo; parece ser una lámpara o indicador luminoso"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte inferior, debajo de cada columna de salida (8 posiciones + 1 derecha), zona BORNERAS DE SALIDA",
+      "descripcion_visual": "Pequeños símbolos circulares con líneas, marcados con X2, en la fila inferior del tablero",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "No coincide con ningún símbolo del catálogo; parecen ser borneras de salida o terminales, no presentes en el catálogo"
+    },
+    {
+      "material_mas_parecido": "Interruptor Automatico con Caja Modelada",
+      "ubicacion_aproximada": "Zona derecha, debajo del símbolo 2x6A, con etiqueta 6A TAB 2x6A",
+      "descripcion_visual": "Símbolo con X, línea diagonal y barra horizontal, similar al interruptor automático con caja modelada, con texto 6A TAB 2x6A a la derecha",
+      "texto_derecha_posible_especificacion": "6A TAB 2x6A",
+      "motivo": "Visualmente similar al Interruptor Automatico con Caja Modelada pero la especificación TAB sugiere función diferente; se reporta por precaución para revisión"
+    }
+  ]
+}
