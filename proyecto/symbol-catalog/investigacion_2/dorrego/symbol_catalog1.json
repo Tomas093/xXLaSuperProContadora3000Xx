@@ -8,7 +8,7 @@
     "component_name": "Interruptor Automatico con Caja Modelada"
   },
   {
-    "filename": "interruptor_automatico_en_caja_modelada_mas_dif.png",
+    "filename": "interruptor_automatico_en_caja_modelada_+_diferencial.png",
     "component_name": "Interruptor Automatico en Caja Modelada + Diferencial"
   },
   {
@@ -20,15 +20,15 @@
     "component_name": "Transformador"
   },
   {
-    "filename": "interruptor_termomagnetico.png",
+    "filename": "interruptor_termomagnetico1.png",
     "component_name": "Interruptor Termomagnetico"
   },
   {
-    "filename": "seleccionador_bajo_carga_v2.png",
+    "filename": "seleccionador_bajo_carga1.png",
     "component_name": "Seleccionador Bajo Carga"
   },
   {
-    "filename": "seleccionador_bajo_carga_con_fusible.png",
+    "filename": "seleccionador_bajo_carga_con_fusible1.png",
     "component_name": "Seleccionador Bajo Carga con Fusible"
   },
   {

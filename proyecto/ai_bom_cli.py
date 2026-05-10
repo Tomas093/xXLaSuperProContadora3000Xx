@@ -103,6 +103,8 @@ def pricing_for_model(provider: str, model: str) -> dict[str, float] | None:
     normalized_model = model.lower()
 
     match normalized_provider, normalized_model:
+        case "anthropic", model_name if any(opus_version in model_name for opus_version in ["opus-4-7", "opus-4.7", "opus-4-6", "opus-4.6", "opus-4-5", "opus-4.5"]):
+            return {"input": 5.0, "output": 25.0}
         case "anthropic", model_name if "opus" in model_name:
             return {"input": 15.0, "output": 75.0}
         case "anthropic", model_name if "sonnet" in model_name:
@@ -317,7 +319,7 @@ def parse_args() -> argparse.Namespace:
     script_dir = Path(__file__).resolve().parent
     data_dir = script_dir / "test_data"
     default_symbols_dir = data_dir / "symbols" / "investigacion-1"
-    default_catalog_json = script_dir / "symbol-catalog" / "investigacion_1" / "symbol_catalog.json"
+    default_catalog_json = script_dir / "symbol-catalog" / "investigacion_1" / "symbol_catalog1.json"
     default_prompt_dir = (
         script_dir
         / "prompts"
@@ -331,7 +333,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate a symbol-count BOM JSON and CSV from an electrical diagram image."
     )
-    parser.add_argument("--diagram-image", required=True, help="Electrical diagram image to analyze.")
+    parser.add_argument(
+        "--diagram-image",
+        required=True,
+        nargs="+",
+        help="One to five electrical diagram images to analyze as one combined BOM.",
+    )
     parser.add_argument("--reference-image", default=None, help="Optional reference table image to extract before BOM analysis.")
     parser.add_argument(
         "--reference-table-has-standard",
@@ -369,7 +376,9 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     total_started_at = time.perf_counter()
     args = parse_args()
-    diagram_image = Path(args.diagram_image)
+    diagram_images = [Path(image_path) for image_path in args.diagram_image]
+    if not 1 <= len(diagram_images) <= 5:
+        raise ValueError("--diagram-image accepts between 1 and 5 image paths.")
     reference_image = Path(args.reference_image) if args.reference_image else None
     symbols_dir = Path(args.symbols_dir)
     catalog_json_path = Path(args.catalog_json)
@@ -381,7 +390,7 @@ def main() -> None:
             "In standard mode, provide only --catalog-json and --symbols-dir for the symbol images."
         )
 
-    for required_path in [diagram_image, symbols_dir, catalog_json_path]:
+    for required_path in [*diagram_images, symbols_dir, catalog_json_path]:
         if not required_path.exists():
             raise FileNotFoundError(f"Required path not found: {required_path}")
     if reference_image and not reference_image.exists():
@@ -411,7 +420,7 @@ def main() -> None:
     bom_started_at = time.perf_counter()
     payload, raw_text, bom_usage = analyze_plan_image(
         client,
-        plan_images=[(diagram_image.name, read_bytes(diagram_image))],
+        plan_images=[(diagram_image.name, read_bytes(diagram_image)) for diagram_image in diagram_images],
         symbol_images=symbol_images,
         symbol_catalog_entries=catalog_entries,
         reference_payload=reference_payload,

@@ -35,7 +35,7 @@ INPUTS
    - "filename": symbol image associated with that material.
 3. Attached symbol images:
    - Exactly one image per catalog material/symbol.
-
+f
 STANDARD SYMBOL CATALOG USAGE
 
 The symbol catalog is the only source of valid BOM materials.
