@@ -1,0 +1,76 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "INS 4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X0,16-0,25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X2,5-4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "especificacion": "6A AC3 S1",
+      "cantidad": 8
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "TRAFO 220/24V 0,5kW",
+      "cantidad": 1
+    },
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "especificacion": "6A TAB 2x6A",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Interruptor Termomagnetico",
+      "ubicacion_aproximada": "Parte superior central, sobre la entrada de alimentacion, junto al simbolo de luminaria 'LUMINADOR 220V'",
+      "descripcion_visual": "Pequeno simbolo de interruptor con marcas diagonales paralelas (descargador/seccionador)",
+      "texto_derecha_posible_especificacion": "SPM3P",
+      "motivo": "El simbolo no coincide claramente con ningun simbolo standalone del catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona central-izquierda, etiqueta 'COMANDO DESDE BMS' con linea segmentada y simbolo en forma de Y",
+      "descripcion_visual": "Simbolo en forma de Y o triangulo invertido al final de una linea de comando",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "No coincide con ningun simbolo del catalogo provisto"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Fila intermedia, encima de cada guarda motor (8 ocurrencias), marcas con X verde sobre los conductores verticales",
+      "descripcion_visual": "Pequenas X verdes sobre los conductores verticales que bajan desde la barra",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Posibles seccionadores o marcas de conexion que no coinciden claramente como simbolos standalone del catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Fila MOA, ocho contactos auxiliares en linea horizontal etiquetados 'M O A'",
+      "descripcion_visual": "Pequenos simbolos de contacto con tres posiciones (Manual-Off-Automatico)",
+      "texto_derecha_posible_especificacion": "M O A",
+      "motivo": "Selector de tres posiciones que no coincide claramente con simbolos del catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte inferior, ocho bornes de salida etiquetados 'X2' y un 'X2' a la derecha",
+      "descripcion_visual": "Simbolos circulares de bornera de salida",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "Borneras de salida no incluidas en el catalogo de simbolos"
+    }
+  ]
+}

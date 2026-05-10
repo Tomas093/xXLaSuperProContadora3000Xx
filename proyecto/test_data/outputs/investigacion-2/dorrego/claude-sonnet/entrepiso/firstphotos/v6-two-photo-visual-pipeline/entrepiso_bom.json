@@ -1,0 +1,55 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "6A TAB 2x6A"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "220/24V 0,5kW"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X 0,16 - 0,25A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 7,
+      "especificacion": "2X 2,5 - 4A"
+    },
+    {
+      "material": "Seleccionador Bajo Carga",
+      "cantidad": 8,
+      "especificacion": null
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "cantidad": 9,
+      "especificacion": "6A AC3 S1"
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte inferior de cada rama en imagen 2, zona central y derecha, marcados con etiqueta X2",
+      "descripcion_visual": "Circulo con lineas cruzadas internas sobre linea vertical, repetido 9 veces en fila inferior",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "Simbolo de bornera o terminal de salida no presente en el catalogo proporcionado"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona superior izquierda de imagen 2, junto al texto COMANDO DESDE BMS",
+      "descripcion_visual": "Simbolo en forma de Y invertida o flecha hacia abajo sobre linea horizontal punteada",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Simbolo de control o referencia BMS no presente en el catalogo proporcionado"
+    }
+  ]
+}

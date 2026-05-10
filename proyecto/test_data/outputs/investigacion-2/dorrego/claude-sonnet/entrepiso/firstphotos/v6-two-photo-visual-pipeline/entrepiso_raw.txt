@@ -1,0 +1,144 @@
+I'll analyze both plan images systematically through all phases.
+
+**Phase 0: Silent visual catalog binding** (internal)
+
+**Phase 1-3: Image setup and zone scanning**
+
+Image 1 (parte-alta.png): Top section of panel
+Image 2 (parte-baja-entrepiso.png): Bottom section of panel - different region, no overlap
+
+**Phase 4-6: Candidate extraction, catalog matching, and specification reading**
+
+**Image 1 analysis:**
+
+Top-center: One symbol with diagonal stroke + X mark + small circle at bottom = **Interruptor Termomagnetico**, spec "4x40A" (labeled "INS 4x40A")
+
+Top-right: One symbol with diagonal stroke + X mark + small circle = **Interruptor Termomagnetico**, spec "2x6A"
+
+Right side: One symbol with two overlapping circles in a rectangle = **Transformador**, spec "220/24V 0,5kW" (labeled "TRAFO 220/24V 0,5kW")
+
+Middle row (left to right) - symbols with X mark + diagonal stroke + small circle + grid box below (I > symbols):
+These have the X mark and diagonal stroke with circle = **Interruptor Termomagnetico** pattern, BUT they also have the grid/box structure below with "I >" = **Guarda Motor** pattern.
+
+Looking carefully: Each branch has:
+1. An X + diagonal stroke + circle (upper part) = Interruptor Termomagnetico
+2. A grid box with "I >" below = Guarda Motor lower section
+
+The Guarda Motor catalog image shows: X mark (upper right), diagonal stroke with circle, grid boxes (left), and "I >" box (bottom). This matches the complete assembly per branch.
+
+Counting branches in image 1: I count 9 complete branch assemblies (each with Guarda Motor symbol). Specs visible:
+- Branch 1: "2X 0,16 - 0,25A"
+- Branch 2: "2X 0,16 - 0,25A"
+- Branch 3: "2X 2,5 - 4A"
+- Branch 4: "2X 2,5 - 4A"
+- Branch 5: "2X 2,5 - 4A"
+- Branch 6: "2X 2,5 - 4A"
+- Branch 7: "2X 2,5 - 4A"
+- Branch 8: "2X 2,5 - 4A"
+- Branch 9 (rightmost before TRAFO): "2X 2,5 - 4A"
+
+Wait - re-examining: branches 1-2 have "2X 0,16-0,25A" and branches 3-9 have "2X 2,5-4A". That's 2 + 7 = 9 Guarda Motor symbols.
+
+**Image 2 analysis (parte-baja-entrepiso.png):**
+
+This shows the lower section. I see:
+- "MOA" labels with small circles at top of each branch = Seleccionador Bajo Carga symbols (circle on line)
+- Below each MOA: a symbol with a square with diagonal line + diagonal stroke = **Seleccionador Contactor** with spec "6A AC3 S1"
+- Bottom row: "X2" markers with circle symbols
+
+The MOA symbols: small circle on a line = these match **Seleccionador Bajo Carga** (circle at top, diagonal stroke, circle at bottom). Counting MOA symbols: 8 visible in image 2, plus 1 on far right = 9 total. But the far right one has spec "6A TAB 2x6A".
+
+Wait - the MOA symbols show just a small circle on a line (selector switch). Looking at catalog: Seleccionador Bajo Carga has circle at top, diagonal bar with H-shape, circle at bottom. The MOA symbols here show just a small circle = these may be simpler.
+
+Re-examining: The MOA items show a circle on a vertical line with a diagonal stroke below = **Interruptor Diferencial** pattern (circle at top, diagonal stroke, circle at bottom, rectangle box). 
+
+Actually the MOA symbols: small filled/open circle at top of branch line. These are selector/switch symbols. Comparing carefully to catalog - they match **Seleccionador Bajo Carga** (two circles with diagonal bar).
+
+The contactor symbols (square with diagonal + diagonal stroke): match **Seleccionador Contactor** catalog image.
+
+Counting in image 2:
+- MOA (Seleccionador Bajo Carga): 8 in main row + 1 far right = 9, spec for main 8 = null (MOA label only), far right has "6A TAB 2x6A"
+- Seleccionador Contactor: 8 in main row with "6A AC3 S1" + 1 far right with "6A AC3 S1" = 9 total
+- Bottom X2 circles: 9 visible - these look like terminal/bornera symbols, not in catalog
+
+The far-right branch in image 2 has a **Interruptor Termomagnetico** symbol (diagonal + X + circle) with spec "6A TAB 2x6A".
+
+**Phase 8-9: Deduplication**
+
+Image 1 top-right Interruptor Termomagnetico "2x6A" and image 2 far-right "6A TAB 2x6A" - checking if same physical device. Image 1 shows "2x6A" at top right. Image 2 shows "6A TAB 2x6A" at far right with its own branch. These appear to be the same physical device viewed in both images. I'll use image 2's more complete spec: "6A TAB 2x6A".
+
+The bottom X2 circle symbols - these appear to be bornera/terminal symbols, not matching any catalog symbol clearly.
+
+**Phase 10: Unknown symbol audit**
+
+The "X2" + circle symbols at bottom of image 2 = bornera de salida terminals, not in catalog → simbolos_no_identificados.
+
+The small "Y" symbol in image 2 top-left = not in catalog → simbolos_no_identificados.
+
+**Final BOM compilation:**
+
+- Interruptor Termomagnetico "4x40A": 1 (image 1 top center)
+- Interruptor Termomagnetico "2x6A" / "6A TAB 2x6A": 1 (same device, use fuller spec from image 2)
+- Transformador "220/24V 0,5kW": 1
+- Guarda Motor "2X 0,16 - 0,25A": 2
+- Guarda Motor "2X 2,5 - 4A": 7
+- Seleccionador Bajo Carga (MOA): 8 main branches (no spec beyond MOA label)
+- Seleccionador Contactor "6A AC3 S1": 9
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "6A TAB 2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "220/24V 0,5kW",
+      "cantidad": 1
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 0,16 - 0,25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 2,5 - 4A",
+      "cantidad": 7
+    },
+    {
+      "material": "Seleccionador Bajo Carga",
+      "especificacion": null,
+      "cantidad": 8
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "especificacion": "6A AC3 S1",
+      "cantidad": 9
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte inferior de cada rama en imagen 2, zona central y derecha, marcados con etiqueta X2",
+      "descripcion_visual": "Circulo con lineas cruzadas internas sobre linea vertical, repetido 9 veces en fila inferior",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "Simbolo de bornera o terminal de salida no presente en el catalogo proporcionado"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona superior izquierda de imagen 2, junto al texto COMANDO DESDE BMS",
+      "descripcion_visual": "Simbolo en forma de Y invertida o flecha hacia abajo sobre linea horizontal punteada",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Simbolo de control o referencia BMS no presente en el catalogo proporcionado"
+    }
+  ]
+}
+```

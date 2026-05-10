@@ -1,0 +1,55 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "2x6A"
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "6A TAB 2x6A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X(0,16-0,25A)"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 6,
+      "especificacion": "2X2,5-4A"
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "cantidad": 8,
+      "especificacion": "6A AC3 S1"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "220/24V 0,5KW"
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, encima del interruptor principal INS, conectado a la línea de alimentación",
+      "descripcion_visual": "Pequeño símbolo circular con X encima y texto a la derecha, posiblemente un elemento de señalización o luminaria",
+      "texto_derecha_posible_especificacion": "LLUMADOR 220V",
+      "motivo": "No coincide claramente con ningún símbolo del catálogo proporcionado"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Fila inferior del diagrama, debajo de cada contactor (8 ocurrencias) y una adicional a la derecha",
+      "descripcion_visual": "Símbolo con forma de círculo o terminal marcado como X2, aparece repetido 9 veces en la fila de borneras de salida",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "No coincide con ningún símbolo del catálogo; parece ser un símbolo de bornera o terminal de salida no incluido en el catálogo"
+    }
+  ]
+}

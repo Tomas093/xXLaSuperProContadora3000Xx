@@ -1,0 +1,35 @@
+{
+  "bom": [
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X 0,16 - 0,25A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 6,
+      "especificacion": "2X 2,5 - 4A"
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "cantidad": 8,
+      "especificacion": "6A AC3 S1"
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "2x6A"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "TRAFO 220/24V 0,5kW"
+    }
+  ],
+  "simbolos_no_identificados": []
+}

@@ -1,0 +1,60 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "2x6A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X(0,16-0,25A)"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 6,
+      "especificacion": "2X2,5-4A"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "220/24V 0,5kW"
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "cantidad": 8,
+      "especificacion": null
+    },
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "cantidad": 8,
+      "especificacion": "6A AC3 S1"
+    },
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "cantidad": 1,
+      "especificacion": "6A TAB 2x6A"
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, justo encima del interruptor principal INS 4x40A",
+      "descripcion_visual": "Pequeño símbolo circular con X encima y texto, conectado a la línea de alimentación principal",
+      "texto_derecha_posible_especificacion": "LLAMADOR 220V",
+      "motivo": "No coincide claramente con ningún símbolo del catálogo; parece ser un dispositivo de señalización o luminoso"
+    },
+    {
+      "material_mas_parecido": "Interruptor Termomagnetico",
+      "ubicacion_aproximada": "Zona superior, múltiples posiciones a lo largo de la barra horizontal, encima de cada columna de Guarda Motor",
+      "descripcion_visual": "Líneas diagonales paralelas cortas (marcas de conductor/alimentador) sobre cada rama vertical",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Son marcas de conductor o alimentador trifásico, no símbolos standalone del catálogo"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+I'll systematically analyze this electrical diagram by first reviewing the symbol catalog, then scanning the diagram zone by zone.
+
+## Symbol Catalog Recognition
+
+- **Guarda Motor**: Diagonal thick line with X mark above, circle at bottom, plus a grid/box structure with terminal symbol
+- **Interruptor Automatico con Caja Modelada**: Diagonal thick line with X mark above, circle at bottom (no box, no extra circle at top)
+- **Interruptor Automatico en Caja Modelada + Diferencial**: Diagonal thick line with X, circle at bottom, rectangle box on side, ellipse below
+- **Interruptor Diferencial**: Diagonal thick line with circle at bottom, small circle at top, rectangle box on side, ellipse below
+- **Transformador**: Two overlapping circles inside a dashed rectangle
+- **Interruptor Termomagnetico**: Diagonal thick line with X above, circle at bottom, arrow and step/thermal symbol on the side
+- **Seleccionador Bajo Carga**: Diagonal thick line, two circles (top and bottom), H-like bracket on side
+- **Seleccionador Bajo Carga con Fusible**: Diagonal thick line through a rectangle, two circles (top and bottom)
+- **Seleccionador Contactor**: Diagonal thick line, two circles, square with diagonal line on side
+
+## Diagram Scanning
+
+### Top Center
+- One symbol with X mark and diagonal line, circle at bottom, with "INS 4x40A" to the right → **Interruptor Termomagnetico**, spec: "4x40A"
+
+### Top Right
+- One symbol with X mark and diagonal line, circle at bottom, with "2x6A" to the right → **Interruptor Termomagnetico**, spec: "2x6A"
+
+### Center - Main Row (8 columns, left to right)
+Each column has a Guarda Motor symbol (diagonal line with X, circle, grid box with terminal). Let me count carefully:
+
+Columns 1-2: specs "2X(0,16-0,25A)" each
+Columns 3-8: specs "2X2,5-4A" each
+
+Looking more carefully at these symbols - they have the grid/box structure with "I >" text inside, which matches **Guarda Motor**.
+
+- Column 1: Guarda Motor, "2X(0,16-0,25A)"
+- Column 2: Guarda Motor, "2X(0,16-0,25A)"
+- Column 3: Guarda Motor, "2X2,5-4A"
+- Column 4: Guarda Motor, "2X2,5-4A"
+- Column 5: Guarda Motor, "2X2,5-4A"
+- Column 6: Guarda Motor, "2X2,5-4A"
+- Column 7: Guarda Motor, "2X2,5-4A"
+- Column 8: Guarda Motor, "2X2,5-4A"
+
+### Center-Right: Transformador
+One symbol with two overlapping circles → **Transformador**, spec: "220/24V 0,5kW"
+
+### Lower Section - Seleccionador Contactor (MOA row)
+8 symbols in the MOA row - diagonal line with two circles and a square with diagonal → **Seleccionador Contactor**, 8 occurrences, no right-side spec visible per symbol
+
+### Lower Section - Bottom row (8 columns)
+Each has a symbol with diagonal line through rectangle (two circles) → **Seleccionador Bajo Carga con Fusible**, with "6A AC3 S1" to the right of each.
+
+Count: 8 occurrences, spec "6A AC3 S1"
+
+### Bottom Right
+One symbol with "6A TAB 2x6A" → **Seleccionador Bajo Carga con Fusible**, spec: "6A TAB 2x6A"
+
+### Top - Conductor marks (diagonal lines with parallel marks)
+Multiple conductor/feeder marks visible - these are wire/conductor symbols, not in catalog.
+
+### Top symbol (very top center)
+Small symbol at very top with "LLAMADOR 220V" - appears to be a different device, not clearly matching catalog.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X(0,16-0,25A)",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X2,5-4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "220/24V 0,5kW",
+      "cantidad": 1
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "especificacion": null,
+      "cantidad": 8
+    },
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "especificacion": "6A AC3 S1",
+      "cantidad": 8
+    },
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "especificacion": "6A TAB 2x6A",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, justo encima del interruptor principal INS 4x40A",
+      "descripcion_visual": "Pequeño símbolo circular con X encima y texto, conectado a la línea de alimentación principal",
+      "texto_derecha_posible_especificacion": "LLAMADOR 220V",
+      "motivo": "No coincide claramente con ningún símbolo del catálogo; parece ser un dispositivo de señalización o luminoso"
+    },
+    {
+      "material_mas_parecido": "Interruptor Termomagnetico",
+      "ubicacion_aproximada": "Zona superior, múltiples posiciones a lo largo de la barra horizontal, encima de cada columna de Guarda Motor",
+      "descripcion_visual": "Líneas diagonales paralelas cortas (marcas de conductor/alimentador) sobre cada rama vertical",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Son marcas de conductor o alimentador trifásico, no símbolos standalone del catálogo"
+    }
+  ]
+}
+```

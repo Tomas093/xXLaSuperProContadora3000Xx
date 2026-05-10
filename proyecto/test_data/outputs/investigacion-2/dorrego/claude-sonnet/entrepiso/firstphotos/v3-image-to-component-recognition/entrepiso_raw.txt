@@ -1,0 +1,119 @@
+I'll systematically analyze this electrical diagram by first building the catalog recognition map, then scanning zone by zone.
+
+## Catalog Recognition Map
+
+- **Guarda Motor**: diagonal thick stroke + X mark + small circle at bottom + grid of squares (3x2) to the left + bottom box with I> symbol
+- **Interruptor Automatico con Caja Modelada**: diagonal thick stroke + X mark + small circle at bottom (no box, no extra circle)
+- **Interruptor Automatico en Caja Modelada + Diferencial**: diagonal thick stroke + X mark + small circle + rectangle box to left + ellipse at bottom
+- **Interruptor Diferencial**: diagonal thick stroke + two circles (one at top, one at bottom) + rectangle box to left + ellipse at bottom
+- **Transformador**: two overlapping circles (figure-8) inside dashed rectangle
+- **Interruptor Termomagnetico**: diagonal thick stroke + X mark + small circle + arrow pointing left with step symbol
+- **Seleccionador Bajo Carga**: diagonal thick stroke + two circles + H-like bracket symbol (no rectangle)
+- **Seleccionador Bajo Carga con Fusible**: diagonal thick stroke + two circles + rectangle enclosing the stroke
+- **Seleccionador Contactor**: diagonal thick stroke + two circles + square with diagonal line inside
+
+## Zone-by-Zone Scan
+
+### Top-center area
+- **INS symbol**: diagonal stroke + X mark + small circle at bottom, with "4x40A" to the right → matches **Interruptor Automatico con Caja Modelada**, spec: "4x40A"
+
+### Top-right area
+- Symbol with diagonal stroke + X mark + small circle, spec "2x6A" to the right → matches **Interruptor Automatico con Caja Modelada**, spec: "2x6A"
+
+### Top-right area (lower)
+- Symbol with diagonal stroke + X mark + small circle, spec "6A TAB 2x6A" to the right → matches **Interruptor Automatico con Caja Modelada**, spec: "6A TAB 2x6A"
+
+### Top area (luminaire feed)
+- Small symbol at very top with "LUMINADOR 220V" text — appears to be a small cross/lamp symbol, not matching catalog clearly → unidentified
+
+### Main branch row (8 branches, left to right)
+Each branch has:
+1. A **Guarda Motor** symbol (diagonal stroke + X + circle + grid squares + I> box) — I can count 8 of these across the main branch row
+   - Branches 1-2: spec "2X(0.16-0.25A)" visible
+   - Branches 3-8: spec "2X2.5-4A" visible
+
+Let me count carefully:
+- Branch 1: Guarda Motor, spec "2X(0.16-0.25A)"
+- Branch 2: Guarda Motor, spec "2X(0.16-0.25A)"
+- Branch 3: Guarda Motor, spec "2X2.5-4A"
+- Branch 4: Guarda Motor, spec "2X2.5-4A"
+- Branch 5: Guarda Motor, spec "2X2.5-4A"
+- Branch 6: Guarda Motor, spec "2X2.5-4A"
+- Branch 7: Guarda Motor, spec "2X2.5-4A"
+- Branch 8: Guarda Motor, spec "2X2.5-4A"
+
+### MOA row (8 branches)
+Each branch shows "MOA" label with a **Seleccionador Contactor** symbol (diagonal stroke + two circles + square with diagonal) — 8 visible occurrences, spec "6A AC3 S1" to the right of each
+
+### Bottom row (Seleccionador Contactor with X2 markers)
+Each branch bottom shows a symbol with "X2" marker — these appear to be the borneras/terminal symbols, not matching catalog clearly.
+
+### Transformador (top-right)
+- Two overlapping circles inside dashed rectangle, spec "220/24V 0.5KW" → **Transformador**, spec: "220/24V 0.5KW"
+
+### Re-examining MOA symbols
+The MOA symbols show a diagonal stroke + two circles + a square with diagonal line → matches **Seleccionador Contactor**. Spec to right: "6A AC3 S1". Count: 8 occurrences.
+
+### Bottom X2 symbols
+These appear to be terminal/bornera symbols — not matching any catalog symbol clearly → unidentified.
+
+### Top feed symbols (diagonal marks on busbars)
+The small diagonal marks on the busbar connections (hash marks) appear to be conductor/phase indicators, not standalone catalog symbols.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "especificacion": "4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "especificacion": "6A TAB 2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X(0.16-0.25A)",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X2.5-4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "especificacion": "6A AC3 S1",
+      "cantidad": 8
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "220/24V 0.5KW",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, en la alimentacion principal antes del interruptor INS, con texto LUMINADOR 220V",
+      "descripcion_visual": "Pequeno simbolo circular con X, conectado a linea de alimentacion superior",
+      "texto_derecha_posible_especificacion": "LUMINADOR 220V",
+      "motivo": "No coincide claramente con ningun simbolo del catalogo; podria ser un simbolo de lampara o medidor no incluido en el catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Fila inferior de cada una de las 8 ramas y rama derecha, marcados con X2, zona de borneras de salida",
+      "descripcion_visual": "Simbolo circular pequeño con lineas, repetido 9 veces en la fila inferior con marcador X2 a la derecha",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "No coincide claramente con ningun simbolo del catalogo proporcionado; parece ser un simbolo de bornera o terminal de salida"
+    }
+  ]
+}
+```

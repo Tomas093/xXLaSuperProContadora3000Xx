@@ -1,0 +1,55 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "2x6A"
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 1,
+      "especificacion": "6A TAB 2x6A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X(0.16-0.25A)"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 6,
+      "especificacion": "2X2.5-4A"
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "cantidad": 8,
+      "especificacion": "6A AC3 S1"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "220/24V 0.5KW"
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, en la alimentacion principal antes del interruptor INS, con texto LUMINADOR 220V",
+      "descripcion_visual": "Pequeno simbolo circular con X, conectado a linea de alimentacion superior",
+      "texto_derecha_posible_especificacion": "LUMINADOR 220V",
+      "motivo": "No coincide claramente con ningun simbolo del catalogo; podria ser un simbolo de lampara o medidor no incluido en el catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Fila inferior de cada una de las 8 ramas y rama derecha, marcados con X2, zona de borneras de salida",
+      "descripcion_visual": "Simbolo circular pequeño con lineas, repetido 9 veces en la fila inferior con marcador X2 a la derecha",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "No coincide claramente con ningun simbolo del catalogo proporcionado; parece ser un simbolo de bornera o terminal de salida"
+    }
+  ]
+}

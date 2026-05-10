@@ -1,0 +1,102 @@
+I'll systematically analyze the electrical diagram, scanning from top-left to bottom-right, comparing each symbol against the catalog images.
+
+**Zone Analysis:**
+
+**Top-center:** Symbol at top with "INS 4x40A" to the right — this has a diagonal stroke with a small horizontal bar and circle at bottom, matching "Interruptor Termomagnetico" catalog image (T-bar with arrow detail, X mark above, circle at bottom). Wait — looking more carefully, it has a horizontal bar crossing the diagonal stroke but no arrow/step detail. It matches "Seleccionador Bajo Carga" (two circles, H-bar on diagonal). Actually comparing carefully: the INS symbol shows a diagonal line with a small perpendicular bar and circle at bottom, with X above — this matches "Interruptor Automatico con Caja Modelada" (X mark + diagonal stroke + circle at bottom).
+
+**Top-right area:** Symbol with "2x6A" to the right — same shape as INS symbol (X + diagonal + circle), matches "Interruptor Automatico con Caja Modelada".
+
+**Right side middle:** Transformer symbol (two overlapping circles in rectangle) with "TRAFO 220/24V 0,5KW" — matches "Transformador".
+
+**Right side lower:** Symbol with "6A TAB 2x6A" — matches "Interruptor Automatico con Caja Modelada".
+
+**Main branch row (8 branches, left to right):** Each branch has:
+1. A symbol with X mark + diagonal + circle at bottom + small grid/box below = "Guarda Motor" (has the grid box with I> below, plus X and diagonal with circle). The guarda motor catalog image shows: T-bar horizontal, X mark, diagonal stroke with circle, and a box with I> symbol. Yes — each of the 8 branches has this Guarda Motor symbol.
+
+Specifications to the right of each Guarda Motor:
+- Branch 1: "2X(0,16-0,25A)"
+- Branch 2: "2X(0,16-0,25A)"
+- Branch 3: "2X2,5-4A"
+- Branch 4: "2X2,5-4A"
+- Branch 5: "2X2,5-4A"
+- Branch 6: "2X2,5-4A"
+- Branch 7: "2X2,5-4A"
+- Branch 8: "2X2,5-4A"
+
+**Lower section — Seleccionador Contactor (MOA row):** Each branch shows a symbol with a box containing diagonal line (square with diagonal) + diagonal stroke + circle = matches "Seleccionador Contactor". There are 8 of these with "6A AC3 S1" to the right. Plus 1 on the right side area.
+
+**Bottom row — X2 symbols:** These appear to be terminal/borner symbols, not in catalog → unidentified.
+
+**Counting Guarda Motor:**
+- "2X(0,16-0,25A)": branches 1, 2 → 2
+- "2X2,5-4A": branches 3-8 → 6
+
+**Counting Seleccionador Contactor:**
+- 8 in main branches with "6A AC3 S1"
+
+**Counting Interruptor Automatico con Caja Modelada:**
+- INS "4x40A": 1
+- "2x6A" top-right: 1
+- "6A TAB 2x6A" right: 1
+
+**Bottom X2 symbols:** Not in catalog → unidentified.
+
+**Top luminary symbol:** Small symbol at very top with "LLUMADOR 220V" — not clearly matching catalog → unidentified.
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "especificacion": "4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "especificacion": "6A TAB 2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X(0,16-0,25A)",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X2,5-4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "especificacion": "6A AC3 S1",
+      "cantidad": 8
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "220/24V 0,5KW",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, encima del interruptor principal INS, conectado a la línea de alimentación",
+      "descripcion_visual": "Pequeño símbolo circular con X encima y texto a la derecha, posiblemente un elemento de señalización o luminaria",
+      "texto_derecha_posible_especificacion": "LLUMADOR 220V",
+      "motivo": "No coincide claramente con ningún símbolo del catálogo proporcionado"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Fila inferior del diagrama, debajo de cada contactor (8 ocurrencias) y una adicional a la derecha",
+      "descripcion_visual": "Símbolo con forma de círculo o terminal marcado como X2, aparece repetido 9 veces en la fila de borneras de salida",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "No coincide con ningún símbolo del catálogo; parece ser un símbolo de bornera o terminal de salida no incluido en el catálogo"
+    }
+  ]
+}
+```

@@ -1,0 +1,69 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "INS 4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2x0,16-0,25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2x2,5-4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "especificacion": "6A AC3 S1",
+      "cantidad": 8
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "TRAFO 220/24V 0,5kW",
+      "cantidad": 1
+    },
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "especificacion": "6A TAB 2x6A",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, encima del interruptor INS 4x40A",
+      "descripcion_visual": "Simbolo de luminaria/lampara con circulo y X, etiqueta SPM3P y LUMINADOR 220V",
+      "texto_derecha_posible_especificacion": "SPM3P / LUMINADOR 220V",
+      "motivo": "El simbolo de luminaria/protector de sobretension no coincide con ningun simbolo del catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Fila superior horizontal, sobre cada una de las 8 ramas verticales de salida",
+      "descripcion_visual": "Pequenos simbolos de fusible/seccionador con trazos diagonales sobre cada rama",
+      "texto_derecha_posible_especificacion": null,
+      "motivo": "Simbolos no coinciden con ninguno del catalogo provisto"
+    },
+    {
+      "material_mas_parecido": "Seleccionador Contactor",
+      "ubicacion_aproximada": "Zona media-inferior, sobre cada una de las 8 ramas, etiquetados M O A",
+      "descripcion_visual": "Simbolo de selector rotativo de tres posiciones M-O-A",
+      "texto_derecha_posible_especificacion": "M O A",
+      "motivo": "Selector M-O-A de tres posiciones no coincide claramente con simbolo del catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte inferior, sobre cada rama de salida, etiquetados X2",
+      "descripcion_visual": "Simbolo de borneras de salida con circulos",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "Borneras/terminales de salida no estan en el catalogo de simbolos"
+    }
+  ]
+}
