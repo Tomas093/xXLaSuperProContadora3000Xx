@@ -1,0 +1,92 @@
+{
+  "method": "Local estimate: Anthropic image tokens approx ceil(width*height/750), text/catalog overhead approx chars/4. Real API usage may differ.",
+  "symbols": [
+    {
+      "file": "proyecto/test_data/symbols/investigacion_2/dorrego/guarda_motor.png",
+      "component": "Guarda Motor",
+      "width": 459,
+      "height": 911,
+      "pixels": 418149,
+      "image_tokens_estimate": 558,
+      "text_catalog_overhead_tokens_estimate": 49,
+      "total_added_input_tokens_estimate": 607,
+      "sonnet_added_input_cost_usd": 0.001821,
+      "opus_added_input_cost_usd": 0.003035
+    },
+    {
+      "file": "proyecto/test_data/symbols/investigacion_2/dorrego/interruptor_diferencial.png",
+      "component": "Interruptor Diferencial",
+      "width": 475,
+      "height": 896,
+      "pixels": 425600,
+      "image_tokens_estimate": 568,
+      "text_catalog_overhead_tokens_estimate": 60,
+      "total_added_input_tokens_estimate": 628,
+      "sonnet_added_input_cost_usd": 0.001884,
+      "opus_added_input_cost_usd": 0.00314
+    }
+  ],
+  "average_added_input_tokens_per_symbol": 617.5,
+  "scale_projection": [
+    {
+      "symbols_added": 1,
+      "estimated_added_input_tokens": 618,
+      "sonnet_added_input_cost_usd": 0.001854,
+      "opus_added_input_cost_usd": 0.00309
+    },
+    {
+      "symbols_added": 2,
+      "estimated_added_input_tokens": 1235,
+      "sonnet_added_input_cost_usd": 0.003705,
+      "opus_added_input_cost_usd": 0.006175
+    },
+    {
+      "symbols_added": 5,
+      "estimated_added_input_tokens": 3088,
+      "sonnet_added_input_cost_usd": 0.009264,
+      "opus_added_input_cost_usd": 0.01544
+    },
+    {
+      "symbols_added": 10,
+      "estimated_added_input_tokens": 6175,
+      "sonnet_added_input_cost_usd": 0.018525,
+      "opus_added_input_cost_usd": 0.030875
+    },
+    {
+      "symbols_added": 20,
+      "estimated_added_input_tokens": 12350,
+      "sonnet_added_input_cost_usd": 0.03705,
+      "opus_added_input_cost_usd": 0.06175
+    },
+    {
+      "symbols_added": 50,
+      "estimated_added_input_tokens": 30875,
+      "sonnet_added_input_cost_usd": 0.092625,
+      "opus_added_input_cost_usd": 0.154375
+    },
+    {
+      "symbols_added": 100,
+      "estimated_added_input_tokens": 61750,
+      "sonnet_added_input_cost_usd": 0.18525,
+      "opus_added_input_cost_usd": 0.30875
+    },
+    {
+      "symbols_added": 250,
+      "estimated_added_input_tokens": 154375,
+      "sonnet_added_input_cost_usd": 0.463125,
+      "opus_added_input_cost_usd": 0.771875
+    },
+    {
+      "symbols_added": 500,
+      "estimated_added_input_tokens": 308750,
+      "sonnet_added_input_cost_usd": 0.92625,
+      "opus_added_input_cost_usd": 1.54375
+    },
+    {
+      "symbols_added": 1000,
+      "estimated_added_input_tokens": 617500,
+      "sonnet_added_input_cost_usd": 1.8525,
+      "opus_added_input_cost_usd": 3.0875
+    }
+  ]
+}
