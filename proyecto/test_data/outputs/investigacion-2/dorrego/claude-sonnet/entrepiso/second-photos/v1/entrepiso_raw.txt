@@ -1,0 +1,134 @@
+I'll systematically analyze the electrical diagram, comparing each visible symbol against the catalog images.
+
+## Step 1: Catalog Symbol Review
+
+- **Guarda Motor**: diagonal bar + X mark + small square grid + bottom box with "I >"
+- **Interruptor Automatico con Caja Modelada**: diagonal bar + X mark (no box, no circle at top)
+- **Interruptor Automatico en Caja Modelada + Diferencial**: diagonal bar + X mark + rectangle box + ellipse at bottom
+- **Interruptor Diferencial**: diagonal bar + two circles (one at top, one at bottom) + rectangle box
+- **Transformador**: two overlapping circles inside a dashed rectangle
+- **Interruptor Termomagnetico**: diagonal bar + X mark + horizontal arrow + zigzag
+- **Seleccionador Bajo Carga**: diagonal bar + H-shape crossbar + two circles
+- **Seleccionador Bajo Carga con Fusible**: diagonal bar + rectangle box around bar + two circles
+- **Seleccionador Contactor**: diagonal bar + square with diagonal + two circles
+
+## Step 2: Systematic Scan
+
+### Top-center area:
+One symbol with diagonal bar + X mark + horizontal T-bar element, labeled "INS 4x40A" to the right. This matches **Interruptor Termomagnetico** (diagonal bar + X + T-bar with arrow). Specification to the right: "INS 4x40A" — "INS" appears to be a label/name, "4x40A" is the specification. Right-side text: "INS 4x40A" → specification: "4x40A".
+
+Wait — looking more carefully at the top symbol: it has a diagonal bar, an X mark above, and a horizontal T-bar. This matches **Interruptor Termomagnetico** pattern. Right-side text: "INS\n4x40A" → "4x40A".
+
+### Top-right area:
+One symbol with diagonal bar + X mark, labeled "2x6A" to the right. This matches **Interruptor Termomagnetico**. Specification: "2x6A".
+
+### Main row of symbols (repeated branches, left to right):
+
+Each branch appears to have:
+1. A diagonal bar + X mark (upper symbol)
+2. A guarda motor symbol below (box with "I >")
+
+Let me count each branch carefully from left to right:
+
+**Branch 1 (leftmost):**
+- Upper symbol: diagonal bar + X → **Interruptor Termomagnetico**, spec to right: "2X 0,16 - 0,25A"
+- Lower symbol: box with "I >" → **Guarda Motor**, spec: "2X 0,16 - 0,25A"
+
+**Branch 2:**
+- Upper symbol: diagonal bar + X → **Interruptor Termomagnetico**, spec: "2X 0,16 - 0,25A"
+- Lower symbol: box with "I >" → **Guarda Motor**, spec: "2X 0,16 - 0,25A"
+
+**Branch 3:**
+- Upper symbol: diagonal bar + X → **Interruptor Termomagnetico**, spec: "2X 2,5 - 4A"
+- Lower symbol: box with "I >" → **Guarda Motor**, spec: "2X 2,5 - 4A"
+
+**Branch 4:**
+- Upper symbol: diagonal bar + X → **Interruptor Termomagnetico**, spec: "2X 2,5 - 4A"
+- Lower symbol: box with "I >" → **Guarda Motor**, spec: "2X 2,5 - 4A"
+
+**Branch 5:**
+- Upper symbol: diagonal bar + X → **Interruptor Termomagnetico**, spec: "2X 2,5 - 4A"
+- Lower symbol: box with "I >" → **Guarda Motor**, spec: "2X 2,5 - 4A"
+
+**Branch 6:**
+- Upper symbol: diagonal bar + X → **Interruptor Termomagnetico**, spec: "2X 2,5 - 4A"
+- Lower symbol: box with "I >" → **Guarda Motor**, spec: "2X 2,5 - 4A"
+
+**Branch 7:**
+- Upper symbol: diagonal bar + X → **Interruptor Termomagnetico**, spec: "2X 2,5 - 4A"
+- Lower symbol: box with "I >" → **Guarda Motor**, spec: "2X 2,5 - 4A"
+
+**Branch 8:**
+- Upper symbol: diagonal bar + X → **Interruptor Termomagnetico**, spec: "2X 2,5 - 4A"
+- Lower symbol: box with "I >" → **Guarda Motor**, spec: "2X 2,5 - 4A"
+
+Now, looking more carefully at the upper symbols in each branch: they have a diagonal bar + X mark + what appears to be a small horizontal T-bar element. Comparing:
+- **Interruptor Termomagnetico**: has diagonal bar + X + horizontal arrow + zigzag
+- **Guarda Motor**: has diagonal bar + X + small square grid boxes
+
+The upper symbols in the branches show diagonal bar + X + small horizontal element. The lower symbols clearly show the "I >" box pattern matching **Guarda Motor**.
+
+Looking again at the upper branch symbols — they show a diagonal bar with X and a small horizontal crossbar/T element. This matches **Interruptor Termomagnetico** more closely (the T-bar with arrow).
+
+The lower symbols with the rectangular box containing "I >" clearly match **Guarda Motor**.
+
+### Right side:
+**Transformador**: Two overlapping circles in a dashed box, labeled "TRAFO 220/24V 0,5kW" → **Transformador**, spec: "220/24V 0,5kW"
+
+## Step 3: Count Summary
+
+**Interruptor Termomagnetico:**
+- Top-center: "4x40A" → 1
+- Top-right: "2x6A" → 1
+- Branches 1-2: "2X 0,16 - 0,25A" → 2
+- Branches 3-8: "2X 2,5 - 4A" → 6
+
+**Guarda Motor:**
+- Branches 1-2: "2X 0,16 - 0,25A" → 2
+- Branches 3-8: "2X 2,5 - 4A" → 6
+
+**Transformador:**
+- Right side: "220/24V 0,5kW" → 1
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "2X 0,16 - 0,25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "2X 2,5 - 4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 0,16 - 0,25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 2,5 - 4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "220/24V 0,5kW",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": []
+}
+```

@@ -1,0 +1,112 @@
+I'll systematically analyze the electrical diagram, comparing visible symbols against the two catalog symbols: **Guarda Motor** and **Interruptor Diferencial**.
+
+---
+
+## Step 1: Catalog Symbol Recognition
+
+**Guarda Motor** (`guarda_motor.png`):
+- Features: diagonal thick green stroke with a T-bar at top, an X mark, a circle at bottom, and a rectangular box with internal detail (the motor protection symbol).
+
+**Interruptor Diferencial** (`interruptor_diferencial.png`):
+- Features: diagonal thick green stroke, a small circle at top, a larger circle at bottom, and a rectangular box — no T-bar, no X mark, no internal box detail like Guarda Motor.
+
+---
+
+## Step 2: Zone-by-Zone Scan
+
+### Top-center zone:
+- One symbol with a diagonal stroke, T-bar at top, small circle at top, and circle at bottom — labeled **INS 4x40A** to the right. This matches the **Interruptor Diferencial** pattern (diagonal stroke + circles). However, it also has a T-bar which is characteristic of Guarda Motor. Looking carefully: the INS symbol has a T-bar at top and a circle at bottom with a diagonal stroke — this matches **Guarda Motor** more closely. But "INS" suggests a general switch/isolator. I'll flag this as unidentified since it doesn't cleanly match either catalog symbol.
+
+### Top-right zone:
+- One symbol with an X mark, diagonal stroke, and circle — labeled **2x6A** to the right. This has an X (like Guarda Motor) and diagonal stroke + circle. This matches **Guarda Motor** pattern.
+
+### Main row (repeated branch symbols, left to right):
+Each branch has two visible symbol groups:
+
+**Upper symbol per branch** (X mark + diagonal stroke + circle):
+- These show an **X** mark and a diagonal green stroke with a circle — matching **Guarda Motor**.
+
+**Lower symbol per branch** (rectangular box with internal detail + I > markings):
+- These rectangular boxes with "I >" inside match the **Guarda Motor** lower body (the box with internal detail visible in the catalog image).
+
+Looking more carefully at the catalog image for **Guarda Motor**: it shows a T-bar + X + diagonal stroke + circle + rectangular box with internal detail all as ONE complete symbol.
+
+In the diagram, each branch appears to show:
+1. The **X + diagonal stroke + circle** portion (upper part)
+2. The **rectangular box with I >** (lower part)
+
+These together form one complete **Guarda Motor** symbol per branch.
+
+Additionally, there's a small circle visible above the X in some branches — this could be the top circle of the **Interruptor Diferencial**.
+
+Let me re-examine: In the Interruptor Diferencial catalog image, the symbol has: small circle at top + diagonal stroke + larger circle at bottom + rectangular box. In the diagram branches, I can see: small circle at top of the diagonal stroke area, X mark, diagonal stroke, circle at bottom, rectangular box. The X mark is the distinguishing feature of **Guarda Motor** vs **Interruptor Diferencial**.
+
+**Counting branches left to right:**
+
+Branches with **X + diagonal + circle + box** (Guarda Motor):
+1. Branch 1 left: X visible, box with I> — **Guarda Motor**, spec: "2X 0,16 - 0,25A"
+2. Branch 1 right: X visible, box with I> — **Guarda Motor**, spec: "2X 0,16 - 0,25A"
+3. Branch 2: X visible, box with I> — **Guarda Motor**, spec: "2X 2,5 - 4A"
+4. Branch 3: X visible, box with I> — **Guarda Motor**, spec: "2X 2,5 - 4A"
+5. Branch 4: X visible, box with I> — **Guarda Motor**, spec: "2X 2,5 - 4A"
+6. Branch 5: X visible, box with I> — **Guarda Motor**, spec: "2X 2,5 - 4A"
+7. Branch 6: X visible, box with I> — **Guarda Motor**, spec: "2X 2,5 - 4A"
+8. Branch 7: X visible, box with I> — **Guarda Motor**, spec: "2X 2,5 - 4A"
+9. Branch 8: X visible, box with I> — **Guarda Motor**, spec: "2X 2,5 - 4A"
+
+That gives: 2 with "2X 0,16 - 0,25A" and 7 with "2X 2,5 - 4A".
+
+**Top-right branch**: X + diagonal + circle — **Guarda Motor**, spec: "2x6A"
+
+**Top-center INS symbol**: Has T-bar + diagonal + circles — does not cleanly match either catalog symbol → unidentified.
+
+**Bottom-right TRAFO symbol**: Circular symbol labeled "TRAFO 220/24V 0,5kW" — does not match either catalog symbol → unidentified.
+
+---
+
+## Step 3: Final Count
+
+**Guarda Motor:**
+- "2X 0,16 - 0,25A": 2 occurrences
+- "2X 2,5 - 4A": 7 occurrences
+- "2x6A": 1 occurrence
+
+---
+
+```json
+{
+  "bom": [
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 0,16 - 0,25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 2,5 - 4A",
+      "cantidad": 7
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Interruptor Diferencial",
+      "ubicacion_aproximada": "Zona superior central, sobre la barra principal horizontal, símbolo de entrada general",
+      "descripcion_visual": "Símbolo con trazo diagonal verde grueso, barra T en la parte superior, círculo pequeño en la parte superior y círculo en la parte inferior, conectado a la barra principal",
+      "texto_derecha_posible_especificacion": "INS 4x40A",
+      "motivo": "El símbolo tiene una barra T en la parte superior que no corresponde claramente ni al Interruptor Diferencial ni al Guarda Motor del catálogo; podría ser un interruptor seccionador o de aislamiento no incluido en el catálogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona inferior derecha, fuera del grupo de ramas principales, esquina inferior derecha del diagrama",
+      "descripcion_visual": "Símbolo circular con dos círculos concéntricos o superpuestos, representando un transformador",
+      "texto_derecha_posible_especificacion": "TRAFO 220/24V 0,5kW",
+      "motivo": "El símbolo de transformador no corresponde a ninguno de los dos símbolos del catálogo proporcionado (Guarda Motor e Interruptor Diferencial)"
+    }
+  ]
+}
+```

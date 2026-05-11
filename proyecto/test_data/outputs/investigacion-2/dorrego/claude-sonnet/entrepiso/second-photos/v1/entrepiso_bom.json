@@ -1,0 +1,40 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "2x6A"
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 2,
+      "especificacion": "2X 0,16 - 0,25A"
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 6,
+      "especificacion": "2X 2,5 - 4A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X 0,16 - 0,25A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 6,
+      "especificacion": "2X 2,5 - 4A"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "220/24V 0,5kW"
+    }
+  ],
+  "simbolos_no_identificados": []
+}

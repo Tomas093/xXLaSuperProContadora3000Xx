@@ -1,0 +1,25 @@
+{
+  "bom": [
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 0,16 - 0,25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 2,5 - 4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Interruptor Diferencial",
+      "especificacion": "4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Diferencial",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": []
+}
