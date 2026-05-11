@@ -12,6 +12,7 @@ from typing import Any
 from ai_detection.bom_service import (
     analyze_plan_image,
     extract_reference_table_from_image,
+    generate_catalog_visual_analysis,
     parse_symbol_catalog_json,
 )
 from ai_detection.provider_resolvers import find_provider_resolver, supported_provider_choices
@@ -230,10 +231,12 @@ def build_usage_report(
     prompt_metadata: dict[str, Any],
     *,
     reference_usage: dict[str, Any] | None = None,
+    catalog_visual_analysis_usage: dict[str, Any] | None = None,
     timings_seconds: dict[str, float | None] | None = None,
 ) -> dict[str, Any]:
-    all_usage = combine_usage(*(usage for usage in [reference_usage, bom_usage] if usage))
+    all_usage = combine_usage(*(usage for usage in [catalog_visual_analysis_usage, reference_usage, bom_usage] if usage))
     pricing = pricing_for_model(provider, model)
+    catalog_visual_analysis_cost = estimate_cost(catalog_visual_analysis_usage or {}, pricing)
     reference_cost = estimate_cost(reference_usage or {}, pricing)
     bom_cost = estimate_cost(bom_usage, pricing)
     return {
@@ -241,6 +244,7 @@ def build_usage_report(
         "model": model,
         "prompts": prompt_metadata,
         "usage": {
+            "catalog_visual_analysis": catalog_visual_analysis_usage,
             "reference_extraction": reference_usage,
             "bom_generation": bom_usage,
             "total": all_usage,
@@ -248,9 +252,10 @@ def build_usage_report(
         "pricing_usd_per_million_tokens": pricing,
         "timings_seconds": timings_seconds or {},
         "estimated_cost_usd": {
+            "catalog_visual_analysis": catalog_visual_analysis_cost,
             "reference_extraction": reference_cost,
             "bom_generation": bom_cost,
-            "total": combine_estimated_costs(reference_cost, bom_cost),
+            "total": combine_estimated_costs(catalog_visual_analysis_cost, reference_cost, bom_cost),
         },
     }
 
@@ -284,6 +289,28 @@ def resolve_prompt_files(args: argparse.Namespace) -> dict[str, Path]:
     missing = [str(path) for path in files.values() if not path.exists()]
     if missing:
         raise FileNotFoundError("Prompt file(s) not found: " + ", ".join(missing))
+
+    return files
+
+
+def resolve_catalog_visual_analysis_prompt_files(args: argparse.Namespace) -> dict[str, Path]:
+    prompt_dir = Path(args.prompt_dir)
+    files = {
+        "catalog_visual_analysis_system": (
+            Path(args.catalog_visual_analysis_system_prompt_file)
+            if args.catalog_visual_analysis_system_prompt_file
+            else prompt_dir / "catalog_visual_analysis_system.md"
+        ),
+        "catalog_visual_analysis_user": (
+            Path(args.catalog_visual_analysis_user_prompt_file)
+            if args.catalog_visual_analysis_user_prompt_file
+            else prompt_dir / "catalog_visual_analysis_user.md"
+        ),
+    }
+
+    missing = [str(path) for path in files.values() if not path.exists()]
+    if missing:
+        raise FileNotFoundError("Catalog visual analysis prompt file(s) not found: " + ", ".join(missing))
 
     return files
 
@@ -335,8 +362,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--diagram-image",
-        required=True,
-        nargs="+",
+        nargs="*",
+        default=[],
         help="One to five electrical diagram images to analyze as one combined BOM.",
     )
     parser.add_argument("--reference-image", default=None, help="Optional reference table image to extract before BOM analysis.")
@@ -350,6 +377,26 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--symbols-dir", default=str(default_symbols_dir), help="Folder containing catalog symbol images.")
     parser.add_argument("--catalog-json", default=str(default_catalog_json), help="Symbol catalog JSON path.")
+    parser.add_argument(
+        "--generate-catalog-visual-analysis",
+        action="store_true",
+        help="Generate visual-only symbol catalog analysis from --catalog-json and --symbols-dir, then exit.",
+    )
+    parser.add_argument(
+        "--catalog-visual-analysis-output",
+        default=None,
+        help="Where to write catalog visual analysis JSON when --generate-catalog-visual-analysis is used.",
+    )
+    parser.add_argument(
+        "--catalog-visual-analysis",
+        default=None,
+        help="Optional catalog visual analysis JSON from a previous run to include in BOM counting.",
+    )
+    parser.add_argument(
+        "--catalog-visual-analysis-raw-output",
+        default=None,
+        help="Optional raw AI output path for catalog visual analysis generation.",
+    )
     parser.add_argument("--output-json", default=str(data_dir / "outputs" / f"bom_{timestamp}.json"))
     parser.add_argument("--output-csv", default=str(data_dir / "outputs" / f"bom_{timestamp}.csv"))
     parser.add_argument("--raw-output", default=str(data_dir / "outputs" / f"bom_raw_{timestamp}.txt"))
@@ -359,6 +406,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--prompt-dir", default=str(default_prompt_dir))
     parser.add_argument("--plan-system-prompt-file", default=None)
     parser.add_argument("--plan-user-prompt-file", default=None)
+    parser.add_argument("--catalog-visual-analysis-system-prompt-file", default=None)
+    parser.add_argument("--catalog-visual-analysis-user-prompt-file", default=None)
     parser.add_argument("--reference-system-prompt-file", default=None)
     parser.add_argument("--reference-user-prompt-file", default=None)
     parser.add_argument("--env-file", default=str(script_dir.parent / ".env"), help="Optional .env file with provider API keys.")
@@ -377,11 +426,14 @@ def main() -> None:
     total_started_at = time.perf_counter()
     args = parse_args()
     diagram_images = [Path(image_path) for image_path in args.diagram_image]
-    if not 1 <= len(diagram_images) <= 5:
+    if not args.generate_catalog_visual_analysis and not diagram_images:
+        raise ValueError("--diagram-image is required unless --generate-catalog-visual-analysis is used.")
+    if diagram_images and not 1 <= len(diagram_images) <= 5:
         raise ValueError("--diagram-image accepts between 1 and 5 image paths.")
     reference_image = Path(args.reference_image) if args.reference_image else None
     symbols_dir = Path(args.symbols_dir)
     catalog_json_path = Path(args.catalog_json)
+    catalog_visual_analysis_path = Path(args.catalog_visual_analysis) if args.catalog_visual_analysis else None
     load_env_file(Path(args.env_file))
 
     if args.reference_table_has_standard and reference_image:
@@ -390,7 +442,7 @@ def main() -> None:
             "In standard mode, provide only --catalog-json and --symbols-dir for the symbol images."
         )
 
-    for required_path in [*diagram_images, symbols_dir, catalog_json_path]:
+    for required_path in [*diagram_images, symbols_dir, catalog_json_path, *([catalog_visual_analysis_path] if catalog_visual_analysis_path else [])]:
         if not required_path.exists():
             raise FileNotFoundError(f"Required path not found: {required_path}")
     if reference_image and not reference_image.exists():
@@ -399,8 +451,58 @@ def main() -> None:
     catalog_json_text = catalog_json_path.read_text(encoding="utf-8")
     catalog_entries = parse_symbol_catalog_json(catalog_json_text)
     symbol_images = load_symbol_images(symbols_dir, catalog_json_text)
-    prompts, prompt_metadata = load_prompt_set(resolve_prompt_files(args))
     client = find_provider_resolver(args.provider).create(api_key=args.api_key, model=args.model)
+
+    if args.generate_catalog_visual_analysis:
+        if not args.catalog_visual_analysis_output:
+            raise ValueError("--catalog-visual-analysis-output is required with --generate-catalog-visual-analysis.")
+
+        catalog_scan_prompts, catalog_scan_prompt_metadata = load_prompt_set(
+            resolve_catalog_visual_analysis_prompt_files(args)
+        )
+        scan_started_at = time.perf_counter()
+        visual_analysis_payload, visual_analysis_raw_text, visual_analysis_usage = generate_catalog_visual_analysis(
+            client,
+            symbol_images=symbol_images,
+            symbol_catalog_entries=catalog_entries,
+            catalog_visual_analysis_system_prompt=catalog_scan_prompts["catalog_visual_analysis_system"],
+            catalog_visual_analysis_user_prompt=catalog_scan_prompts["catalog_visual_analysis_user"],
+        )
+        scan_elapsed_seconds = time.perf_counter() - scan_started_at
+
+        visual_analysis_output = Path(args.catalog_visual_analysis_output)
+        write_json(visual_analysis_output, visual_analysis_payload)
+
+        if args.catalog_visual_analysis_raw_output:
+            visual_analysis_raw_output = Path(args.catalog_visual_analysis_raw_output)
+            visual_analysis_raw_output.parent.mkdir(parents=True, exist_ok=True)
+            visual_analysis_raw_output.write_text(visual_analysis_raw_text, encoding="utf-8")
+
+        write_json(
+            Path(args.usage_output),
+            build_usage_report(
+                client.provider_name,
+                client.model,
+                {},
+                catalog_scan_prompt_metadata,
+                catalog_visual_analysis_usage=visual_analysis_usage,
+                timings_seconds={
+                    "catalog_visual_analysis": round(scan_elapsed_seconds, 3),
+                    "total": round(time.perf_counter() - total_started_at, 3),
+                },
+            ),
+        )
+        print(f"Catalog visual analysis JSON: {visual_analysis_output}")
+        if args.catalog_visual_analysis_raw_output:
+            print(f"Catalog visual analysis raw output: {args.catalog_visual_analysis_raw_output}")
+        print(f"Usage/cost JSON: {args.usage_output}")
+        return
+
+    prompts, prompt_metadata = load_prompt_set(resolve_prompt_files(args))
+
+    catalog_visual_analysis_payload = None
+    if catalog_visual_analysis_path:
+        catalog_visual_analysis_payload = json.loads(catalog_visual_analysis_path.read_text(encoding="utf-8"))
 
     reference_payload: dict[str, Any] = {}
     reference_raw_text = ""
@@ -426,6 +528,7 @@ def main() -> None:
         reference_payload=reference_payload,
         plan_system_prompt=prompts["plan_system"],
         plan_user_prompt=prompts["plan_user"],
+        catalog_visual_analysis=catalog_visual_analysis_payload,
         reference_table_has_standard=args.reference_table_has_standard,
     )
     bom_elapsed_seconds = time.perf_counter() - bom_started_at

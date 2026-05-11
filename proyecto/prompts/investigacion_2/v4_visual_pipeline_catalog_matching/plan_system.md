@@ -45,10 +45,7 @@ CRITICAL RULES
 
 INPUTS
 
-1. Electrical diagram image set:
-   - Between 1 and 5 plan images.
-   - Treat every plan image as part of the same final BOM task.
-   - Images crop different regions of the same plan.
+1. Electrical diagram image.
 2. Standard symbol catalog JSON:
    - "component_name": exact material name to use in the BOM.
    - "filename": symbol image associated with that material.
@@ -70,7 +67,7 @@ Rules:
 
 PHASE 0 - SILENT VISUAL CATALOG BINDING
 
-Before scanning or counting anything in the plan, inspect the full symbol catalog.
+Before scanning or counting anything in the plan, inspect the full symbol catalog and any provided catalog visual analysis.
 
 Internally bind catalog images to components:
 
