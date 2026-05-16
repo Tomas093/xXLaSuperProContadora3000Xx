@@ -1,0 +1,266 @@
+{
+  "generated_at": "2026-05-11T02:37:14",
+  "scope": "Investigacion 2 Dorrego Claude Sonnet 4.6 second-photos/v1 standard symbol catalog run",
+  "pricing": {
+    "model": "claude-sonnet-4-6",
+    "input_usd_per_million_tokens": 3.0,
+    "output_usd_per_million_tokens": 15.0,
+    "source_in_repo": "proyecto/ai_bom_cli.py pricing_for_model()",
+    "image_token_formula_source": "Anthropic vision docs: approximate image tokens = width_px * height_px / 750 when no resize is needed."
+  },
+  "files": {
+    "plan_system_prompt": "proyecto/prompts/investigacion_2/v1_different_symbol_catalogs/plan_system.md",
+    "plan_user_prompt": "proyecto/prompts/investigacion_2/v1_different_symbol_catalogs/plan_user.md",
+    "symbol_catalog_json": "proyecto/symbol-catalog/investigacion_2/dorrego/symbol_catalog.json",
+    "symbols_dir": "proyecto/test_data/symbols/investigacion_2/dorrego",
+    "plan_image": "proyecto/test_data/plans/investigacion_2/dorrego/parte-alta.png",
+    "usage_json": "proyecto/test_data/outputs/investigacion-2/dorrego/claude-sonnet/entrepiso/second-photos/v1/entrepiso_usage.json"
+  },
+  "actual_usage_from_run": {
+    "input_tokens": 10636,
+    "output_tokens": 1991,
+    "input_cost_usd": 0.031908,
+    "output_cost_usd": 0.029865,
+    "total_cost_usd": 0.061773
+  },
+  "estimated_input_breakdown": {
+    "plan_system_prompt_text": {
+      "chars": 16607,
+      "tokens_estimate": 4152,
+      "cost_usd_estimate": 0.012456
+    },
+    "plan_user_prompt_text_only": {
+      "chars": 3053,
+      "tokens_estimate": 764,
+      "cost_usd_estimate": 0.002292
+    },
+    "standard_mode_reference_instruction": {
+      "chars": 260,
+      "tokens_estimate": 65,
+      "cost_usd_estimate": 0.000195
+    },
+    "symbol_catalog_json_injected_as_materials": {
+      "catalog_entries": 9,
+      "chars": 1124,
+      "tokens_estimate": 281,
+      "cost_usd_estimate": 0.000843,
+      "note": "This is the compact {materials:[...]} JSON injected into the prompt, not the raw file byte size."
+    },
+    "static_intro_block_total": {
+      "chars": 4460,
+      "tokens_estimate": 1115,
+      "cost_usd_estimate": 0.003345
+    },
+    "symbol_blocks_total": {
+      "symbols": 9,
+      "tokens_estimate": 3875,
+      "cost_usd_estimate": 0.011625
+    },
+    "plan_image_total": {
+      "label_text_tokens_estimate": 22,
+      "image_tokens_estimate": 1268,
+      "tokens_estimate": 1290,
+      "cost_usd_estimate": 0.00387,
+      "image": {
+        "path": "proyecto/test_data/plans/investigacion_2/dorrego/parte-alta.png",
+        "filename": "parte-alta.png",
+        "width_px": 1288,
+        "height_px": 738,
+        "megapixels": 0.950544,
+        "bytes": 88165,
+        "approx_image_tokens": 1268,
+        "approx_input_cost_usd": 0.003804
+      }
+    },
+    "request_total_estimate": {
+      "tokens_estimate": 10432,
+      "cost_usd_estimate": 0.031296,
+      "actual_input_tokens_from_usage": 10636,
+      "residual_tokens_actual_minus_estimate": 204,
+      "note": "Residual exists because text tokenization, image resizing, API framing, and provider accounting are server-side."
+    }
+  },
+  "per_existing_symbol_marginal_estimates": [
+    {
+      "component_name": "Guarda Motor",
+      "filename": "guarda_motor.png",
+      "symbol_text_tokens_estimate": 31,
+      "symbol_image_tokens_estimate": 558,
+      "symbol_total_input_tokens_estimate": 589,
+      "symbol_total_input_cost_usd_estimate": 0.001767,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/guarda_motor.png",
+        "filename": "guarda_motor.png",
+        "width_px": 459,
+        "height_px": 911,
+        "megapixels": 0.418149,
+        "bytes": 25403,
+        "approx_image_tokens": 558,
+        "approx_input_cost_usd": 0.001674
+      }
+    },
+    {
+      "component_name": "Interruptor Automatico con Caja Modelada",
+      "filename": "interruptor_automatico_con_caja_modelada.png",
+      "symbol_text_tokens_estimate": 45,
+      "symbol_image_tokens_estimate": 309,
+      "symbol_total_input_tokens_estimate": 354,
+      "symbol_total_input_cost_usd_estimate": 0.001062,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/interruptor_automatico_con_caja_modelada.png",
+        "filename": "interruptor_automatico_con_caja_modelada.png",
+        "width_px": 307,
+        "height_px": 753,
+        "megapixels": 0.231171,
+        "bytes": 21345,
+        "approx_image_tokens": 309,
+        "approx_input_cost_usd": 0.000927
+      }
+    },
+    {
+      "component_name": "Interruptor Automatico en Caja Modelada + Diferencial",
+      "filename": "interruptor_automatico_en_caja_modelada_mas_dif.png",
+      "symbol_text_tokens_estimate": 50,
+      "symbol_image_tokens_estimate": 522,
+      "symbol_total_input_tokens_estimate": 572,
+      "symbol_total_input_cost_usd_estimate": 0.001716,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/interruptor_automatico_en_caja_modelada_mas_dif.png",
+        "filename": "interruptor_automatico_en_caja_modelada_mas_dif.png",
+        "width_px": 461,
+        "height_px": 848,
+        "megapixels": 0.390928,
+        "bytes": 26708,
+        "approx_image_tokens": 522,
+        "approx_input_cost_usd": 0.001566
+      }
+    },
+    {
+      "component_name": "Interruptor Diferencial",
+      "filename": "interruptor_diferencial1.png",
+      "symbol_text_tokens_estimate": 36,
+      "symbol_image_tokens_estimate": 441,
+      "symbol_total_input_tokens_estimate": 477,
+      "symbol_total_input_cost_usd_estimate": 0.001431,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/interruptor_diferencial1.png",
+        "filename": "interruptor_diferencial1.png",
+        "width_px": 405,
+        "height_px": 816,
+        "megapixels": 0.33048,
+        "bytes": 22654,
+        "approx_image_tokens": 441,
+        "approx_input_cost_usd": 0.001323
+      }
+    },
+    {
+      "component_name": "Transformador",
+      "filename": "transformador.png",
+      "symbol_text_tokens_estimate": 31,
+      "symbol_image_tokens_estimate": 188,
+      "symbol_total_input_tokens_estimate": 219,
+      "symbol_total_input_cost_usd_estimate": 0.000657,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/transformador.png",
+        "filename": "transformador.png",
+        "width_px": 269,
+        "height_px": 523,
+        "megapixels": 0.140687,
+        "bytes": 14037,
+        "approx_image_tokens": 188,
+        "approx_input_cost_usd": 0.000564
+      }
+    },
+    {
+      "component_name": "Interruptor Termomagnetico",
+      "filename": "interruptor_termomagnetico.png",
+      "symbol_text_tokens_estimate": 38,
+      "symbol_image_tokens_estimate": 321,
+      "symbol_total_input_tokens_estimate": 359,
+      "symbol_total_input_cost_usd_estimate": 0.001077,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/interruptor_termomagnetico.png",
+        "filename": "interruptor_termomagnetico.png",
+        "width_px": 377,
+        "height_px": 637,
+        "megapixels": 0.240149,
+        "bytes": 25255,
+        "approx_image_tokens": 321,
+        "approx_input_cost_usd": 0.000963
+      }
+    },
+    {
+      "component_name": "Seleccionador Bajo Carga",
+      "filename": "seleccionador_bajo_carga_v2.png",
+      "symbol_text_tokens_estimate": 37,
+      "symbol_image_tokens_estimate": 362,
+      "symbol_total_input_tokens_estimate": 399,
+      "symbol_total_input_cost_usd_estimate": 0.001197,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/seleccionador_bajo_carga_v2.png",
+        "filename": "seleccionador_bajo_carga_v2.png",
+        "width_px": 332,
+        "height_px": 817,
+        "megapixels": 0.271244,
+        "bytes": 24294,
+        "approx_image_tokens": 362,
+        "approx_input_cost_usd": 0.001086
+      }
+    },
+    {
+      "component_name": "Seleccionador Bajo Carga con Fusible",
+      "filename": "seleccionador_bajo_carga_con_fusible.png",
+      "symbol_text_tokens_estimate": 43,
+      "symbol_image_tokens_estimate": 375,
+      "symbol_total_input_tokens_estimate": 418,
+      "symbol_total_input_cost_usd_estimate": 0.001254,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/seleccionador_bajo_carga_con_fusible.png",
+        "filename": "seleccionador_bajo_carga_con_fusible.png",
+        "width_px": 355,
+        "height_px": 792,
+        "megapixels": 0.28116,
+        "bytes": 34335,
+        "approx_image_tokens": 375,
+        "approx_input_cost_usd": 0.001125
+      }
+    },
+    {
+      "component_name": "Seleccionador Contactor",
+      "filename": "seleccionador_contactor.png",
+      "symbol_text_tokens_estimate": 36,
+      "symbol_image_tokens_estimate": 452,
+      "symbol_total_input_tokens_estimate": 488,
+      "symbol_total_input_cost_usd_estimate": 0.001464,
+      "image": {
+        "path": "proyecto/test_data/symbols/investigacion_2/dorrego/seleccionador_contactor.png",
+        "filename": "seleccionador_contactor.png",
+        "width_px": 468,
+        "height_px": 724,
+        "megapixels": 0.338832,
+        "bytes": 26477,
+        "approx_image_tokens": 452,
+        "approx_input_cost_usd": 0.001356
+      }
+    }
+  ],
+  "adding_one_symbol_estimates": {
+    "average_current_symbol_total_tokens": 430.56,
+    "average_current_symbol_input_cost_usd": 0.00129168,
+    "important_note": "Adding a symbol increases input cost every time that catalog is sent. It also may increase output cost indirectly if the model writes more reasoning/BOM text.",
+    "hypothetical_image_sizes": {
+      "small_200x200": {
+        "tokens_estimate": 85,
+        "cost_usd_estimate": 0.000255
+      },
+      "medium_400x400": {
+        "tokens_estimate": 245,
+        "cost_usd_estimate": 0.000735
+      },
+      "large_800x800": {
+        "tokens_estimate": 885,
+        "cost_usd_estimate": 0.002655
+      }
+    }
+  }
+}

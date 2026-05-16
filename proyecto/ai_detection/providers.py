@@ -215,6 +215,9 @@ class AnthropicProvider(BaseVisionProvider):
             max_tokens=max_tokens,
             temperature=temperature,
             cache_control=cache_control,
+            provider_options={
+                "supports_temperature": not self.model.strip().lower().startswith("claude-opus-4-7"),
+            },
         )
         headers = {
             "x-api-key": self.api_key,

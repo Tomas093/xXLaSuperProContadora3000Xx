@@ -56,23 +56,24 @@ class ProviderResolver(ABC):
 
 
 class AnthropicProviderResolver(ProviderResolver):
-    PROVIDER_NAMES = ("anthropic", "claude")
+    PROVIDER_NAMES = ("anthropic", "claude-sonnet")
     API_KEY_ENV_NAMES = ("ANTHROPIC_API_KEY", "CLAUDE_API_KEY")
-    DEFAULT_MODEL = "claude-sonnet-4-20250514"
+    DEFAULT_MODEL = "claude-sonnet-sonnet-4-20250514"
     ACCEPTED_MODELS = (
-        "claude-opus-4-1-20250805",
-        "claude-opus-4-20250514",
-        "claude-opus-4-0",
+        "claude-opus-4-7",
+        "claude-sonnet-opus-4-1-20250805",
+        "claude-sonnet-opus-4-20250514",
+        "claude-sonnet-opus-4-0",
         "claude-sonnet-4-20250514",
         "claude-sonnet-4-0",
         "claude-sonnet-4-6",
-        "claude-3-7-sonnet-20250219",
-        "claude-3-7-sonnet-latest",
-        "claude-3-5-sonnet-20241022",
-        "claude-3-5-sonnet-latest",
-        "claude-3-5-haiku-20241022",
-        "claude-3-5-haiku-latest",
-        "claude-3-haiku-20240307",
+        "claude-sonnet-3-7-sonnet-20250219",
+        "claude-sonnet-3-7-sonnet-latest",
+        "claude-sonnet-3-5-sonnet-20241022",
+        "claude-sonnet-3-5-sonnet-latest",
+        "claude-sonnet-3-5-haiku-20241022",
+        "claude-sonnet-3-5-haiku-latest",
+        "claude-sonnet-3-haiku-20240307",
     )
 
     def matches(self, provider: str) -> bool:

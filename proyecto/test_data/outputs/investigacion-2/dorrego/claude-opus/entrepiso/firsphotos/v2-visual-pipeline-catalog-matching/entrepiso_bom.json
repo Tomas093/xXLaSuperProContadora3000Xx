@@ -1,0 +1,62 @@
+{
+  "bom": [
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Seleccionador Bajo Carga con Fusible",
+      "cantidad": 1,
+      "especificacion": "2x6A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X0,16-0,25A"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 6,
+      "especificacion": "2X2,5-4A"
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "cantidad": 8,
+      "especificacion": "6A AC3 S1"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "TRAFO 220/24V 0,5kW"
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "6A TAB 2x6A"
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte superior central, encima del seleccionador principal 4x40A",
+      "descripcion_visual": "Simbolo circular con X dentro (lampara) etiquetado LUMINADOR 220V con SPM 3P",
+      "texto_derecha_posible_especificacion": "SPM 3P / LUMINADOR 220V",
+      "motivo": "Simbolo de luminaria/protector de sobretension no presente en el catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Fila inferior, sobre cada una de las 8 ramas verticales, encima de los contactores",
+      "descripcion_visual": "Simbolo de contacto auxiliar con etiqueta M O A",
+      "texto_derecha_posible_especificacion": "M O A",
+      "motivo": "Simbolo de selector manual-off-automatico no presente en el catalogo"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Parte inferior del plano, en cada una de las 9 ramas, etiquetadas X2",
+      "descripcion_visual": "Simbolo de borne de salida (circulo con linea diagonal)",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "Bornera de salida no presente en el catalogo de simbolos"
+    }
+  ]
+}

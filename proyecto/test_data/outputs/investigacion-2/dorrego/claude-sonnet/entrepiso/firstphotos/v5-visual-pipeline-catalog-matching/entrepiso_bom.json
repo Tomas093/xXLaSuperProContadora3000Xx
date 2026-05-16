@@ -1,0 +1,60 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "4x40A"
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "2x6A"
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "cantidad": 1,
+      "especificacion": "6A TAB 2x6A"
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "cantidad": 8,
+      "especificacion": null
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 2,
+      "especificacion": "2X(0,16-0,25A)"
+    },
+    {
+      "material": "Guarda Motor",
+      "cantidad": 6,
+      "especificacion": "2X2,5-4A"
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "cantidad": 8,
+      "especificacion": "6A AC3 S1"
+    },
+    {
+      "material": "Transformador",
+      "cantidad": 1,
+      "especificacion": "220/24V 0,5KW"
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona superior central, en la parte más alta del diagrama sobre la línea de alimentación principal",
+      "descripcion_visual": "Círculo con X interior, símbolo de luminaria o lámpara",
+      "texto_derecha_posible_especificacion": "LUMINADOR 220V",
+      "motivo": "El símbolo de círculo con X no coincide con ningún símbolo del catálogo proporcionado"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona inferior, fila de borneras de salida, 9 ocurrencias distribuidas a lo largo del borde inferior del diagrama",
+      "descripcion_visual": "Pequeño círculo con líneas de conexión, símbolo de bornera o terminal de salida",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "El símbolo de bornera/terminal de salida no coincide con ningún símbolo del catálogo proporcionado"
+    }
+  ]
+}

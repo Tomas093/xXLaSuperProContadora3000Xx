@@ -42,11 +42,29 @@ export GEMINI_API_KEY="..."
 ### Defaults
 
 - Default provider: `anthropic`
-- Default prompt folder: `proyecto/prompts/bom_symbol_count/v4_visual_symbols_only`
-- Default symbol folder: `proyecto/test_data/symbols`
-- Default catalog: `proyecto/test_data/symbol_catalog.json`
+- Default prompt folder: `proyecto/prompts/investigacion_1/bom_symbol_count/etapa1/v4_visual_symbols_only`
+- Default symbol folder: `proyecto/test_data/symbols/investigacion-1`
+- Default catalog: `proyecto/symbol-catalog/investigacion_1/symbol_catalog.json`
 
 The CLI sends only symbol images listed in `symbol_catalog.json`. It does not send every PNG in `symbols/`.
+
+### Standard Symbol Catalog Flow
+
+When the reference table belongs to a known standard and its symbols/material names are already represented in a symbol catalog JSON, do not pass the reference table image. Process the plan directly with the catalog JSON and the catalog symbol images:
+
+```bash
+python3 proyecto/ai_bom_cli.py \
+  --env-file ENV/.env \
+  --provider gemini \
+  --model gemini-2.5-pro \
+  --diagram-image ruta/al/plano_dorrego.png \
+  --reference-table-has-standard \
+  --symbols-dir proyecto/test_data/symbols/investigacion_2/claude-sonnet \
+  --catalog-json proyecto/symbol-catalog/investigacion_2/claude-sonnet/symbol_catalog1.json \
+  --prompt-dir proyecto/prompts/investigacion_2/v1_different_symbol_catalogs
+```
+
+If the reference table is not from a known standard yet, omit `--reference-table-has-standard` and pass `--reference-image`; the CLI will keep the current flow of extracting the reference table first and then analyzing the plan.
 
 ### Basic Run
 
@@ -66,7 +84,7 @@ python3 proyecto/ai_bom_cli.py \
   --diagram-image proyecto/test_data/plans/tstl1n.png \
   --reference-image proyecto/test_data/reference_tables/table1.png \
   --symbols-dir proyecto/test_data/symbols \
-  --catalog-json proyecto/test_data/symbol_catalog.json \
+  --catalog-json proyecto/test_data/symbol_catalog1.json \
   --output-json proyecto/test_data/outputs/gemini/etapa1/tstl1n/tstl1n_gemini3_bom.json \
   --output-csv proyecto/test_data/outputs/gemini/etapa1/tstl1n/tstl1n_gemini3_bom.csv \
   --raw-output proyecto/test_data/outputs/gemini/etapa1/tstl1n/tstl1n_gemini3_raw.txt \
@@ -83,7 +101,7 @@ python3 proyecto/ai_bom_cli.py \
   --diagram-image proyecto/test_data/plans/tscels1.png \
   --reference-image proyecto/test_data/reference_tables/table1.png \
   --symbols-dir proyecto/test_data/symbols \
-  --catalog-json proyecto/test_data/symbol_catalog.json \
+  --catalog-json proyecto/test_data/symbol_catalog1.json \
   --output-json proyecto/test_data/outputs/gemini/etapa1/tscels1/tscels1_bom.json \
   --output-csv proyecto/test_data/outputs/gemini/etapa1/tscels1/tscels1_bom.csv \
   --raw-output proyecto/test_data/outputs/gemini/etapa1/tscels1/tscels1_raw.txt \
@@ -100,7 +118,7 @@ python3 proyecto/ai_bom_cli.py \
   --diagram-image proyecto/test_data/plans/tstl1n.png \
   --reference-image proyecto/test_data/reference_tables/table1.png \
   --symbols-dir proyecto/test_data/symbols \
-  --catalog-json proyecto/test_data/symbol_catalog.json \
+  --catalog-json proyecto/test_data/symbol_catalog1.json \
   --output-json proyecto/test_data/outputs/gemini/etapa1/tstl1n/tstl1n_flash_bom.json \
   --output-csv proyecto/test_data/outputs/gemini/etapa1/tstl1n/tstl1n_flash_bom.csv \
   --raw-output proyecto/test_data/outputs/gemini/etapa1/tstl1n/tstl1n_flash_raw.txt \
@@ -126,7 +144,7 @@ python3 proyecto/ai_bom_cli.py \
   --diagram-image proyecto/test_data/plans/tscels1.png \
   --reference-image proyecto/test_data/reference_tables/table1.png \
   --symbols-dir proyecto/test_data/symbols \
-  --catalog-json proyecto/test_data/symbol_catalog.json \
+  --catalog-json proyecto/test_data/symbol_catalog1.json \
   --reference-output-json proyecto/test_data/outputs/gemini/etapa1/tscels1/tscels1_reference.json \
   --reference-raw-output proyecto/test_data/outputs/gemini/etapa1/tscels1/tscels1_reference_raw.txt \
   --output-json proyecto/test_data/outputs/gemini/etapa1/tscels1/tscels1_bom.json \
@@ -141,15 +159,15 @@ python3 proyecto/ai_bom_cli.py \
 python3 proyecto/ai_bom_cli.py \
   --env-file ENV/.env \
   --provider anthropic \
-  --model claude-sonnet-4-20250514 \
+  --model claude-sonnet-sonnet-4-20250514 \
   --diagram-image proyecto/test_data/plans/tstl1n.png \
   --reference-image proyecto/test_data/reference_tables/table1.png \
   --symbols-dir proyecto/test_data/symbols \
-  --catalog-json proyecto/test_data/symbol_catalog.json \
-  --output-json proyecto/test_data/outputs/claude/etapa1/tablero-tstl1n/tstl1n_bom.json \
-  --output-csv proyecto/test_data/outputs/claude/etapa1/tablero-tstl1n/tstl1n_bom.csv \
-  --raw-output proyecto/test_data/outputs/claude/etapa1/tablero-tstl1n/tstl1n_raw.txt \
-  --usage-output proyecto/test_data/outputs/claude/etapa1/tablero-tstl1n/tstl1n_usage.json
+  --catalog-json proyecto/test_data/symbol_catalog1.json \
+  --output-json proyecto/test_data/outputs/claude-sonnet/etapa1/tablero-tstl1n/tstl1n_bom.json \
+  --output-csv proyecto/test_data/outputs/claude-sonnet/etapa1/tablero-tstl1n/tstl1n_bom.csv \
+  --raw-output proyecto/test_data/outputs/claude-sonnet/etapa1/tablero-tstl1n/tstl1n_raw.txt \
+  --usage-output proyecto/test_data/outputs/claude-sonnet/etapa1/tablero-tstl1n/tstl1n_usage.json
 ```
 
 ### OpenAI
@@ -162,7 +180,7 @@ python3 proyecto/ai_bom_cli.py \
   --diagram-image proyecto/test_data/plans/tstl1n.png \
   --reference-image proyecto/test_data/reference_tables/table1.png \
   --symbols-dir proyecto/test_data/symbols \
-  --catalog-json proyecto/test_data/symbol_catalog.json \
+  --catalog-json proyecto/test_data/symbol_catalog1.json \
   --output-json proyecto/test_data/outputs/open-ai/etapa1/tstl1n/gpt-5.4-mini/tstl1n_bom.json \
   --output-csv proyecto/test_data/outputs/open-ai/etapa1/tstl1n/gpt-5.4-mini/tstl1n_bom.csv \
   --raw-output proyecto/test_data/outputs/open-ai/etapa1/tstl1n/gpt-5.4-mini/tstl1n_raw.txt \

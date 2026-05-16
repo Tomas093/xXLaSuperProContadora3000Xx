@@ -1,0 +1,152 @@
+I'll analyze the electrical diagram systematically through all phases.
+
+**Phase 0: Silent visual catalog binding** (internal)
+
+**Phase 1: Zone Setup**
+Dividing into 9 zones: top-left, top-center, top-right, center-left, center, center-right, bottom-left, bottom-center, bottom-right.
+
+**Phases 2-8: Internal processing**
+
+Let me enumerate all visible symbol candidates:
+
+**Top-center zone:**
+- 1 symbol at top with "INS 4x40A" to the right — diagonal stroke with X mark and small circle at bottom, with a horizontal bar element. This matches "Interruptor Termomagnetico" visually (X mark + diagonal stroke + circle + T-bar with arrow). Wait — comparing carefully: the INS symbol has a horizontal bar (like a switch handle) without the thermal-magnetic arrow detail. It matches "Seleccionador Bajo Carga" (two circles + diagonal + H-bar). Actually looking more carefully at the INS symbol: it has an X, a diagonal stroke, a small circle at bottom, and a horizontal bar element — this matches "Interruptor Termomagnetico" catalog image (X + diagonal + circle + T-bar with step).
+
+Actually re-examining: The INS symbol shows X mark + diagonal bar + small circle + horizontal crossbar. Comparing to catalog: "Interruptor Termomagnetico" has X + diagonal + circle + T-bar with arrow/step. "Seleccionador Bajo Carga" has two circles + diagonal + H-frame. The INS symbol best matches "Interruptor Termomagnetico."
+
+**Top-right zone:**
+- 1 symbol with "2x6A" to the right — X mark + diagonal + circle + horizontal bar. Matches "Interruptor Termomagnetico."
+- 1 symbol (circle with X inside) at very top — this looks like a lamp/luminaire symbol, not in catalog → unidentified.
+- 1 symbol with "TRAFO 220/24V 0,5KW" — two overlapping circles = "Transformador."
+- 1 symbol with "6A TAB 2x6A" — X mark + diagonal + circle + bar. Matches "Interruptor Termomagnetico."
+
+**Center zone (8 repeated branches):**
+Each branch has:
+1. A "Guarda Motor" symbol (X mark + diagonal + circle + grid/box structure with I> indicator) — comparing: Guarda Motor catalog shows X + diagonal + circle + 3-cell grid + I> box. Each branch has this. Count: 8 occurrences.
+   - Branches 1-2: spec "2X(0,16-0,25A)"
+   - Branches 3-8: spec "2X2,5-4A"
+
+Wait — re-examining. The symbols in the center branches: each branch shows an X mark + diagonal stroke + circle at bottom + a rectangular grid (3 cells) + a box with "I >". This composite matches "Guarda Motor" catalog image exactly (X + diagonal + circle + 3-cell grid + I> box).
+
+**Center-left (MOA row):**
+8 "MOA" labels with symbols below them. Each MOA position shows a diagonal stroke + small circle + box with diagonal line inside = "Seleccionador Contactor" catalog image (diagonal stroke + circle + square with diagonal). Count: 8 occurrences with spec "6A AC3 S1."
+
+**Bottom zone:**
+8 positions each showing "X2" quantity markers with small circle symbols. These appear to be terminal/output markers — looking at the symbol: small circle with lines. Not clearly matching any catalog symbol → unidentified or these are borneras (terminals) not in catalog.
+
+**Re-examining the INS and branch top symbols:**
+The symbols at top of each branch (before the Guarda Motor) show: X mark + diagonal stroke + circle. No T-bar with arrow. This matches "Interruptor Automatico con Caja Modelada" (X + diagonal + circle, no extra elements). 
+
+Re-comparing carefully:
+- "Interruptor Automatico con Caja Modelada": X + diagonal stroke + circle at bottom (simple)
+- "Interruptor Termomagnetico": X + diagonal + circle + T-bar with step/arrow
+- "Seleccionador Bajo Carga": two circles + diagonal + H-frame
+
+The branch top symbols (8 of them) show X + diagonal + circle — matches "Interruptor Automatico con Caja Modelada."
+
+The INS symbol at top-center: has X + diagonal + circle + horizontal crossbar element → "Interruptor Termomagnetico" (has the T-bar).
+
+The "2x6A" symbol top-right: X + diagonal + circle + horizontal bar → "Interruptor Termomagnetico."
+
+The "6A TAB 2x6A" symbol: X + diagonal + circle + bar → "Interruptor Termomagnetico."
+
+**Re-examining 8 branch top symbols:**
+Each of the 8 main branches has a symbol at top showing X + diagonal + circle. No T-bar/arrow visible. → "Interruptor Automatico con Caja Modelada." Spec: none visible clearly per branch (the specs like "2X(0,16-0,25A)" and "2X2,5-4A" appear to be to the right of the Guarda Motor symbols, not these).
+
+Actually looking again at the diagram more carefully — the 8 branch symbols at top each show X + diagonal + circle. The specs "2X(0,16-0,25A)" and "2X2,5-4A" appear below/right of the Guarda Motor composite. Let me re-associate specs.
+
+For the 8 Guarda Motor symbols:
+- Branches 1-2: "2X(0,16-0,25A)" to the right
+- Branches 3-8: "2X2,5-4A" to the right
+
+For the 8 "Interruptor Automatico con Caja Modelada" at branch tops: no clear right-side spec text → null.
+
+**MOA Seleccionador Contactor symbols (8):**
+Each has "6A AC3 S1" to the right → spec "6A AC3 S1."
+
+**Bottom X2 symbols:**
+These small circle symbols at bottom with "X2" — they appear to be output terminal/bornera symbols. Not matching any catalog symbol clearly → unidentified. There are 9 visible (8 branches + 1 on right side).
+
+**Top luminaire symbol:**
+Circle with X inside at very top → not in catalog → unidentified.
+
+**Phase 9-10: BOM Grouping**
+
+Summary of confirmed symbols:
+1. **Interruptor Termomagnetico**: 
+   - "4x40A" (INS): 1
+   - "2x6A": 1  
+   - "6A TAB 2x6A": spec is "6A TAB 2x6A" — wait, "TAB" and "2x6A" — the "2x6A" could be a quantity marker but "TAB" is present, so full spec = "6A TAB 2x6A": 1
+
+2. **Interruptor Automatico con Caja Modelada**: 8 occurrences, no spec
+
+3. **Guarda Motor**: 
+   - 2 with "2X(0,16-0,25A)"
+   - 6 with "2X2,5-4A"
+
+4. **Seleccionador Contactor**: 8 with "6A AC3 S1"
+
+5. **Transformador**: 1 with "220/24V 0,5KW"
+
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "6A TAB 2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "especificacion": null,
+      "cantidad": 8
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X(0,16-0,25A)",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X2,5-4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "especificacion": "6A AC3 S1",
+      "cantidad": 8
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "220/24V 0,5KW",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona superior central, en la parte más alta del diagrama sobre la línea de alimentación principal",
+      "descripcion_visual": "Círculo con X interior, símbolo de luminaria o lámpara",
+      "texto_derecha_posible_especificacion": "LUMINADOR 220V",
+      "motivo": "El símbolo de círculo con X no coincide con ningún símbolo del catálogo proporcionado"
+    },
+    {
+      "material_mas_parecido": null,
+      "ubicacion_aproximada": "Zona inferior, fila de borneras de salida, 9 ocurrencias distribuidas a lo largo del borde inferior del diagrama",
+      "descripcion_visual": "Pequeño círculo con líneas de conexión, símbolo de bornera o terminal de salida",
+      "texto_derecha_posible_especificacion": "X2",
+      "motivo": "El símbolo de bornera/terminal de salida no coincide con ningún símbolo del catálogo proporcionado"
+    }
+  ]
+}
+```

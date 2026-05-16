@@ -1,0 +1,43 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor Automatico con Caja Modelada",
+      "especificacion": "INS 4x40A",
+      "cantidad": 1
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 0,16 - 0,25A",
+      "cantidad": 2
+    },
+    {
+      "material": "Guarda Motor",
+      "especificacion": "2X 2,5 - 4A",
+      "cantidad": 6
+    },
+    {
+      "material": "Interruptor Termomagnetico",
+      "especificacion": "2x6A",
+      "cantidad": 1
+    },
+    {
+      "material": "Transformador",
+      "especificacion": "TRAFO 220/24V 0,5kW",
+      "cantidad": 1
+    },
+    {
+      "material": "Seleccionador Contactor",
+      "especificacion": "6A AC3 S1",
+      "cantidad": 8
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "material_mas_parecido": "Interruptor Termomagnetico",
+      "ubicacion_aproximada": "Extremo derecho de la parte baja/entrepiso, sobre la linea vertical de alimentacion del transformador",
+      "descripcion_visual": "Pequeno rectangulo vertical con marca interna, similar a un fusible en linea",
+      "texto_derecha_posible_especificacion": "6A TAB 2x6A",
+      "motivo": "Forma de fusible/portafusible que no coincide claramente con ningun simbolo del catalogo"
+    }
+  ]
+}

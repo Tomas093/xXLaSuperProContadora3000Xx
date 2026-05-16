@@ -45,14 +45,15 @@ class AnthropicMessageAdapter(MessageAdapter):
         cache_control: dict[str, Any] | None = None,
         provider_options: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        del provider_options
+        provider_options = provider_options or {}
         payload = {
             "model": model,
             "system": system_prompt,
             "max_tokens": max_tokens,
-            "temperature": temperature,
             "messages": [{"role": "user", "content": provider_content}],
         }
+        if provider_options.get("supports_temperature", True):
+            payload["temperature"] = temperature
         if cache_control:
             payload["cache_control"] = cache_control
         return payload

@@ -1,0 +1,64 @@
+{
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-6",
+  "prompts": {
+    "plan_system": {
+      "path": "proyecto/prompts/investigacion_2/v4_visual_pipeline_catalog_matching/plan_system.md",
+      "sha256": "cd23a281d444359d6f9326c0a49783a99cbd8a8bccaa111638a153dc229e4925"
+    },
+    "plan_user": {
+      "path": "proyecto/prompts/investigacion_2/v4_visual_pipeline_catalog_matching/plan_user.md",
+      "sha256": "b2c9d3478213dd9414107c135e204d2580540eb0a6c53c0225118d4f868e8963"
+    }
+  },
+  "usage": {
+    "reference_extraction": null,
+    "bom_generation": {
+      "input_tokens": 12055,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 2321,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "total": {
+      "input_tokens": 12055,
+      "output_tokens": 2321,
+      "visible_output_tokens": 2321,
+      "thinking_tokens": 0,
+      "total_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 3.0,
+    "output": 15.0
+  },
+  "timings_seconds": {
+    "reference_extraction": null,
+    "bom_generation": 43.444,
+    "total": 43.453
+  },
+  "estimated_cost_usd": {
+    "reference_extraction": {
+      "input": 0.0,
+      "output": 0.0,
+      "total": 0.0
+    },
+    "bom_generation": {
+      "input": 0.036165,
+      "output": 0.034815,
+      "total": 0.07098
+    },
+    "total": {
+      "input": 0.036165,
+      "output": 0.034815,
+      "total": 0.07098
+    }
+  }
+}

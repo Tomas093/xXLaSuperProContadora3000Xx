@@ -1,0 +1,264 @@
+{
+  "catalog_visual_analysis": [
+    {
+      "filename": "guarda_motor.png",
+      "component_name": "Guarda Motor",
+      "visual_signature": "Diagonal thick green line with a small circle at the bottom end and a perpendicular crossbar near the top. A large green X mark appears in the upper right. Additional auxiliary elements include a 2x2 grid of rectangles (upper left), a stepped/notched rectangle (lower right), and a small rectangle with a vertical bar and arrow-like chevron symbol at the bottom.",
+      "distinguishing_features": [
+        "Perpendicular T-shaped crossbar on the diagonal line near the top, distinguishing it from plain diagonal lines",
+        "Presence of a 2x2 grid of rectangles (four-cell grid) in the upper-left area",
+        "Stepped/notched rectangle block in the lower-right area",
+        "Small rectangle at the bottom containing a vertical bar and a right-pointing chevron ('>') symbol",
+        "Green X mark in the upper-right corner"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if the diagonal line has no perpendicular crossbar near the top",
+        "Do not classify as this symbol if there is no 2x2 grid of rectangles present",
+        "Do not classify as this symbol if the lower area shows only an ellipse and no stepped block or chevron rectangle",
+        "Do not classify as this symbol if the X mark is absent"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Interruptor Termomagnetico",
+          "distinction": "Interruptor Termomagnetico also has a crossbar on the diagonal line but additionally shows a stepped/zigzag line and a leftward arrow; it lacks the 2x2 grid and the chevron rectangle."
+        },
+        {
+          "component_name": "Interruptor Automatico con Caja Modelada",
+          "distinction": "Interruptor Automatico con Caja Modelada has only the diagonal line with circle and X, no crossbar, no grid, no auxiliary blocks."
+        }
+      ],
+      "notes": "The combination of the T-crossbar on the diagonal line, the 2x2 rectangle grid, and the lower stepped block with chevron rectangle is unique to this symbol in the catalog."
+    },
+    {
+      "filename": "interruptor_automatico_con_caja_modelada.png",
+      "component_name": "Interruptor Automatico con Caja Modelada",
+      "visual_signature": "A thick diagonal green line running from upper-left to lower-right, terminating at the bottom with a small open circle. A large green X mark appears in the upper-right area. No additional marks, crossbars, rectangles, or auxiliary shapes are present.",
+      "distinguishing_features": [
+        "Plain diagonal thick green line with no crossbar, no arrow, and no additional marks along its length",
+        "Small open circle at the lower end of the diagonal line",
+        "Large green X in the upper-right, with no rectangle or ellipse below"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if the diagonal line has any crossbar, arrow, or zigzag mark",
+        "Do not classify as this symbol if there is a rectangle or ellipse outline accompanying the diagonal line",
+        "Do not classify as this symbol if there are two circles (one at each end of the line)",
+        "Do not classify as this symbol if a rectangle with a diagonal is present"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Interruptor Automatico en Caja Modelada + Diferencial",
+          "distinction": "The + Diferencial version adds a thin rectangle outline on the left side and an ellipse at the bottom below the circle; the plain version has none of these."
+        },
+        {
+          "component_name": "Interruptor Diferencial",
+          "distinction": "Interruptor Diferencial has a second circle at the top (instead of an X), plus a rectangle outline and ellipse; this symbol has only an X and no second circle."
+        },
+        {
+          "component_name": "Seleccionador Bajo Carga",
+          "distinction": "Seleccionador Bajo Carga has an H-shaped double crossbar on the diagonal and circles at both ends; this symbol has no crossbar and only one circle."
+        }
+      ],
+      "notes": "The simplest diagonal-line-with-circle-and-X symbol in the catalog; absence of any additional marks is the key identifier."
+    },
+    {
+      "filename": "interruptor_automatico_en_caja_modelada_mas_dif.png",
+      "component_name": "Interruptor Automatico en Caja Modelada + Diferencial",
+      "visual_signature": "Thick diagonal green line with a small open circle at the lower end and a large green X in the upper area. A thin-line rectangle outline appears on the left side of the composition, and a thin-line ellipse (oval) appears at the very bottom below the rectangle.",
+      "distinguishing_features": [
+        "Thin rectangle outline on the left side adjacent to the diagonal line",
+        "Thin ellipse outline at the bottom of the composition, below the rectangle",
+        "Green X mark at the top (no second circle at top)",
+        "Circle at the lower end of the diagonal line, positioned inside or near the rectangle"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if there is no rectangle outline present",
+        "Do not classify as this symbol if there is no ellipse at the bottom",
+        "Do not classify as this symbol if a second circle appears at the top instead of an X",
+        "Do not classify as this symbol if the rectangle contains a diagonal line inside it"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Interruptor Diferencial",
+          "distinction": "Interruptor Diferencial has a circle at the top instead of an X mark; both share the rectangle outline and bottom ellipse."
+        },
+        {
+          "component_name": "Interruptor Automatico con Caja Modelada",
+          "distinction": "The plain version has no rectangle outline and no ellipse; this symbol always shows both."
+        }
+      ],
+      "notes": "The rectangle outline plus bottom ellipse combination, paired with an X (not a circle) at the top, uniquely identifies this symbol."
+    },
+    {
+      "filename": "interruptor_diferencial1.png",
+      "component_name": "Interruptor Diferencial",
+      "visual_signature": "Thick diagonal green line with a small open circle at the lower end. A second, separate small open circle appears at the top of the composition (not connected to the line). A thin rectangle outline is on the left side, and a thin ellipse outline appears at the bottom. No X mark is present.",
+      "distinguishing_features": [
+        "Two separate circles: one at the lower end of the diagonal line and one floating at the top of the image",
+        "No X mark anywhere in the symbol",
+        "Thin rectangle outline on the left side",
+        "Thin ellipse at the bottom of the composition"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if an X mark is present instead of the top circle",
+        "Do not classify as this symbol if only one circle is visible",
+        "Do not classify as this symbol if the rectangle outline is absent",
+        "Do not classify as this symbol if the top circle is connected to the diagonal line"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Interruptor Automatico en Caja Modelada + Diferencial",
+          "distinction": "The + Diferencial version has an X at the top instead of a circle; Interruptor Diferencial has a circle at the top."
+        },
+        {
+          "component_name": "Seleccionador Bajo Carga",
+          "distinction": "Seleccionador Bajo Carga has circles at both ends of the diagonal line (connected) and an H-crossbar; Interruptor Diferencial has the top circle floating separately and no crossbar."
+        },
+        {
+          "component_name": "Seleccionador Contactor",
+          "distinction": "Seleccionador Contactor has a square with an internal diagonal line instead of a rectangle outline, and no bottom ellipse."
+        }
+      ],
+      "notes": "The floating top circle (replacing the X) combined with the rectangle outline and bottom ellipse is the unique identifier for this symbol."
+    },
+    {
+      "filename": "transformador.png",
+      "component_name": "Transformador",
+      "visual_signature": "Two large green circles arranged vertically, overlapping slightly in the middle to form a figure-8 or vesica shape. Enclosed within a dashed red-line rectangle border. Two short vertical lines extend from the top and bottom of the rectangle as connection lines.",
+      "distinguishing_features": [
+        "Two large overlapping circles arranged vertically (figure-8 shape)",
+        "Dashed red rectangle border surrounding the circles",
+        "Short vertical connection lines at top and bottom center",
+        "No diagonal line, no X, no circle-at-end-of-line motif"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if there is no pair of overlapping circles",
+        "Do not classify as this symbol if there is a diagonal thick line present",
+        "Do not classify as this symbol if the border is solid green instead of dashed red",
+        "Do not classify as this symbol if only one circle is present"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Interruptor Diferencial",
+          "distinction": "Interruptor Diferencial has small circles at ends of a diagonal line; Transformador has two large overlapping circles with no diagonal line."
+        }
+      ],
+      "notes": "Completely distinct from all other catalog symbols due to the two large overlapping circles and dashed red rectangle border; no diagonal line present."
+    },
+    {
+      "filename": "interruptor_termomagnetico.png",
+      "component_name": "Interruptor Termomagnetico",
+      "visual_signature": "Thick diagonal green line with a small open circle at the lower end and a large green X in the upper-right. Near the upper-middle of the diagonal line, a perpendicular crossbar extends to the left, and from that crossbar a stepped/zigzag line leads to a leftward-pointing arrow.",
+      "distinguishing_features": [
+        "Perpendicular crossbar on the diagonal line with a stepped/zigzag line extending from it",
+        "Leftward-pointing arrow at the end of the stepped line",
+        "Green X in the upper-right corner",
+        "No rectangle outline, no grid, no ellipse"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if there is no stepped/zigzag line with an arrow",
+        "Do not classify as this symbol if the crossbar is a simple T without a zigzag",
+        "Do not classify as this symbol if a rectangle outline or ellipse is present",
+        "Do not classify as this symbol if an H-shaped double crossbar is present instead of a single crossbar with zigzag"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Guarda Motor",
+          "distinction": "Guarda Motor has a simple T-crossbar without a zigzag or arrow, and includes a 2x2 grid and auxiliary blocks; Interruptor Termomagnetico has a zigzag-arrow extension and no grid."
+        },
+        {
+          "component_name": "Seleccionador Bajo Carga",
+          "distinction": "Seleccionador Bajo Carga has an H-shaped double crossbar (two parallel horizontal bars) and circles at both ends; Interruptor Termomagnetico has a single crossbar with zigzag-arrow and only one circle."
+        }
+      ],
+      "notes": "The stepped/zigzag line with leftward arrow attached to the crossbar is the unique visual identifier for this symbol."
+    },
+    {
+      "filename": "seleccionador_bajo_carga_v2.png",
+      "component_name": "Seleccionador Bajo Carga",
+      "visual_signature": "Thick diagonal green line with open circles at both the top-right and bottom-right ends. Along the middle of the diagonal line, an H-shaped mark (two parallel horizontal bars connected by a vertical segment) extends to the left. No X mark present.",
+      "distinguishing_features": [
+        "Circles at both ends of the diagonal line (top and bottom)",
+        "H-shaped double crossbar (two parallel horizontal lines with a connecting vertical) on the diagonal line",
+        "No X mark, no rectangle outline, no ellipse",
+        "The top circle is at the upper-right and the bottom circle at the lower-right"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if only one circle is present",
+        "Do not classify as this symbol if the crossbar is a single bar or has a zigzag",
+        "Do not classify as this symbol if a rectangle outline surrounds the diagonal line",
+        "Do not classify as this symbol if an X mark is present"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Seleccionador Bajo Carga con Fusible",
+          "distinction": "Seleccionador Bajo Carga con Fusible has a thin rectangle outline crossing the diagonal line instead of an H-crossbar; both have circles at both ends."
+        },
+        {
+          "component_name": "Seleccionador Contactor",
+          "distinction": "Seleccionador Contactor has a square with an internal diagonal line instead of an H-crossbar; both have circles at both ends."
+        },
+        {
+          "component_name": "Interruptor Termomagnetico",
+          "distinction": "Interruptor Termomagnetico has a single crossbar with zigzag-arrow and only one circle; Seleccionador Bajo Carga has an H-crossbar and two circles."
+        }
+      ],
+      "notes": "The H-shaped double crossbar combined with circles at both ends of the diagonal line is the unique identifier for this symbol."
+    },
+    {
+      "filename": "seleccionador_bajo_carga_con_fusible.png",
+      "component_name": "Seleccionador Bajo Carga con Fusible",
+      "visual_signature": "Thick diagonal green line with open circles at both the top-right and bottom-right ends. A thin-line rectangle outline is positioned diagonally, crossing over the middle section of the diagonal line. No X mark, no crossbar marks on the line itself.",
+      "distinguishing_features": [
+        "Thin rectangle outline crossing diagonally over the middle of the diagonal line",
+        "Circles at both ends of the diagonal line",
+        "No crossbar, no H-mark, no X, no zigzag on the diagonal line itself",
+        "The rectangle is oriented diagonally, aligned roughly parallel to the diagonal line"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if the rectangle outline is absent",
+        "Do not classify as this symbol if only one circle is present",
+        "Do not classify as this symbol if an H-crossbar or zigzag is present on the line",
+        "Do not classify as this symbol if a square with internal diagonal is present instead of a plain rectangle"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Seleccionador Bajo Carga",
+          "distinction": "Seleccionador Bajo Carga has an H-shaped crossbar instead of a rectangle outline; both have circles at both ends."
+        },
+        {
+          "component_name": "Seleccionador Contactor",
+          "distinction": "Seleccionador Contactor has a square with an internal diagonal line (not a plain rectangle); both have circles at both ends."
+        }
+      ],
+      "notes": "The diagonally-oriented thin rectangle outline crossing the diagonal line, with circles at both ends and no other marks, is the unique identifier."
+    },
+    {
+      "filename": "seleccionador_contactor.png",
+      "component_name": "Seleccionador Contactor",
+      "visual_signature": "Thick diagonal green line with open circles at both the top-right and bottom-right ends. A square outline with a diagonal line drawn inside it (corner to corner) is attached to the left side of the diagonal line at mid-height. No X mark, no H-crossbar, no rectangle without internal diagonal.",
+      "distinguishing_features": [
+        "Square outline with an internal diagonal line (corner-to-corner) attached to the left of the main diagonal line",
+        "Circles at both ends of the diagonal line",
+        "No X mark, no H-crossbar, no zigzag",
+        "The square with internal diagonal is the primary distinguishing mark"
+      ],
+      "negative_identification_rules": [
+        "Do not classify as this symbol if the square with internal diagonal is absent",
+        "Do not classify as this symbol if only one circle is present",
+        "Do not classify as this symbol if the rectangle crossing the line has no internal diagonal",
+        "Do not classify as this symbol if an H-crossbar or zigzag-arrow is present"
+      ],
+      "likely_confusions_with_other_catalog_symbols": [
+        {
+          "component_name": "Seleccionador Bajo Carga",
+          "distinction": "Seleccionador Bajo Carga has an H-shaped crossbar instead of a square with internal diagonal; both have circles at both ends."
+        },
+        {
+          "component_name": "Seleccionador Bajo Carga con Fusible",
+          "distinction": "Seleccionador Bajo Carga con Fusible has a plain rectangle (no internal diagonal) crossing the line; Seleccionador Contactor has a square with an internal diagonal."
+        }
+      ],
+      "notes": "The square with an internal corner-to-corner diagonal line attached to the main diagonal is the unique identifier for this symbol."
+    }
+  ]
+}
