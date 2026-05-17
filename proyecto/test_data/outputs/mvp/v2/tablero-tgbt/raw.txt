@@ -1,0 +1,148 @@
+```json
+{
+  "bom": [
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x400A REG.220A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x400A REG.350A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x100A REG.63",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x125A REG.100",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x125A REG.63",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x125A REG.100",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x160A REG.100",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x160A REG.140",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x160A REG.140",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x100A REG.25",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x100A REG.25",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x100A REG.63A",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x100A REG.50A",
+      "cantidad": 6
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x100A REG.63A",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x32A REG.0.7-1",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x32A REG.0.7-1",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": null,
+      "cantidad": 26
+    },
+    {
+      "material": "Tablero de transferencia automática.",
+      "especificacion": "TTAB",
+      "cantidad": 1
+    },
+    {
+      "material": "Barras de cobre protegidas.",
+      "especificacion": "JUEGO DE BARRAS DE NORMAL In=1500A",
+      "cantidad": 1
+    },
+    {
+      "material": "Barras de cobre protegidas.",
+      "especificacion": "JUEGO DE BARRAS DE EMERGENCIA In=1000A",
+      "cantidad": 1
+    },
+    {
+      "material": "Grupo Electrogeno",
+      "especificacion": "GE",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor manual.",
+      "especificacion": null,
+      "cantidad": 17
+    },
+    {
+      "material": "Ojos de buey.",
+      "especificacion": "R S T INDICACION LUMINOSA",
+      "cantidad": 6
+    },
+    {
+      "material": "Instrumento de medición multifunción.",
+      "especificacion": "IM",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor motorizado.",
+      "especificacion": "S1",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor motorizado.",
+      "especificacion": "S2 4x800A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor motorizado.",
+      "especificacion": "S3 4x800A",
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "ubicacion_aproximada": "Extremo derecho del plano, junto a la etiqueta PAT",
+      "descripcion_visual": "Símbolo de puesta a tierra (líneas horizontales decrecientes)",
+      "texto_derecha_posible_especificacion": "PAT"
+    }
+  ]
+}
+```

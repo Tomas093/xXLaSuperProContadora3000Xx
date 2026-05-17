@@ -1,0 +1,60 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x400A",
+      "cantidad": 2
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x125A",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x160A",
+      "cantidad": 4
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x100A",
+      "cantidad": 14
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x32A",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor motorizado.",
+      "especificacion": "4x1200A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor motorizado.",
+      "especificacion": "4x800A",
+      "cantidad": 2
+    },
+    {
+      "material": "Tablero de transferencia automática.",
+      "especificacion": null,
+      "cantidad": 1
+    },
+    {
+      "material": "Instrumento de medición multifunción.",
+      "especificacion": null,
+      "cantidad": 2
+    },
+    {
+      "material": "Grupo Electrogeno",
+      "especificacion": "630KVA",
+      "cantidad": 1
+    },
+    {
+      "material": "Ojos de buey.",
+      "especificacion": null,
+      "cantidad": 6
+    }
+  ],
+  "simbolos_no_identificados": []
+}

@@ -1,0 +1,126 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x20A",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x25A TS1A-T1 TUG",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A TS1A-T2 TUG",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A RE RESERVA",
+      "cantidad": 3
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x25A TS1A-T3 TUE OFFICE",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A TS1A-T4 TUG. SANIT.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A TS1A-TD1 PDT.NOR",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x25A TS1A-T5 TUE OFFICE",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A TS1A-T6 TUG. SANIT.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A TS1A-T7 TUG CIRC.",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A TS1A-TAA1 TOMAS AA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A TS1A-TAA2 TOMAS AA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A TS1A-TAA3 TOMAS AA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "4x80A TS-TL1 BARRA NORMAL",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "ID01 2x40A 30mA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "ID02 2x40A 30mA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "ID03 2x40A 30mA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "ID04 2x40A 30mA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "ID05 2x40A 30mA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor manual.",
+      "especificacion": "Seccionador Manual Bajo Carga 4x100A",
+      "cantidad": 1
+    },
+    {
+      "material": "Ojos de buey.",
+      "especificacion": null,
+      "cantidad": 3
+    },
+    {
+      "material": "Barras de cobre protegidas.",
+      "especificacion": null,
+      "cantidad": 7
+    }
+  ],
+  "simbolos_no_identificados": [
+    {
+      "ubicacion_aproximada": "Abajo a la izquierda, conectado al PE, etiquetado como PF20 DESCARGADOR DE SOBRETENSION",
+      "descripcion_visual": "Rectángulo con texto PF20 en su interior",
+      "texto_derecha_posible_especificacion": "DESCARGADOR DE SOBRETENSION"
+    },
+    {
+      "ubicacion_aproximada": "Centro, justo debajo del símbolo de ojos de buey, marcado con x3",
+      "descripcion_visual": "Pequeño símbolo tipo interruptor/pulsador con marca x3",
+      "texto_derecha_posible_especificacion": "x3"
+    }
+  ]
+}
