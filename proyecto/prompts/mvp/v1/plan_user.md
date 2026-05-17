@@ -3,12 +3,6 @@ Analyze the provided electrical diagram using the standard symbol catalog JSON a
 Standard symbol catalog mode:
 - Use only the provided symbol catalog JSON and attached symbol images to identify materials.
 - The catalog "component_name" is the exact material name to use in the BOM.
-- If catalog visual analysis from a previous step is provided, use it only to distinguish visually similar catalog symbols.
-- The attached catalog symbol images remain the source of truth.
-- Do not identify a material from catalog visual analysis alone.
-- Do not classify by electrical meaning, component name meaning, or expected plan context.
-- If catalog visual analysis conflicts with the attached catalog image, trust the attached catalog image.
-- If catalog visual analysis lists likely confusions, compare the candidate against those catalog symbols before choosing.
 
 Task:
 - Detect and count symbols in the electrical diagram.

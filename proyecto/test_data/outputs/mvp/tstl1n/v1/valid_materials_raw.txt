@@ -1,0 +1,15 @@
+{
+  "valid_materials": [
+    "Interruptor termomagnético de 6 KA.",
+    "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+    "Tablero de transferencia automática.",
+    "Barras de cobre protegidas.",
+    "Gabinete modular en chapa de hierro, espesor BWG Nº 18, refuerzos en chapa, espesores BWG Nº 14 y Nº 16 con puerta (con cerradura a tambor) estanca al polvo y la humedad, bandeja porta equipos, frente calado con capacidad vacante en un 30 % de su superficie.",
+    "Grupo Electrogeno",
+    "Interruptor manual.",
+    "Ojos de buey.",
+    "Instrumento de medición multifunción.",
+    "Interruptor motorizado.",
+    "Conmutador."
+  ]
+}

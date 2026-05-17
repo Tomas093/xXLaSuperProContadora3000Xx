@@ -138,6 +138,20 @@ def normalize_reference_payload(payload: dict[str, Any]) -> dict[str, Any]:
     return {"references": [item for item in normalized if item["reference_id"] or item["description"]]}
 
 
+def normalize_valid_materials_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    valid_materials = normalize_string_list(payload.get("valid_materials"))
+    deduped: list[str] = []
+    seen: set[str] = set()
+
+    for material in valid_materials:
+        if material in seen:
+            continue
+        seen.add(material)
+        deduped.append(material)
+
+    return {"valid_materials": deduped}
+
+
 def build_reference_lookup(reference_payload: dict[str, Any]) -> dict[str, str]:
     lookup = {}
     for item in reference_payload.get("references", []):
@@ -215,6 +229,37 @@ Return exactly this JSON structure:
   ]
 }
 """
+
+
+REFERENCE_VALID_MATERIALS_SYSTEM_PROMPT = """You extract valid material names from electrical reference table images.
+
+Return ONLY valid JSON.
+Do not include markdown.
+Do not include explanations.
+Do not include comments.
+
+The image is a complete reference table. Extract only the valid material/component names listed in the table.
+
+Rules:
+- Return the material names exactly as written in the table.
+- Do not describe symbols.
+- Do not include coordinates.
+- Do not infer missing names.
+- Do not include header text, title text, notes, dimensions, quantities, or visual descriptions.
+- Preserve punctuation and accents.
+
+Return exactly this JSON structure:
+
+{
+  "valid_materials": [
+    "Exact material name from table"
+  ]
+}
+"""
+
+
+REFERENCE_VALID_MATERIALS_USER_PROMPT = """Extract only the valid material names from this reference table image.
+Return only valid JSON with the key valid_materials."""
 
 
 def normalize_catalog_visual_analysis_payload(
@@ -350,6 +395,24 @@ def extract_reference_table_from_image(
     return normalize_reference_payload(parse_json_response_from_model(raw_text, response)), raw_text, client.extract_usage(response)
 
 
+def extract_valid_materials_from_reference_table(
+    client: AIProvider,
+    *,
+    image_bytes: bytes,
+    filename: str,
+    system_prompt: str = REFERENCE_VALID_MATERIALS_SYSTEM_PROMPT,
+    user_prompt: str = REFERENCE_VALID_MATERIALS_USER_PROMPT,
+) -> tuple[dict[str, Any], str, dict[str, Any]]:
+    content = [
+        {"type": "text", "text": user_prompt},
+        client.build_image_block(image_bytes, filename),
+    ]
+    response = client.create_message(system_prompt=system_prompt, user_content=content, max_tokens=2000)
+    raw_text = client.extract_text(response)
+    parsed = parse_json_response_from_model(raw_text, response)
+    return normalize_valid_materials_payload(parsed), raw_text, client.extract_usage(response)
+
+
 def analyze_plan_image(
     client: AIProvider,
     *,
@@ -357,14 +420,18 @@ def analyze_plan_image(
     symbol_images: list[tuple[str, bytes]],
     symbol_catalog_entries: list[SymbolCatalogEntry],
     reference_payload: dict[str, Any],
+    valid_materials: list[str] | None,
     plan_system_prompt: str,
     plan_user_prompt: str,
+    reference_images: list[tuple[str, bytes]] | None = None,
     catalog_visual_analysis: dict[str, Any] | None = None,
     user_prompt: str = "",
     reference_table_has_standard: bool = False,
+    reference_table_only: bool = False,
     cache_static_prefix: bool = False,
     cache_ttl: str = "5m",
 ) -> tuple[dict[str, Any], str, dict[str, Any]]:
+    reference_images = reference_images or []
     catalog_by_filename = {entry.filename: entry for entry in symbol_catalog_entries if entry.filename}
     materials = [
         {
@@ -387,31 +454,100 @@ def analyze_plan_image(
             "- The symbol catalog JSON and the attached symbol images define the standard material names.\n"
             "- If a plan symbol matches a catalog image, use that catalog material name directly.\n"
         )
+    elif reference_table_only:
+        reference_context = {
+            "source": "reference_table_image",
+            "valid_materials": valid_materials or [],
+            "notes": "The reference table image is attached before the plan instructions and plan image. Use that image as the visual symbol/material standard.",
+        }
+        reference_instruction = (
+            "\n\nReference-table-only mode:\n"
+            "- The reference table image is the only visual catalog.\n"
+            "- valid_materials only defines allowed output names.\n"
+            "- Every bom.material value must exactly match one string from valid_materials.\n"
+            "- Do not invent materials.\n"
+            "- Do not count anything from the reference table.\n"
+            "- Count only complete standalone symbols in the plan image that clearly visually match the reference table image.\n"
+            "- False positives are unacceptable.\n"
+            "- If a symbol is not a clear visual match with the reference table, do not count it.\n"
+            "- If a visible component candidate has no clear visual match in the reference table image, report it in simbolos_no_identificados instead of forcing a BOM row.\n"
+            "\nPlan task:\n"
+            "Analyze this electrical plan image.\n"
+            "Count only complete standalone symbols that visually match the reference table.\n"
+            "Return only valid JSON.\n"
+        )
     else:
         reference_context = reference_payload
         reference_instruction = ""
 
-    static_intro_block = {
-        "type": "text",
-        "text": plan_user_prompt.replace(
-            "{reference_table_json}",
-            json.dumps(reference_context, ensure_ascii=False, indent=2),
+    intro_text = plan_user_prompt.replace(
+        "{reference_table_json}",
+        json.dumps(reference_context, ensure_ascii=False, indent=2),
+    )
+    intro_text += ("\n\nExtra instructions:\n" + user_prompt.strip() if user_prompt.strip() else "")
+    intro_text += reference_instruction
+    if reference_table_only:
+        intro_text += (
+            "\n\nExpected output shape:\n"
+            + json.dumps(
+                {
+                    "bom": [
+                        {
+                            "material": "Interruptor manual.",
+                            "especificacion": None,
+                            "cantidad": 2,
+                        }
+                    ],
+                    "simbolos_no_identificados": [],
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
         )
-        + ("\n\nExtra instructions:\n" + user_prompt.strip() if user_prompt.strip() else "")
-        + reference_instruction
-        + "\n\nSymbol catalog JSON:\n"
-        + json.dumps({"materials": materials}, ensure_ascii=False, indent=2)
-        + (
-            "\n\nCatalog visual analysis from previous step:\n"
-            + json.dumps(catalog_visual_analysis, ensure_ascii=False, indent=2)
-            if catalog_visual_analysis
-            else ""
-        ),
-    }
+    if materials:
+        intro_text += "\n\nSymbol catalog JSON:\n" + json.dumps({"materials": materials}, ensure_ascii=False, indent=2)
+    elif not reference_table_only:
+        intro_text += "\n\nSymbol catalog JSON: not provided."
+    if catalog_visual_analysis:
+        intro_text += "\n\nCatalog visual analysis from previous step:\n" + json.dumps(catalog_visual_analysis, ensure_ascii=False, indent=2)
 
-    content: list[dict[str, Any]] = [
-        static_intro_block,
-    ]
+    effective_system_prompt = plan_system_prompt
+    if reference_table_only:
+        effective_system_prompt += (
+            "\n\nReference table-only context rules:\n"
+            "- The reference table image is the only visual catalog.\n"
+            "- valid_materials only defines allowed output names.\n"
+            "- Every bom.material value must exactly match one string from valid_materials.\n"
+            "- Do not invent materials.\n"
+            "- Do not count anything from the reference table.\n"
+            "- False positives are unacceptable.\n"
+            "- If a symbol is not a clear visual match with the reference table, do not count it; put it in simbolos_no_identificados.\n"
+            "\nvalid_materials:\n"
+            + json.dumps(valid_materials or [], ensure_ascii=False, indent=2)
+        )
+
+    content: list[dict[str, Any]] = []
+
+    if reference_table_only:
+        content.append(
+            {
+                "type": "text",
+                "text": (
+                    "Reference table context image(s). Analyze these first and use them as the visual symbol/material standard. "
+                    "Do not count symbols from these images."
+                ),
+            }
+        )
+        for index, (reference_filename, reference_bytes) in enumerate(reference_images, start=1):
+            content.append(
+                {
+                    "type": "text",
+                    "text": f"Reference table image {index}: {reference_filename}",
+                }
+            )
+            content.append(client.build_image_block(reference_bytes, reference_filename))
+
+    content.append({"type": "text", "text": intro_text})
 
     for symbol_filename, symbol_bytes in symbol_images:
         entry = catalog_by_filename.get(symbol_filename, SymbolCatalogEntry(filename=symbol_filename))
@@ -455,7 +591,7 @@ def analyze_plan_image(
 
     betas = ["extended-cache-ttl-2025-04-11"] if cache_static_prefix and cache_ttl == "1h" else None
     response = client.create_message(
-        system_prompt=plan_system_prompt,
+        system_prompt=effective_system_prompt,
         user_content=content,
         betas=betas,
     )

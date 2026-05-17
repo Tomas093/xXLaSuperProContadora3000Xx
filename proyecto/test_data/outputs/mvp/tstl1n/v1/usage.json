@@ -1,0 +1,108 @@
+{
+  "provider": "anthropic",
+  "model": "claude-opus-4-7",
+  "prompts": {
+    "plan_system": {
+      "path": "/Users/pedrodelaguila/faculty/lab3/liard/xXLaSuperProContadora3000Xx/proyecto/prompts/mvp/v2/plan_system.md",
+      "sha256": "b53dc69a78e752d133ec02342fe847806a7f1e30448492205652d09b36eee1ad"
+    },
+    "plan_user": {
+      "path": "/Users/pedrodelaguila/faculty/lab3/liard/xXLaSuperProContadora3000Xx/proyecto/prompts/mvp/v2/plan_user.md",
+      "sha256": "28fd43b3e35aa5c1593f1e84a9f133ab89eeed44f37cc4016fb6a458e33d5834"
+    },
+    "rendered_dxf_inputs": [
+      {
+        "source": "Autocad-Planos/dxf/TS-TL1N.dxf",
+        "rendered_png": "proyecto/test_data/outputs/mvp/v5/tstl1n/v1/rendered_dxf/diagram_1_TS-TL1N.png",
+        "purpose": "plan",
+        "layout": "model",
+        "dpi": 1600,
+        "max_pixels": 4096,
+        "monochrome": false,
+        "force_text_black": false,
+        "swap_black_white": true,
+        "crop_mode": "density-focus"
+      },
+      {
+        "source": "Autocad-Planos/table-ref/table-of-references.dxf",
+        "rendered_png": "proyecto/test_data/outputs/mvp/v5/tstl1n/v1/rendered_dxf/reference_1_table-of-references.png",
+        "purpose": "reference_table",
+        "layout": "model",
+        "dpi": 1600,
+        "max_pixels": 4096,
+        "monochrome": false,
+        "force_text_black": false,
+        "swap_black_white": true,
+        "crop_mode": "content"
+      }
+    ]
+  },
+  "usage": {
+    "catalog_visual_analysis": null,
+    "reference_extraction": {
+      "input_tokens": 4522,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 310,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "bom_generation": {
+      "input_tokens": 11314,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 421,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "total": {
+      "input_tokens": 15836,
+      "output_tokens": 731,
+      "visible_output_tokens": 731,
+      "thinking_tokens": 0,
+      "total_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 5.0,
+    "output": 25.0
+  },
+  "timings_seconds": {
+    "dxf_rendering": 8.174,
+    "reference_extraction": 7.419,
+    "bom_generation": 7.558,
+    "total": 23.157
+  },
+  "estimated_cost_usd": {
+    "catalog_visual_analysis": {
+      "input": 0.0,
+      "output": 0.0,
+      "total": 0.0
+    },
+    "reference_extraction": {
+      "input": 0.02261,
+      "output": 0.00775,
+      "total": 0.03036
+    },
+    "bom_generation": {
+      "input": 0.05657,
+      "output": 0.010525,
+      "total": 0.067095
+    },
+    "total": {
+      "input": 0.07918,
+      "output": 0.018275,
+      "total": 0.097455
+    }
+  }
+}

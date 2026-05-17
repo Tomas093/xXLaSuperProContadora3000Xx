@@ -1,0 +1,40 @@
+{
+  "bom": [
+    {
+      "material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+      "especificacion": "2x40A 30mA",
+      "cantidad": 7
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x10A",
+      "cantidad": 9
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x10A RE RESERVA",
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A",
+      "cantidad": 9
+    },
+    {
+      "material": "Interruptor termomagnético de 6 KA.",
+      "especificacion": "2x16A RE RESERVA",
+      "cantidad": 1
+    },
+    {
+      "material": "Barras de cobre protegidas.",
+      "especificacion": null,
+      "cantidad": 1
+    },
+    {
+      "material": "Interruptor manual.",
+      "especificacion": null,
+      "cantidad": 1
+    }
+  ],
+  "simbolos_no_identificados": []
+}

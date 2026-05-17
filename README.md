@@ -134,6 +134,57 @@ Add these flags when you want to save the reference-table JSON and raw model res
 --reference-raw-output proyecto/test_data/outputs/gemini/etapa1/tscels1/tscels1_reference_raw.txt
 ```
 
+### DXF Direct Render Flow
+
+For better image quality, the CLI can render DXF files directly to PNG before sending them to the AI provider. This avoids manual screenshots and keeps the existing BOM JSON/CSV, raw output, usage, timing, and cost reports.
+
+Install the optional renderer dependencies once:
+
+```bash
+python3 -m pip install -r proyecto/requirements-dxf.txt
+```
+
+Then pass DXF files instead of screenshots:
+
+```bash
+python3 proyecto/ai_bom_cli.py \
+  --env-file ENV/.env \
+  --provider anthropic \
+  --model claude-sonnet-4-6 \
+  --diagram-dxf Autocad-Planos/unosolo.dxf \
+  --reference-dxf Autocad-Planos/tabla_referencias.dxf \
+  --reference-table-only \
+  --prompt-dir proyecto/prompts/investigacion_2/v6_dxf_reference_table_only \
+  --dxf-render-max-pixels 4096 \
+  --dxf-render-dpi 1600 \
+  --dxf-reference-render-max-pixels 4096 \
+  --dxf-reference-render-dpi 1600 \
+  --output-json proyecto/test_data/outputs/dxf/unosolo_bom.json \
+  --output-csv proyecto/test_data/outputs/dxf/unosolo_bom.csv \
+  --raw-output proyecto/test_data/outputs/dxf/unosolo_raw.txt \
+  --usage-output proyecto/test_data/outputs/dxf/unosolo_usage.json \
+  --reference-output-json proyecto/test_data/outputs/dxf/unosolo_reference.json \
+  --reference-raw-output proyecto/test_data/outputs/dxf/unosolo_reference_raw.txt
+```
+
+Useful DXF flags:
+
+- `--diagram-dxf`: one to five plan DXF files, rendered and analyzed as one BOM.
+- `--reference-dxf`: reference table DXF, rendered before reference extraction.
+- `--reference-table-only`: skips the manual symbol screenshot catalog and uses the extracted reference table as the material source.
+- `--dxf-layout`: layout name to render, default `model`.
+- `--dxf-render-max-pixels`: long-side target for rendered plan PNGs, default `4096` for high-detail plans.
+- `--dxf-render-dpi`: plan render DPI, default `1600`.
+- `--dxf-reference-render-max-pixels`: long-side target for rendered reference-table PNGs, default `4096`.
+- `--dxf-reference-render-dpi`: reference-table render DPI, default `1600`.
+- `--dxf-render-tiles`: optional. Also create zoom tiles from each diagram DXF when you explicitly want extra close-up images.
+- `--dxf-render-tile-count`: number of zoom tiles per diagram DXF, default `4`.
+- `--dxf-render-tile-source-max-pixels`: temporary high-resolution source size for zoom tiles, default `12000`.
+- `--dxf-render-monochrome`: black-on-white rendering for OCR and symbol legibility. This is the default.
+- `--dxf-render-color`: preserve DXF colors when layer colors carry meaning.
+
+You can also mix existing PNG screenshots and rendered DXFs by combining `--diagram-image` with `--diagram-dxf`.
+
 Full example:
 
 ```bash

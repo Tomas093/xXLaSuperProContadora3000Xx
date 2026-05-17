@@ -43,25 +43,19 @@
   ],
   "simbolos_no_identificados": [
     {
-      "material_mas_parecido": "Barras de cobre protegidas.",
       "ubicacion_aproximada": "Zona central y derecha, múltiples posiciones a lo largo de las barras horizontales principales",
       "descripcion_visual": "Círculo con número 6 en su interior, repetido en varias posiciones sobre las barras de distribución",
-      "texto_derecha_posible_especificacion": null,
-      "motivo": "El símbolo de referencia 6 (Barras de cobre protegidas) no está incluido en el catálogo de símbolos proporcionado; no se puede confirmar como símbolo standalone del catálogo."
+      "texto_derecha_posible_especificacion": null
     },
     {
-      "material_mas_parecido": null,
       "ubicacion_aproximada": "Zona central-izquierda, junto al bloque UPS 8kVA",
       "descripcion_visual": "Rectángulo con texto 'UPS 8kVA' en su interior, conectado a líneas de entrada y salida",
-      "texto_derecha_posible_especificacion": null,
-      "motivo": "Dispositivo UPS representado como bloque rectangular; no coincide con ningún símbolo del catálogo proporcionado."
+      "texto_derecha_posible_especificacion": null
     },
     {
-      "material_mas_parecido": null,
       "ubicacion_aproximada": "Zona inferior-izquierda, junto al texto 'PF20' y 'DESCARGADOR DE SOBRETENSION'",
       "descripcion_visual": "Símbolo verde circular con texto PF20, asociado a descargador de sobretensión",
-      "texto_derecha_posible_especificacion": "DESCARGADOR DE SOBRETENSION",
-      "motivo": "Símbolo de descargador de sobretensión no incluido en el catálogo de símbolos proporcionado."
+      "texto_derecha_posible_especificacion": "DESCARGADOR DE SOBRETENSION"
     }
   ]
 }

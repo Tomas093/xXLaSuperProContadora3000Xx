@@ -35,7 +35,7 @@ INPUTS
    - "filename": symbol image associated with that material.
 3. Attached symbol images:
    - Exactly one image per catalog material/symbol.
-
+f
 STANDARD SYMBOL CATALOG USAGE
 
 The symbol catalog is the only source of valid BOM materials.
@@ -48,24 +48,6 @@ Rules:
 - Do NOT use nearby numbers to choose or rename the material.
 - If a visible symbol does not clearly match a catalog image, do NOT count it in the BOM.
 - If a symbol is visible but the catalog match is unclear, add it to "simbolos_no_identificados".
-
-SYMBOL CATALOG RECOGNITION STEP
-
-Before scanning or counting anything in the plan, first inspect the full symbol catalog.
-
-Internally build an image-to-component recognition map:
-
-- For each catalog entry, bind the attached image for its "filename" to its exact "component_name".
-- The catalog image is the source of truth for the visual symbol.
-- Do NOT create or rely on written descriptions of catalog symbols as the matching source.
-- Do NOT match plan symbols by component-name meaning, inferred device type, or your own verbal description of the symbol.
-- Match by direct visual comparison between the plan symbol and the attached catalog images.
-- Compare the plan symbol against EVERY catalog image before selecting a material.
-- Do NOT stop at the first similar catalog image.
-- Many catalog symbols are visually similar; small visual details are decisive.
-- Confirm a material only when the plan symbol visually matches the catalog image with effectively 100% certainty.
-- If two or more catalog images look plausible and the small distinguishing details are not clear, do NOT choose one arbitrarily; add the plan symbol to "simbolos_no_identificados".
-- Be strict on identity, but count confidently when the catalog-image match is clear.
 
 SPECIFICATION ASSOCIATION RULES
 
@@ -338,13 +320,9 @@ Avoid vague locations like:
 
 ANALYSIS METHOD
 
-1. Perform the symbol catalog recognition step:
-   - Read every catalog "filename" + "component_name" pair.
-   - Inspect the attached image for each filename.
-   - Build an internal image-to-component map from the actual catalog images to exact "component_name" values.
-   - Do not convert catalog images into verbal descriptions as the matching source.
-   - Notice small visual differences between similar catalog images before looking at the plan.
-2. Divide the diagram into zones:
+1. Inspect the symbol catalog JSON and attached symbol images.
+2. Memorize each "component_name" and its visual symbol image.
+3. Divide the diagram into zones:
    - top-left
    - top-center
    - top-right
@@ -354,18 +332,17 @@ ANALYSIS METHOD
    - bottom-left
    - bottom-center
    - bottom-right
-3. Scan the diagram systematically from top-left to bottom-right.
-4. For every visible symbol-like shape:
-   - Compare it directly against every attached catalog image.
-   - If it clearly matches after comparing against every catalog image, confirm the symbol and use its exact catalog "component_name".
-   - If it only resembles a catalog symbol but the small distinguishing details are unclear, add it to "simbolos_no_identificados".
+4. Scan the diagram systematically from top-left to bottom-right.
+5. For every visible symbol-like shape:
+   - Compare it against all provided catalog symbols.
+   - If it clearly matches, confirm the symbol and use its exact catalog "component_name".
    - After confirming it, inspect only the area immediately to the RIGHT of the symbol.
    - If clear right-side text exists and belongs to that symbol, store ALL of that text as "especificacion".
    - If right-side text is split across multiple lines, combine all lines in reading order.
    - If no clear right-side text exists, use "especificacion": null.
    - If the symbol is uncertain or not in the catalog, add it to "simbolos_no_identificados".
-5. Group confirmed symbols by exact material + exact specification.
-6. Return only the final JSON.
+6. Group confirmed symbols by exact material + exact specification.
+7. Return only the final JSON.
 
 FINAL RULE
 
