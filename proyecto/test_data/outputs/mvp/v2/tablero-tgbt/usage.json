@@ -1,0 +1,93 @@
+{
+  "provider": "anthropic",
+  "model": "claude-opus-4-7",
+  "prompts": {
+    "plan_system": {
+      "path": "proyecto/prompts/mvp/v2/plan_system.md",
+      "sha256": "a3fb25cbbc34fd91109cf5e6749a92b15dd65ff8deee0aeef4d05aff2667992b"
+    },
+    "plan_user": {
+      "path": "proyecto/prompts/mvp/v2/plan_user.md",
+      "sha256": "7dcc62d878d5cf5270facc425bd71e004f5cbbac9eb88e3d1509677608a67211"
+    },
+    "rendered_dxf_inputs": [
+      {
+        "source": "Autocad-Planos/dxf/Tablero tgbtsub.dxf",
+        "rendered_png": "proyecto/test_data/rendered_dxf/mvp_v2_tablero_tgbt/diagram_1_Tablero_tgbtsub.png",
+        "purpose": "plan",
+        "layout": "model",
+        "dpi": 1200,
+        "max_pixels": 1568,
+        "monochrome": true,
+        "crop_mode": "density-focus"
+      },
+      {
+        "source": "Autocad-Planos/table-ref/table-of-references.dxf",
+        "rendered_png": "proyecto/test_data/rendered_dxf/mvp_v2_tablero_tgbt/reference_1_table-of-references.png",
+        "purpose": "reference_table",
+        "layout": "model",
+        "dpi": 1200,
+        "max_pixels": 1568,
+        "monochrome": true,
+        "crop_mode": "content"
+      }
+    ]
+  },
+  "usage": {
+    "catalog_visual_analysis": null,
+    "reference_extraction": null,
+    "bom_generation": {
+      "input_tokens": 6447,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1681,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "total": {
+      "input_tokens": 6447,
+      "output_tokens": 1681,
+      "visible_output_tokens": 1681,
+      "thinking_tokens": 0,
+      "total_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 5.0,
+    "output": 25.0
+  },
+  "timings_seconds": {
+    "dxf_rendering": 7.355,
+    "reference_extraction": null,
+    "bom_generation": 18.628,
+    "total": 25.989
+  },
+  "estimated_cost_usd": {
+    "catalog_visual_analysis": {
+      "input": 0.0,
+      "output": 0.0,
+      "total": 0.0
+    },
+    "reference_extraction": {
+      "input": 0.0,
+      "output": 0.0,
+      "total": 0.0
+    },
+    "bom_generation": {
+      "input": 0.032235,
+      "output": 0.042025,
+      "total": 0.07426
+    },
+    "total": {
+      "input": 0.032235,
+      "output": 0.042025,
+      "total": 0.07426
+    }
+  }
+}

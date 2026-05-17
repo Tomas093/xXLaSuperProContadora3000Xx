@@ -1,0 +1,126 @@
+{
+"bom": [
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x400A REG.220A",
+"cantidad": 1
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x400A REG.350A",
+"cantidad": 1
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x100A REG.63",
+"cantidad": 1
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x125A REG.100",
+"cantidad": 3
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x125A REG.63",
+"cantidad": 1
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x125A REG.100",
+"cantidad": 1
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x160A REG.100",
+"cantidad": 1
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x160A REG.140",
+"cantidad": 3
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x100A REG.25",
+"cantidad": 3
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x100A REG.63A",
+"cantidad": 2
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x100A REG.50A",
+"cantidad": 6
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x100A REG.63A",
+"cantidad": 4
+},
+{
+"material": "Interruptor termomagnético de 6 KA.",
+"especificacion": "4x32A REG.0,7-1",
+"cantidad": 3
+},
+{
+"material": "Interruptor diferencial. Intensidad y polos s/ esquema de 30 mA.",
+"especificacion": null,
+"cantidad": 29
+},
+{
+"material": "Tablero de transferencia automática.",
+"especificacion": null,
+"cantidad": 1
+},
+{
+"material": "Grupo Electrogeno",
+"especificacion": null,
+"cantidad": 1
+},
+{
+"material": "Interruptor manual.",
+"especificacion": null,
+"cantidad": 2
+},
+{
+"material": "Ojos de buey.",
+"especificacion": "R S T INDICACION LUMINOSA",
+"cantidad": 6
+},
+{
+"material": "Instrumento de medición multifunción.",
+"especificacion": null,
+"cantidad": 2
+},
+{
+"material": "Interruptor motorizado.",
+"especificacion": "4x800A",
+"cantidad": 2
+},
+{
+"material": "Interruptor motorizado.",
+"especificacion": null,
+"cantidad": 1
+},
+{
+"material": "Conmutador.",
+"especificacion": null,
+"cantidad": 3
+}
+],
+"simbolos_no_identificados": [
+{
+"ubicacion_aproximada": "Extremo derecho del plano, fuera del recuadro principal, conectado a la línea PAT",
+"descripcion_visual": "Símbolo de puesta a tierra (líneas horizontales decrecientes)",
+"texto_derecha_posible_especificacion": "PAT"
+},
+{
+"ubicacion_aproximada": "Zona central-izquierda y central-derecha, sobre las barras principales (juego de barras de normal e emergencia)",
+"descripcion_visual": "Símbolo de barras de cobre representado como tres líneas inclinadas paralelas sobre cada salida",
+"texto_derecha_posible_especificacion": null
+}
+]
+}

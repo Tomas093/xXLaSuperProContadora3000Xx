@@ -1,0 +1,108 @@
+{
+  "provider": "anthropic",
+  "model": "claude-opus-4-7",
+  "prompts": {
+    "plan_system": {
+      "path": "/Users/pedrodelaguila/faculty/lab3/liard/xXLaSuperProContadora3000Xx/proyecto/prompts/mvp/v2/plan_system.md",
+      "sha256": "b53dc69a78e752d133ec02342fe847806a7f1e30448492205652d09b36eee1ad"
+    },
+    "plan_user": {
+      "path": "/Users/pedrodelaguila/faculty/lab3/liard/xXLaSuperProContadora3000Xx/proyecto/prompts/mvp/v2/plan_user.md",
+      "sha256": "28fd43b3e35aa5c1593f1e84a9f133ab89eeed44f37cc4016fb6a458e33d5834"
+    },
+    "rendered_dxf_inputs": [
+      {
+        "source": "Autocad-Planos/dxf/Tablero tgbtsub-specs-estandar.dxf 09-08-35-259.dxf",
+        "rendered_png": "proyecto/test_data/outputs/mvp/v4withcolors/tgbt_specs_estandar/rendered_dxf/diagram_1_Tablero_tgbtsub-specs-estandar_dxf_09-08-35-259.png",
+        "purpose": "plan",
+        "layout": "model",
+        "dpi": 1600,
+        "max_pixels": 4096,
+        "monochrome": false,
+        "force_text_black": false,
+        "swap_black_white": true,
+        "crop_mode": "density-focus"
+      },
+      {
+        "source": "Autocad-Planos/table-ref/table-of-references.dxf",
+        "rendered_png": "proyecto/test_data/outputs/mvp/v4withcolors/tgbt_specs_estandar/rendered_dxf/reference_1_table-of-references.png",
+        "purpose": "reference_table",
+        "layout": "model",
+        "dpi": 1600,
+        "max_pixels": 4096,
+        "monochrome": false,
+        "force_text_black": false,
+        "swap_black_white": true,
+        "crop_mode": "content"
+      }
+    ]
+  },
+  "usage": {
+    "catalog_visual_analysis": null,
+    "reference_extraction": {
+      "input_tokens": 4522,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 310,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "bom_generation": {
+      "input_tokens": 10689,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 577,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    },
+    "total": {
+      "input_tokens": 15211,
+      "output_tokens": 887,
+      "visible_output_tokens": 887,
+      "thinking_tokens": 0,
+      "total_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    }
+  },
+  "pricing_usd_per_million_tokens": {
+    "input": 5.0,
+    "output": 25.0
+  },
+  "timings_seconds": {
+    "dxf_rendering": 11.332,
+    "reference_extraction": 7.402,
+    "bom_generation": 8.161,
+    "total": 26.902
+  },
+  "estimated_cost_usd": {
+    "catalog_visual_analysis": {
+      "input": 0.0,
+      "output": 0.0,
+      "total": 0.0
+    },
+    "reference_extraction": {
+      "input": 0.02261,
+      "output": 0.00775,
+      "total": 0.03036
+    },
+    "bom_generation": {
+      "input": 0.053445,
+      "output": 0.014425,
+      "total": 0.06787
+    },
+    "total": {
+      "input": 0.076055,
+      "output": 0.022175,
+      "total": 0.09823
+    }
+  }
+}
